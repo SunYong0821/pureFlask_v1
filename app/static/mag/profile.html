@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- begin::Head -->
+
+<head>
+    <meta charset="utf-8" />
+    <title>
+        微分基因科技有限公司
+    </title>
+    <meta name="description" content="Latest updates and statistic charts">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--begin::Web font -->
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+    <!--end::Web font -->
+    <!--begin::Base Styles -->
+    <!--begin::Page Vendors -->
+    <link href="../default/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
+    <!--end::Page Vendors -->
+    <link href="../default/assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="../default/assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
+    <!--end::Base Styles -->
+    <link rel="shortcut icon" href="../img/ma_x.ico" />
+</head>
+<!-- end::Head -->
+<!-- end::Body -->
+
+<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default">
+    <!-- begin:: Page -->
+    <div class="m-grid m-grid--hor m-grid--root m-page">
+        <!-- BEGIN: Header -->
+        <header id="m_header" class="m-grid__item    m-header " m-minimize-offset="200" m-minimize-mobile-offset="200">
+            <div class="m-container m-container--fluid m-container--full-height">
+                <div class="m-stack m-stack--ver m-stack--desktop">
+                    <!-- BEGIN: Brand -->
+                    <div class="m-stack__item m-brand  m-brand--skin-dark ">
+                        <div class="m-stack m-stack--ver m-stack--general">
+                            <div class="m-stack__item m-stack__item--middle m-brand__logo">
+                                <a href="http://www.microanaly.com/" target="_blank" class="m-brand__logo-wrapper">
+                                    <span>Microanaly</span>
+                                </a>
+                            </div>
+                            <div class="m-stack__item m-stack__item--middle m-brand__tools">
+                                <!-- BEGIN: Left Aside Minimize Toggle -->
+                                <a href="javascript:;" id="m_aside_left_minimize_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-desktop-inline-block 
+					 ">
+                                    <span></span>
+                                </a>
+                                <!-- END -->
+                                <!-- BEGIN: Responsive Aside Left Menu Toggler -->
+                                <a href="javascript:;" id="m_aside_left_offcanvas_toggle" class="m-brand__icon m-brand__toggler m-brand__toggler--left m--visible-tablet-and-mobile-inline-block">
+                                    <span></span>
+                                </a>
+                                <!-- END -->
+                                <!-- BEGIN: Responsive Header Menu Toggler -->
+                                <a id="m_aside_header_menu_mobile_toggle" href="javascript:;" class="m-brand__icon m-brand__toggler m--visible-tablet-and-mobile-inline-block">
+                                    <span></span>
+                                </a>
+                                <!-- END -->
+                                <!-- BEGIN: Topbar Toggler -->
+                                <a id="m_aside_header_topbar_mobile_toggle" href="javascript:;" class="m-brand__icon m--visible-tablet-and-mobile-inline-block">
+                                    <i class="flaticon-more"></i>
+                                </a>
+                                <!-- BEGIN: Topbar Toggler -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END: Brand -->
+                    <div class="m-stack__item m-stack__item--fluid m-header-head" id="m_header_nav">
+                        <!-- BEGIN: Horizontal Menu -->
+                        <!-- END: Horizontal Menu -->
+                        <!-- BEGIN: Topbar -->
+                        <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
+                            <div class="m-stack__item m-topbar__nav-wrapper">
+                                <ul class="m-topbar__nav m-nav m-nav--inline">
+                                    <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light"
+                                        m-dropdown-toggle="click">
+                                        <a href="#" class="m-nav__link m-dropdown__toggle">
+                                            <span class="m-topbar__userpic">
+                                                <img src="../img/head.png" class="m--img-rounded m--marginless m--img-centered"
+                                                    alt="" />
+                                            </span>
+                                        </a>
+                                        <div class="m-dropdown__wrapper">
+                                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
+                                            <div class="m-dropdown__inner">
+                                                <div class="m-dropdown__header m--align-center" style="background: url(../default/assets/app/media/img/misc/user_profile_bg.jpg); background-size: cover;">
+                                                    <div class="m-card-user m-card-user--skin-dark">
+                                                        <div class="m-card-user__pic">
+                                                            <img src="../img/head.png" class="m--img-rounded m--marginless"
+                                                                alt="" />
+                                                        </div>
+                                                        <div class="m-card-user__details">
+                                                            <span class="m-card-user__name m--font-weight-500">
+                                                                小明
+                                                            </span>
+                                                            <span class="m-card-user__email m--font-weight-300 m-link">
+                                                                xiaoming@gmail.com
+                                                            </span>
+                                                            <span class="m-card-user__email m--font-weight-300">
+                                                                sometimes ever, sometimes never...
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="m-dropdown__body">
+                                                    <div class="m-dropdown__content">
+                                                        <ul class="m-nav m-nav--skin-light">
+                                                            <li class="m-nav__section m--hide">
+                                                                <span class="m-nav__section-text">
+                                                                    hide
+                                                                </span>
+                                                            </li>
+                                                            <li class="m-nav__item">
+                                                                <a href="./profile.html" class="m-nav__link">
+                                                                    <i class="m-nav__link-icon flaticon-profile-1"></i>
+                                                                    <span class="m-nav__link-title">
+                                                                        <span class="m-nav__link-wrap">
+                                                                            <span class="m-nav__link-text">
+                                                                                个人信息
+                                                                            </span>
+                                                                            <!-- <span class="m-nav__link-badge">
+																					<span class="m-badge m-badge--success">
+																						2
+																					</span>
+																				</span> -->
+                                                                        </span>
+                                                                    </span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="m-nav__separator m-nav__separator--fit"></li>
+                                                            <li class="m-nav__item">
+                                                                <a href="snippets/pages/user/login-1.html" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
+                                                                    退出
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- END: Topbar -->
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END: Header -->
+        <!-- begin::Body -->
+        <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
+            <!-- BEGIN: Left Aside -->
+            <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn">
+                <i class="la la-close"></i>
+            </button>
+            <div id="m_aside_left" class="m-grid__item	m-aside-left  m-aside-left--skin-dark ">
+                <!-- BEGIN: Aside Menu -->
+                <div id="m_ver_menu" class="m-aside-menu  m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark "
+                    m-menu-vertical="1" m-menu-scrollable="0" m-menu-dropdown-timeout="500">
+                    <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
+                        <li class="m-menu__item  m-menu__item--active" aria-haspopup="true">
+                            <a href="index.html" class="m-menu__link ">
+                                <i class="m-menu__link-icon flaticon-shapes"></i>
+                                <span class="m-menu__link-title">
+                                    <span class="m-menu__link-wrap">
+                                        <span class="m-menu__link-text">
+                                            主页
+                                        </span>
+                                        <!-- <span class="m-menu__link-badge">
+												<span class="m-badge m-badge--danger">
+													2
+												</span>
+											</span> -->
+                                    </span>
+                                </span>
+                            </a>
+                        </li>
+                        <!-- <li class="m-menu__section">
+								<h4 class="m-menu__section-text">
+									我是分隔符
+								</h4>
+								<i class="m-menu__section-icon flaticon-more-v3"></i>
+							</li> -->
+                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                            <a href="./videolist.html" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-computer"></i>
+                                <span class="m-menu__link-text">
+                                    内部培训视频
+                                </span>
+                                <!-- <i class="m-menu__ver-arrow la la-angle-right"></i> -->
+                            </a>
+                        </li>
+                        <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+                            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                                <i class="m-menu__link-icon flaticon-tool-1"></i>
+                                <span class="m-menu__link-text">
+                                    内部分析工具
+                                </span>
+                                <i class="m-menu__ver-arrow la la-angle-right"></i>
+                            </a>
+                            <div class="m-menu__submenu ">
+                                <span class="m-menu__arrow"></span>
+                                <ul class="m-menu__subnav">
+                                    <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
+                                        <span class="m-menu__link">
+                                            <span class="m-menu__link-text">
+                                                内部分析工具
+                                            </span>
+                                        </span>
+                                    </li>
+                                    <li class="m-menu__item " aria-haspopup="true">
+                                        <a href="../default/components/utils/session-timeout.html" class="m-menu__link ">
+                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="m-menu__link-text">
+                                                实验部
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="m-menu__item " aria-haspopup="true">
+                                        <a href="../default/components/utils/idle-timer.html" class="m-menu__link ">
+                                            <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                                <span></span>
+                                            </i>
+                                            <span class="m-menu__link-text">
+                                                生信部
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END: Aside Menu -->
+            </div>
+            <!-- END: Left Aside -->
+            <div class="m-grid__item m-grid__item--fluid m-wrapper">
+                <!-- BEGIN: Subheader -->
+                <div class="m-subheader ">
+                    <div class="d-flex align-items-center">
+                        <div class="mr-auto">
+                            <h3 class="m-subheader__title ">
+                                个人信息
+                            </h3>
+                        </div>
+                        <!-- <div>
+								<span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
+									<span class="m-subheader__daterange-label">
+										<span class="m-subheader__daterange-title"></span>
+										<span class="m-subheader__daterange-date m--font-brand"></span>
+									</span>
+									<a href="#" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+										<i class="la la-angle-down"></i>
+									</a>
+								</span>
+							</div> -->
+                    </div>
+                </div>
+                <!-- END: Subheader -->
+                <div class="m-content">
+
+                    <!--Begin::Section-->
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-4">
+                            <div class="m-portlet m-portlet--full-height  ">
+                                <div class="m-portlet__body">
+                                    <div class="m-card-profile">
+                                        <!-- <div class="m-card-profile__title m--hide">
+                                            Your Profile
+                                        </div> -->
+                                        <div class="m-card-profile__pic">
+                                            <div class="m-card-profile__pic-wrapper">
+                                                <img src="../img/head.png" alt=""/>
+                                            </div>
+                                        </div>
+                                        <div class="m-card-profile__details">
+                                            <span class="m-card-profile__name">
+                                                小明
+                                            </span>
+                                            <span class="m-card-profile__email m-link">
+                                                xiaoming@gmail.com
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
+                                        <li class="m-nav__separator m-nav__separator--fit"></li>
+                                        <!-- <li class="m-nav__section m--hide">
+                                            <span class="m-nav__section-text">
+                                                Section
+                                            </span>
+                                        </li> -->
+                                        <li class="m-nav__item">
+                                            <a href="./profile.html" class="m-nav__link">
+                                                <i class="m-nav__link-icon flaticon-profile-1"></i>
+                                                <span class="m-nav__link-title">
+                                                    <span class="m-nav__link-wrap">
+                                                        <span class="m-nav__link-text">
+                                                            注册信息
+                                                        </span>
+                                                        <!-- <span class="m-nav__link-badge">
+                                                            <span class="m-badge m-badge--success">
+                                                                2
+                                                            </span>
+                                                        </span> -->
+                                                    </span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li class="m-nav__item">
+                                            <a href="./loginlog.html" class="m-nav__link">
+                                                <i class="m-nav__link-icon flaticon-share"></i>
+                                                <span class="m-nav__link-text">
+                                                    登陆日志
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!-- <div class="m-portlet__body-separator"></div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-9 col-lg-8">
+                            <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
+                                <div class="m-portlet__head">
+                                    <div class="m-portlet__head-tools">
+                                        <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
+                                            <li class="nav-item m-tabs__item">
+                                                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab">
+                                                    <i class="flaticon-share m--hide"></i>
+                                                    更新信息
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="m_user_profile_tab_1">
+                                        <form class="m-form m-form--fit m-form--label-align-right">
+                                            <div class="m-portlet__body">
+                                                <!-- <div class="form-group m-form__group m--margin-top-10 m--hide">
+                                                    <div class="alert m-alert m-alert--default" role="alert">
+                                                        The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.
+                                                    </div>
+                                                </div> -->
+                                                <!-- <div class="form-group m-form__group row">
+                                                    <div class="col-10 ml-auto">
+                                                        <h3 class="m-form__section">
+                                                            个人信息
+                                                        </h3>
+                                                    </div>
+                                                </div> -->
+                                                <div class="form-group m-form__group row">
+                                                    <label for="example-text-input" class="col-2 col-form-label">
+                                                        注册昵称
+                                                    </label>
+                                                    <div class="col-7">
+                                                        <input class="form-control m-input" type="text" value="xiaoming">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <label for="example-text-input" class="col-2 col-form-label">
+                                                        注册邮箱
+                                                    </label>
+                                                    <div class="col-7">
+                                                        <input class="form-control m-input" disabled type="text" value="xiaoming@gmail.com">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <label for="example-text-input" class="col-2 col-form-label">
+                                                        个性签名
+                                                    </label>
+                                                    <div class="col-7">
+                                                        <input class="form-control m-input" type="text" value="sometimes ever, sometimes never...">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group m-form__group row">
+                                                    <label for="example-text-input" class="col-2 col-form-label">
+                                                        加入时间
+                                                    </label>
+                                                    <div class="col-7">
+                                                        <input class="form-control m-input" disabled type="text" value="2018-11-30">
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div> -->
+                                            </div>
+                                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                                <div class="m-form__actions">
+                                                    <div class="row">
+                                                        <div class="col-2"></div>
+                                                        <div class="col-7">
+                                                            <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+                                                                保存
+                                                            </button>
+                                                            &nbsp;&nbsp;
+                                                            <button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">
+                                                                取消 
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End::Section-->
+
+                </div>
+            </div>
+        </div>
+        <!-- end:: Body -->
+        <!-- begin::Footer -->
+        <footer class="m-grid__item		m-footer ">
+            <div class="m-container m-container--fluid m-container--full-height m-page__container">
+                <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
+                    <div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
+                        <span class="m-footer__copyright">
+                            2018 &copy; design by microanaly & 交付中心
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- end::Footer -->
+    </div>
+    <!-- end:: Page -->
+    <!-- begin::Quick Sidebar -->
+    <!-- end::Quick Sidebar -->
+    <!-- begin::Scroll Top -->
+    <div id="m_scroll_top" class="m-scroll-top">
+        <i class="la la-arrow-up"></i>
+    </div>
+    <!-- end::Scroll Top -->
+    <!-- begin::Quick Nav -->
+    <!-- begin::Quick Nav -->
+    <!--begin::Base Scripts -->
+    <script src="../default/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
+    <script src="../default/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
+    <!--end::Base Scripts -->
+    <!--begin::Page Vendors -->
+    <script src="../default/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js" type="text/javascript"></script>
+    <!--end::Page Vendors -->
+    <!--begin::Page Snippets -->
+    <script src="../default/../default/assets/app/js/dashboard.js" type="text/javascript"></script>
+    <!--end::Page Snippets -->
+</body>
+<!-- end::Body -->
+
+</html>

@@ -28220,7 +28220,7 @@ body.m-portlet--fullscreen.m-aside-left--fixed .m-aside-left {
 }
 
 .m-timeline-3 .m-timeline-3__item {
-    disply: table;
+    display: table;
     margin-bottom: 1rem;
     position: relative
 }
