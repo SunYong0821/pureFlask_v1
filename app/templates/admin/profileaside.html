@@ -1,0 +1,58 @@
+<div class="col-xl-3 col-lg-4">
+    <div class="m-portlet m-portlet--full-height  ">
+        <div class="m-portlet__body">
+            <div class="m-card-profile">
+                <!-- <div class="m-card-profile__title m--hide">
+                            Your Profile
+                        </div> -->
+                <div class="m-card-profile__pic">
+                    <div class="m-card-profile__pic-wrapper">
+                        <img src="{{ url_for('static', filename='img/head.png')}}" alt="" />
+                    </div>
+                </div>
+                <div class="m-card-profile__details">
+                    <span class="m-card-profile__name">
+                        小明
+                    </span>
+                    <span class="m-card-profile__email m-link">
+                        xiaoming@gmail.com
+                    </span>
+                </div>
+            </div>
+            <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
+                <li class="m-nav__separator m-nav__separator--fit"></li>
+                <!-- <li class="m-nav__section m--hide">
+                            <span class="m-nav__section-text">
+                                Section
+                            </span>
+                        </li> -->
+                <li class="m-nav__item">
+                    <a href="{{ url_for('admin.profile') }}" class="m-nav__link">
+                        <i class="m-nav__link-icon flaticon-profile-1"></i>
+                        <span class="m-nav__link-title">
+                            <span class="m-nav__link-wrap">
+                                <span class="m-nav__link-text">
+                                    用户信息
+                                </span>
+                                <!-- <span class="m-nav__link-badge">
+                                            <span class="m-badge m-badge--success">
+                                                2
+                                            </span>
+                                        </span> -->
+                            </span>
+                        </span>
+                    </a>
+                </li>
+                <li class="m-nav__item">
+                    <a href="{{ url_for('admin.loginlog') }}" class="m-nav__link">
+                        <i class="m-nav__link-icon flaticon-share"></i>
+                        <span class="m-nav__link-text">
+                            登陆日志
+                        </span>
+                    </a>
+                </li>
+            </ul>
+            <!-- <div class="m-portlet__body-separator"></div> -->
+        </div>
+    </div>
+</div>

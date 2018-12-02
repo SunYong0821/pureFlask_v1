@@ -1,0 +1,121 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title ">
+                个人信息
+            </h3>
+        </div>
+        <!-- <div>
+                <span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
+                    <span class="m-subheader__daterange-label">
+                        <span class="m-subheader__daterange-title"></span>
+                        <span class="m-subheader__daterange-date m--font-brand"></span>
+                    </span>
+                    <a href="#" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                        <i class="la la-angle-down"></i>
+                    </a>
+                </span>
+            </div> -->
+    </div>
+</div>
+<!-- END: Subheader -->
+<div class="m-content">
+
+    <!--Begin::Section-->
+    <div class="row">
+        {% include "admin/profileaside.html" %}
+        <div class="col-xl-9 col-lg-8">
+            <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-tools">
+                        <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
+                            <li class="nav-item m-tabs__item">
+                                <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1"
+                                    role="tab">
+                                    <i class="flaticon-share m--hide"></i>
+                                    更新信息
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="m_user_profile_tab_1">
+                        <form class="m-form m-form--fit m-form--label-align-right">
+                            <div class="m-portlet__body">
+                                <!-- <div class="form-group m-form__group m--margin-top-10 m--hide">
+                                    <div class="alert m-alert m-alert--default" role="alert">
+                                        The example form below demonstrates common HTML form elements that receive updated styles from Bootstrap with additional classes.
+                                    </div>
+                                </div> -->
+                                <!-- <div class="form-group m-form__group row">
+                                    <div class="col-10 ml-auto">
+                                        <h3 class="m-form__section">
+                                            个人信息
+                                        </h3>
+                                    </div>
+                                </div> -->
+                                <div class="form-group m-form__group row">
+                                    <label for="example-text-input" class="col-2 col-form-label">
+                                        用户昵称
+                                    </label>
+                                    <div class="col-7">
+                                        <input class="form-control m-input" type="text" value="xiaoming">
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row">
+                                    <label for="example-text-input" class="col-2 col-form-label">
+                                        注册邮箱
+                                    </label>
+                                    <div class="col-7">
+                                        <input class="form-control m-input" disabled type="text" value="xiaoming@gmail.com">
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row">
+                                    <label for="example-text-input" class="col-2 col-form-label">
+                                        个性签名
+                                    </label>
+                                    <div class="col-7">
+                                        <input class="form-control m-input" type="text" value="sometimes ever, sometimes never...">
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row">
+                                    <label for="example-text-input" class="col-2 col-form-label">
+                                        加入时间
+                                    </label>
+                                    <div class="col-7">
+                                        <input class="form-control m-input" disabled type="text" value="2018-11-30">
+                                    </div>
+                                </div>
+                                <!-- <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space-2x"></div> -->
+                            </div>
+                            <div class="m-portlet__foot m-portlet__foot--fit">
+                                <div class="m-form__actions">
+                                    <div class="row">
+                                        <div class="col-2"></div>
+                                        <div class="col-7">
+                                            <button type="reset" class="btn btn-accent m-btn m-btn--air m-btn--custom">
+                                                保存
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <button type="reset" class="btn btn-secondary m-btn m-btn--air m-btn--custom">
+                                                取消
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::Section-->
+
+</div>
+
+{% endblock%}
