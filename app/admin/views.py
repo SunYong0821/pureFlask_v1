@@ -6,7 +6,7 @@ from flask import render_template, redirect, url_for
 
 @admin.route('/')
 def index():
-    return render_template('admin/index.html')
+    return render_template('login.html')
 
 
 @admin.route('/login.html')
