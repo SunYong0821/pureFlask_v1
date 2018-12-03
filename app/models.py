@@ -19,10 +19,12 @@ class User(db.Model):
     pwd = db.Column(db.String(100))
     email = db.Column(db.String(100), unique=True)
     info = db.Column(db.Text)
+    img = db.Column(db.String(255))
     addtime = db.Column(db.DateTime, index=True, default=datetime.now())
     uuid = db.Column(db.String(255), unique=True)
 
     userlogs = db.relationship('Userlog', backref='user')
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
     def __repr__(self):
         return f'<User {self.name}>'
@@ -40,51 +42,65 @@ class Userlog(db.Model):
         return f'<Userlog {self.id}>'
 
 
-class Video(db.Model):
-    __tablename__ = 'video'
+class Role(db.Model):
+    __tablename__ = "role"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True)
+    auths = db.Column(db.String(1000))
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+
+    userid = db.relationship('User', backref='role')
+
+    def __repr__(self):
+        return f'<Role {self.name}>'
+
+
+class Videolist(db.Model):
+    __tablename__ = 'videolist'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), unique=True)
+    img = db.Column(db.String(255))
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+
+    playvideo = db.relationship('Playvideo', backref='videolist')
+
+    def __repr__(self):
+        return f'<Videolist {self.title}>'
+
+
+class Playvideo(db.Model):
+    __tablename__ = 'playvideo'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), unique=True)
     url = db.Column(db.String(255), unique=True)
-    tag = db.Column(db.String(100), unique=True)
     playnum = db.Column(db.BigInteger)
     addtime = db.Column(db.DateTime, index=True, default=datetime.now())
 
+    videolist_id = db.Column(db.Integer, db.ForeignKey('videolist.id'))
+
     def __repr__(self):
-        return f'<Movie {self.id}>'
+        return f'<Playvideo {self.title}>'
 
 
-class Admin(db.Model):
-    __tablename__ = 'admin'
+class Toolslist(db.Model):
+    __tablename__ = 'toolslist'
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True)
-    pwd = db.Column(db.String(100))
+    title = db.Column(db.String(255), unique=True)
+    img = db.Column(db.String(255))
+    info = db.Column(db.Text)
     addtime = db.Column(db.DateTime, index=True, default=datetime.now())
 
-    adminlogs = db.relationship('Adminlog', backref='admin')
-
     def __repr__(self):
-        return f'<Admin {self.id}>'
-
-
-class Adminlog(db.Model):
-    __tablename__ = 'adminlog'
-    id = db.Column(db.Integer, primary_key=True)
-    ip = db.Column(db.String(100))
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
-
-    admin_id = db.Column(db.Integer, db.ForeignKey('admin.id'))
-
-    def __repr__(self):
-        return f'<Adminlog {self.id}>'
+        return f'<Toolslist {self.title}>'
 
 
 if __name__ == '__main__':
-    # db.create_all()
+    db.create_all()
 
-    from werkzeug.security import generate_password_hash
+    """ from werkzeug.security import generate_password_hash
     admin = Admin(
         name='admin',
         pwd=generate_password_hash('12345@')
     )
     db.session.add(admin)
-    db.session.commit()
+    db.session.commit() """

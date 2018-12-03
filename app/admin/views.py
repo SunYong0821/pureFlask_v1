@@ -9,46 +9,46 @@ def index():
     return render_template('admin/index.html')
 
 
-@admin.route('/login/')
+@admin.route('/login.html')
 def login():
     return render_template('login.html')
 
 
-@admin.route('/logout/')
+@admin.route('/logout.html')
 def logout():
     return redirect(url_for('login'))
 
 
-@admin.route('/videolist/')
+@admin.route('/videolist.html')
 def videolist():
     return render_template('admin/videolist.html')
 
 
-@admin.route('/playvideo/')
+@admin.route('/playvideo.html')
 def playvideo():
     return render_template('admin/playvideo.html')
 
 
-@admin.route('/biotoolslist/')
+@admin.route('/biotoolslist.html')
 def biotoolslist():
     return render_template('admin/biotoolslist.html')
 
 
-@admin.route('/infotoolslist/')
+@admin.route('/infotoolslist.html')
 def infotoolslist():
     return render_template('admin/infotoolslist.html')
 
 
-@admin.route('/runtool/')
+@admin.route('/runtool.html')
 def runtool():
     return render_template('admin/runtool.html')
 
 
-@admin.route('/profile/')
+@admin.route('/profile.html')
 def profile():
     return render_template('admin/profile.html')
 
 
-@admin.route('/loginlog/')
+@admin.route('/loginlog.html')
 def loginlog():
     return render_template('admin/loginlog.html')
