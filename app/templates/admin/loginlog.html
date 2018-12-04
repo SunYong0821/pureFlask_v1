@@ -28,11 +28,10 @@
     <div class="row">
         {% include "admin/profileaside.html" %}
         <div class="col-xl-9 col-lg-8">
-            <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
+            <div class="m-portlet m-portlet--full-height m-portlet--tabs">
                 <div class="m-portlet__head">
                     <div class="m-portlet__head-tools">
-                        <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary"
-                            role="tablist">
+                        <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
                             <li class="nav-item m-tabs__item">
                                 <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1"
                                     role="tab">
@@ -44,94 +43,51 @@
                 </div>
                 <div class="m-portlet__body">
                     <!--begin::Section-->
-                    <div class="m-section">
-                        <div class="m-section__content">
-                            <table class="table table-bordered table-striped table-hover m-table" style="text-align:center">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            #
-                                        </th>
-                                        <th>
-                                            IP地址
-                                        </th>
-                                        <th>
-                                            登陆时间
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">
-                                            1
-                                        </th>
-                                        <td>
-                                            10.10.100.2
-                                        </td>
-                                        <td>
-                                            2018-12-01
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            2
-                                        </th>
-                                        <td>
-                                            10.10.100.2
-                                        </td>
-                                        <td>
-                                            2018-12-01
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            3
-                                        </th>
-                                        <td>
-                                            10.10.100.2
-                                        </td>
-                                        <td>
-                                            2018-12-01
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            4
-                                        </th>
-                                        <td>
-                                            10.10.100.2
-                                        </td>
-                                        <td>
-                                            2018-12-01
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            5
-                                        </th>
-                                        <td>
-                                            10.10.100.2
-                                        </td>
-                                        <td>
-                                            2018-12-01
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">
-                                            6
-                                        </th>
-                                        <td>
-                                            10.10.100.2
-                                        </td>
-                                        <td>
-                                            2018-12-01
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="m_datatable m-datatable m-datatable--default m-datatable--error m-datatable--loaded">
+                        <table class="table table-border table-striped table-hover m-table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th> #</th>
+                                    <th>IP地址</th>
+                                    <th>登陆时间</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>2</td>
+                                    <td>
+                                        10.10.100.2
+                                    </td>
+                                    <td>
+                                        2018-12-01
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>10.10.100.2</td>
+                                    <td>2018-12-01</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="m-datatable__pager m-datatable--paging-loaded clearfix" style="margin: auto;">
+                            <ul class="m-datatable__pager-nav" style="margin: auto;">
+                                <li><a title="First" class="m-datatable__pager-link m-datatable__pager-link--first m-datatable__pager-link--disabled"
+                                        data-page="1" disabled="disabled"><i class="la la-angle-double-left"></i></a></li>
+                                <li><a title="Previous" class="m-datatable__pager-link m-datatable__pager-link--prev m-datatable__pager-link--disabled"
+                                        data-page="1" disabled="disabled"><i class="la la-angle-left"></i></a></li>
+                                <li style="display: none;"><a title="More pages" class="m-datatable__pager-link m-datatable__pager-link--more-prev"
+                                        data-page="1"><i class="la la-ellipsis-h"></i></a></li>
+                                <li style="display: none;"><input type="text" class="m-pager-input form-control" title="Page number"></li>
+                                <li><a class="m-datatable__pager-link m-datatable__pager-link-number m-datatable__pager-link--active"
+                                        data-page="1" title="1">1</a></li>
+                                <li><a title="Next" class="m-datatable__pager-link m-datatable__pager-link--next"
+                                        data-page="7"><i class="la la-angle-right"></i></a></li>
+                                <li><a title="Last" class="m-datatable__pager-link m-datatable__pager-link--last"
+                                        data-page="8"><i class="la la-angle-double-right"></i></a></li>
+                            </ul>
                         </div>
+                        <!--end::Section-->
                     </div>
-                    <!--end::Section-->
                 </div>
             </div>
         </div>
