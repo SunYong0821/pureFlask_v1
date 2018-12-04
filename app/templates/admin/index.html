@@ -29,78 +29,72 @@
     <div class="row">
         <div class="col-lg-12">
             <!--Begin::Portlet-->
-            <div class="m-portlet  m-portlet--full-height ">
-                <div class="m-portlet__head">
+            <div class="m-portlet m-portlet--mobile m-portlet--sortable">
+                <div class="m-portlet__head ui-sortable-handle">
                     <div class="m-portlet__head-caption">
                         <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon">
+                                <i class="la la-files-o"></i>
+                            </span>
                             <h3 class="m-portlet__head-text">
-                                最近更新
+                                我的任务
                             </h3>
                         </div>
                     </div>
                 </div>
                 <div class="m-portlet__body">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="m_widget2_tab1_content" aria-expanded="true">
-                            <!--begin:Timeline 1-->
-                            <div class="m-timeline-1 m-timeline-1--fixed">
-                                <div class="m-timeline-1__items">
-                                    <div class="m-timeline-1__marker"></div>
-                                    <!-- <div class="m-timeline-1__item m-timeline-1__item--left m-timeline-1__item--first"> -->
-                                    <div class="m-timeline-1__item m-timeline-1__item--left">
-                                        <div class="m-timeline-1__item-circle">
-                                            <div class="m--bg-danger"></div>
-                                        </div>
-                                        <div class="m-timeline-1__item-arrow"></div>
-                                        <span class="m-timeline-1__item-time m--font-brand">
-                                            2018-11-30 19:30
-                                        </span>
-                                        <div class="m-timeline-1__item-content">
-                                            <!-- <div class="m-timeline-1__item-title">
-                                                    Users Joined Today
-                                                </div> -->
-                                            <div class="m-timeline-1__item-body">
-                                                <div class="m-timeline-1__item-body m--margin-top-15">
-                                                    开始加班~~~
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="m-timeline-1__item m-timeline-1__item--right">
-                                        <div class="m-timeline-1__item-circle">
-                                            <div class="m--bg-danger"></div>
-                                        </div>
-                                        <div class="m-timeline-1__item-arrow"></div>
-                                        <span class="m-timeline-1__item-time m--font-brand">
-                                            2018-11-30 20:30
-                                        </span>
-                                        <div class="m-timeline-1__item-content">
-                                            <div class="m-timeline-1__item-body">
-                                                <div class="m-timeline-1__item-body m--margin-top-15">
-                                                    主页设置好像有点难。。。
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="m-timeline-1__item m-timeline-1__item--left">
-                                        <div class="m-timeline-1__item-circle">
-                                            <div class="m--bg-danger"></div>
-                                        </div>
-                                        <div class="m-timeline-1__item-arrow"></div>
-                                        <span class="m-timeline-1__item-time m--font-brand">
-                                            2018-11-30 21:30
-                                        </span>
-                                        <div class="m-timeline-1__item-content">
-                                            <div class="m-timeline-1__item-body">
-                                                <div class="m-timeline-1__item-body m--margin-top-15">
-                                                    确定主页显示内容。。。
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--End:Timeline 2-->
-                                </div>
-                            </div>
+                    <div class="m_datatable m-datatable m-datatable--default m-datatable--error m-datatable--loaded">
+                        <table class="table table-border table-striped table-hover m-table" style="text-align: center;">
+                            <thead>
+                                <tr>
+                                    <th data-field="id">#</th>
+                                    <th data-field="uuid">任务编号</th>
+                                    <th data-field="name">工具具名称</th>
+                                    <th data-field="starttime">提交时间</th>
+                                    <th data-field="status">任务状态</th>
+                                    <th data-field="result">查看结果</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-field="id">2</td>
+                                    <td data-field="uuid">78f834rfehf8372hf78eghf78hg37fh8</td>
+                                    <td data-field="name">fq转fa</td>
+                                    <td data-field="starttime">2018-12-04</td>
+                                    <td data-field="status">进行中</td>
+                                    <td data-field="result">
+                                        <a href="#" class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only disabled">
+                                            <i class="fa fa-download"></i></a></td>
+                                </tr>
+                                <tr data-row="1" class="m-datatable__row m-datatable__row--even">
+                                    <td data-field="id">1</td>
+                                    <td data-field="uuid">rx78324r78478nbxr87n43782xnrt87n</td>
+                                    <td data-field="name">DNA翻译蛋白序列</td>
+                                    <td data-field="starttime">
+                                        2018-12-04</td>
+                                    <td data-field="status">已完成</td>
+                                    <td data-field="result">
+                                        <a href="#" class="btn btn-outline-success m-btn m-btn--icon m-btn--icon-only">
+                                            <i class="fa fa-download"></i></a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="m-datatable__pager m-datatable--paging-loaded clearfix" style="margin: auto;">
+                            <ul class="m-datatable__pager-nav" style="margin: auto;">
+                                <li><a title="First" class="m-datatable__pager-link m-datatable__pager-link--first m-datatable__pager-link--disabled"
+                                        data-page="1" disabled="disabled"><i class="la la-angle-double-left"></i></a></li>
+                                <li><a title="Previous" class="m-datatable__pager-link m-datatable__pager-link--prev m-datatable__pager-link--disabled"
+                                        data-page="1" disabled="disabled"><i class="la la-angle-left"></i></a></li>
+                                <li style="display: none;"><a title="More pages" class="m-datatable__pager-link m-datatable__pager-link--more-prev"
+                                        data-page="1"><i class="la la-ellipsis-h"></i></a></li>
+                                <li style="display: none;"><input type="text" class="m-pager-input form-control" title="Page number"></li>
+                                <li><a class="m-datatable__pager-link m-datatable__pager-link-number m-datatable__pager-link--active"
+                                        data-page="1" title="1">1</a></li>
+                                <li><a title="Next" class="m-datatable__pager-link m-datatable__pager-link--next"
+                                        data-page="7"><i class="la la-angle-right"></i></a></li>
+                                <li><a title="Last" class="m-datatable__pager-link m-datatable__pager-link--last"
+                                        data-page="8"><i class="la la-angle-double-right"></i></a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
