@@ -1,12 +1,9 @@
 # coding:utf-8
-from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import pymysql
 
-app = Flask(__name__)
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 
 class User(db.Model):
