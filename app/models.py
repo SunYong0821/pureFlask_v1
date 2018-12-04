@@ -5,9 +5,6 @@ from datetime import datetime
 import pymysql
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:root@10.10.100.2:7821/magweb'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
-app.config['SECRET_KEY'] = '64ebe6f0ee0411e8a8b56c92bf4f31c4'
 
 db = SQLAlchemy(app)
 

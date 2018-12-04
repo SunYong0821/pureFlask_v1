@@ -1,15 +1,24 @@
 # coding:utf-8
-from flask import Flask, render_template
+from flask import Flask
 
-app = Flask(__name__)
-app.debug = True
+from app.models import db
 
 
-from app.admin import admin as admin_blueprint
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object('app.setting')
+    app.config.from_object('app.secure')
+    register_blueprint(app)
+    db.init_app(app)
+    with app.app_context():
+        db.create_all()
+    return app
 
-app.register_blueprint(admin_blueprint)
-#app.register_blueprint(admin_blueprint, url_prefix='/admin')
 
-@app.errorhandler(404)
-def page_not_found(error):
-    return render_template('404.html'), 404
+def register_blueprint(app):
+    from app.admin import admin
+    app.register_blueprint(admin)
+
+# @app.errorhandler(404)
+# def page_not_found(error):
+#     return render_template('404.html'), 404

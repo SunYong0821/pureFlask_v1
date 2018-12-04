@@ -1,7 +1,8 @@
 # coding:utf-8
-
+from app.admin.forms import LoginForm
+from app.models import User
 from . import admin
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for, request
 
 
 @admin.route('/')
@@ -9,9 +10,14 @@ def index():
     return render_template('admin/index.html')
 
 
-@admin.route('/login.html')
+@admin.route('/login.html', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    form = LoginForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and user.check_password(form.password.data):
+            pass
+    return render_template('user/login.html', form=form)
 
 
 @admin.route('/logout.html')
