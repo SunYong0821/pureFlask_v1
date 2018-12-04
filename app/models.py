@@ -2,17 +2,20 @@
 
 from datetime import datetime
 
+from flask import current_app
+from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import TimedJSONWebSignatureSerializer as Seralize
 
-db = SQLAlchemy()
+from app import login_manager, db
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
-    pwd = db.Column(db.String(128), nullable=False, comment='密码')
+    _password = db.Column('pwd', db.String(128))
     email = db.Column(db.String(100), unique=True)
     info = db.Column(db.Text)
     img = db.Column(db.String(255))
@@ -21,18 +24,49 @@ class User(db.Model):
 
     userlogs = db.relationship('Userlog', backref='user')
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+    # 当前账号激活状态
+    confirm = db.Column(db.Boolean, default=False)
 
     @property
     def password(self):
-        raise self.pwd
+        return self._password
 
     # 密码设置为hash
     @password.setter
-    def password(self, pwd):
-        self.pwd = generate_password_hash(pwd)
+    def password(self, raw):
+        self._password = generate_password_hash(raw)
+
+    # 生成token方法
+    def generate_token(self):
+        s = Seralize(current_app.config['SECRET_KEY'])
+        return s.dumps({'id': self.id})
+
+    def check_token(token):
+        s = Seralize(current_app.config['SECRET_KEY'])
+        # 从当前的token中拿出
+        try:
+            id = s.loads(token)['id']
+        except:
+            return False
+        u = User.query.get(id)
+        if not u:
+            return False
+        if not u.confirm:
+            u.confirm = True
+            db.session.add(u)
+            db.session.commit()
+        return True
+
+    def check_password(self, pwd):
+        return check_password_hash(self._password, pwd)
 
     def __repr__(self):
         return f'<User {self.name}>'
+
+
+@login_manager.user_loader
+def get_user(uid):
+    return User.query.get(int(uid))
 
 
 class Userlog(db.Model):

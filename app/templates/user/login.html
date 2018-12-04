@@ -75,6 +75,15 @@
                         <h3 class="m-login__title">
                             登陆账户
                         </h3>
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                <ul class=flashes>
+                                    {% for category, message in messages %}
+                                        <li class="{{ category }}">{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        {% endwith %}
                     </div>
                     <form class="m-login__form m-form" method="post">
                         <div class="form-group m-form__group">
