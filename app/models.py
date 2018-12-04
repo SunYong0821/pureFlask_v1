@@ -1,7 +1,9 @@
 # coding:utf-8
-from flask_sqlalchemy import SQLAlchemy
+
 from datetime import datetime
 
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy()
 
@@ -10,7 +12,7 @@ class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
-    pwd = db.Column(db.String(100))
+    pwd = db.Column(db.String(128), nullable=False, comment='密码')
     email = db.Column(db.String(100), unique=True)
     info = db.Column(db.Text)
     img = db.Column(db.String(255))
@@ -19,6 +21,15 @@ class User(db.Model):
 
     userlogs = db.relationship('Userlog', backref='user')
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+
+    @property
+    def password(self):
+        raise self.pwd
+
+    # 密码设置为hash
+    @password.setter
+    def password(self, pwd):
+        self.pwd = generate_password_hash(pwd)
 
     def __repr__(self):
         return f'<User {self.name}>'

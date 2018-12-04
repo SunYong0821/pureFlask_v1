@@ -2,7 +2,7 @@
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm
 from app.models import User, db
 from . import admin
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 
 
 @admin.route('/')
@@ -24,7 +24,14 @@ def login():
 def register():
     form = RegisterForm(request.form)
     if request.method == "POST" and form.validate():
-        pass
+        user = User(
+            email=form.email.data,
+            name=form.name.data,
+            pwd=form.pwd.data)
+        db.session.add(user)
+        db.session.commit()
+        flash("注册成功！")
+        return redirect(url_for('admin.login'))
     return render_template('user/register.html', form=form)
 
 
