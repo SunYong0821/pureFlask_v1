@@ -1,6 +1,6 @@
 # coding:utf-8
-from app.admin.forms import LoginForm
-from app.models import User
+from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm
+from app.models import User, db
 from . import admin
 from flask import render_template, redirect, url_for, request
 
@@ -18,6 +18,30 @@ def login():
         if user and user.check_password(form.password.data):
             pass
     return render_template('user/login.html', form=form)
+
+
+@admin.route('/register.html', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm(request.form)
+    if request.method == "POST" and form.validate():
+        pass
+    return render_template('user/register.html', form=form)
+
+
+@admin.route('/forget_password_request.html', methods=['GET', 'POST'])
+def forget_password_request():
+    form = ForgetPasswordRequestForm(request.form)
+    if request.method == "POST" and form.validate():
+        pass
+    return render_template("user/forget_password_request.html", form=form)
+
+
+@admin.route('/forget_password.html', methods=['GET', 'POST'])
+def forget_password():
+    form = ForgetPasswordForm(request.form)
+    if request.method == "POST" and form.validate():
+        pass
+    return render_template("user/forget_password.html", form=form)
 
 
 @admin.route('/logout.html')

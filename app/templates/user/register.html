@@ -53,9 +53,11 @@
                             不一样的团队
                         </div>
                         <div class="m-login__form-action">
-                            <button type="button" id="m_login_signup" class="btn btn-outline-focus m-btn--pill">
-                                注册
-                            </button>
+                            <a href="{{ url_for('admin.login') }}">
+                                <button type="button" id="m_login_signup" class="btn btn-outline-focus m-btn--pill">
+                                    登录
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -68,42 +70,6 @@
             <div class="m-login__contanier">
 
 
-                <div class="m-login__signin">
-                    <div class="m-login__head">
-                        <h3 class="m-login__title">
-                            登陆账户
-                        </h3>
-                    </div>
-                    <form class="m-login__form m-form" action="">
-                        <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="text" placeholder="请输入账号" name="username"
-                                   autocomplete="off">
-                        </div>
-                        <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="Password" placeholder="请输入密码" name="password">
-                        </div>
-                        <div class="row m-login__form-sub">
-                            <!-- <div class="col m--align-left">
-                                <label class="m-checkbox m-checkbox--focus">
-                                    <input type="checkbox" name="remember">
-                                    Remember me
-                                    <span></span>
-                                </label>
-                            </div> -->
-                            <div class="col m--align-right">
-                                <a href="javascript:;" id="m_login_forget_password" class="m-link">
-                                    忘记密码？
-                                </a>
-                            </div>
-                        </div>
-                        <div class="m-login__form-action">
-                            <button id="m_login_signin_submit"
-                                    class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
-                                登陆
-                            </button>
-                        </div>
-                    </form>
-                </div>
                 <div class="m-login__signup">
                     <div class="m-login__head">
                         <h3 class="m-login__title">
@@ -113,71 +79,43 @@
                             输入详细信息创建您的账户：
                         </div>
                     </div>
-                    <form class="m-login__form m-form" action="">
+                    <form class="m-login__form m-form" method="post">
                         <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="text" placeholder="请输入昵称" name="fullname">
+                            {{ form.name }}
+                            {% for error in form.name.errors %}
+                                <span style="color: red">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="text" placeholder="请输入邮箱" name="email"
-                                   autocomplete="off">
+                            {{ form.email }}
+                            {% for error in form.email.errors %}
+                                <span style="color: red">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="password" placeholder="请输入密码" name="password">
+                            {{ form.password }}
+                            {% for error in form.password.errors %}
+                                <span style="color: red">{{ error }}</span>
+                            {% endfor %}
                         </div>
                         <div class="form-group m-form__group">
-                            <!-- <input class="form-control m-input m-login__form-input--last" type="password" placeholder="请确认密码" name="rpassword"> -->
-                            <input class="form-control m-input" type="password" placeholder="请确认密码" name="rpassword">
+                            {{ form.rpassword }}
+                            {% for error in form.rpassword.errors %}
+                                <span style="color: red">{{ error }}</span>
+                            {% endfor %}
                         </div>
-                        <!-- <div class="m-login__form-sub">
-                            <label class="m-checkbox m-checkbox--focus">
-                                <input type="checkbox" name="agree">
-                                I Agree the
-                                <a href="#" class="m-link m-link--focus">
-                                    terms and conditions
-                                </a>
-                                .
-                                <span></span>
-                            </label>
-                            <span class="m-form__help"></span>
-                        </div> -->
                         <div class="m-login__form-action">
-                            <button id="m_login_signup_submit"
-                                    class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
-                                注册
-                            </button>
-                            <button id="m_login_signup_cancel"
-                                    class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom">
-                                取消
-                            </button>
+                            {{ form.submit }}
+                            <a href="{{ url_for('admin.login') }}">
+                                <button id="m_login_signup_cancel" type="button"
+                                        class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom">
+                                    取消
+                                </button>
+                            </a>
                         </div>
                     </form>
                 </div>
-                <div class="m-login__forget-password">
-                    <div class="m-login__head">
-                        <h3 class="m-login__title">
-                            忘记密码？
-                        </h3>
-                        <div class="m-login__desc">
-                            请输入您的邮箱重置密码
-                        </div>
-                    </div>
-                    <form class="m-login__form m-form" action="">
-                        <div class="form-group m-form__group">
-                            <input class="form-control m-input" type="text" placeholder="请输入邮箱" name="email"
-                                   id="m_email" autocomplete="off">
-                        </div>
-                        <div class="m-login__form-action">
-                            <button id="m_login_forget_password_submit"
-                                    class="btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air">
-                                重置
-                            </button>
-                            <button id="m_login_forget_password_cancel"
-                                    class="btn btn-outline-focus m-btn m-btn--pill m-btn--custom ">
-                                取消
-                            </button>
-                        </div>
-                    </form>
-                </div>
+
             </div>
         </div>
     </div>

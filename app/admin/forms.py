@@ -1,7 +1,7 @@
 # coding:utf-8
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, validators
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length, EqualTo
 
 from app.models import User
 
@@ -21,7 +21,9 @@ class LoginForm(FlaskForm):
     email = StringField(
         label='账号',
         validators=[
-            Nonevalidators('请输入账号')
+            Nonevalidators('请输入邮箱'),
+            Length(2, 30, message=u'电子邮箱不符合规范')
+
         ],
         description='账号',
         render_kw={
@@ -33,7 +35,8 @@ class LoginForm(FlaskForm):
     pwd = PasswordField(
         label='密码',
         validators=[
-            Nonevalidators('请输入密码')
+            Nonevalidators('请输入密码'),
+            Length(6, 32, message="密码长度在6-32位")
         ],
         description='密码',
         render_kw={
@@ -49,6 +52,80 @@ class LoginForm(FlaskForm):
         }
     )
 
+
+class RegisterForm(FlaskForm):
+    name = StringField(label=u"用户名",
+                       validators=[
+                           Nonevalidators(message="请输入用户名"),
+                           Length(2, 10,
+                                  message=u"用户名至少需要两个字符,最多10个字符")],
+                       render_kw={
+                           "class": "form-control m-input",
+                           "placeholder": u"用户名",
+                       })
+    email = StringField(label="邮箱",
+                        validators=[
+                            Nonevalidators(message="请输入邮箱"),
+                            Length(4, 24, message="电子邮箱不符合规范"),
+                        ],
+                        description="账号",
+                        render_kw={
+                            "class": "form-control m-input",
+                            "placeholder": "邮箱"
+
+                        })
+    password = PasswordField(label="密码",
+                             validators=[
+                                 Nonevalidators(message="请输入密码"),
+                                 Length(6, 32, message="密码长度在6-32位")],
+                             description="密码",
+                             render_kw={
+                                 "class": "form-control m-input",
+                                 "placeholder": "密码"
+                             })
+    rpassword = PasswordField(label="密码",
+                              validators=[
+                                  EqualTo('password', message="两次输入密码不一致")],
+                              description="密码",
+                              render_kw={
+                                  "class": "form-control m-input",
+                                  "placeholder": "确认密码"
+                              })
+    submit = SubmitField("注册", render_kw={
+        "class": "btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air",
+    })
+
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise validators.StopValidation("邮箱已被注册")
+
+
+class ForgetPasswordRequestForm(FlaskForm):
+    email = StringField(label="邮箱",
+                        validators=[
+                            Nonevalidators(message="请输入邮箱"),
+                            Length(4, 24, message="电子邮箱不符合规范"),
+                        ],
+                        description="账号",
+                        render_kw={
+                            "class": "form-control m-input",
+                            "placeholder": "邮箱"
+
+                        })
+    submit = SubmitField("重置", render_kw={
+        "class": "btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air",
+    })
+
+
+class ForgetPasswordForm(FlaskForm):
+    email = StringField(label="邮箱",
+                        validators=[
+                            Nonevalidators(message="请输入邮箱"),
+                            Length(4, 24, message="电子邮箱不符合规范"),
+                        ],
+                        description="账号",
+                        render_kw={
+                            "class": "form-control m-input",
+                            "placeholder": "邮箱"
+
+                        })

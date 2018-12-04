@@ -53,9 +53,11 @@
                             不一样的团队
                         </div>
                         <div class="m-login__form-action">
-                            <button type="button" id="m_login_signup" class="btn btn-outline-focus m-btn--pill">
-                                注册
-                            </button>
+                            <a href="{{ url_for('admin.register') }}">
+                                <button type="button" id="m_login_signup" class="btn btn-outline-focus m-btn--pill">
+                                    注册
+                                </button>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -89,7 +91,8 @@
                         </div>
                         <div class="row m-login__form-sub">
                             <div class="col m--align-right">
-                                <a href="javascript:;" id="m_login_forget_password" class="m-link">
+                                <a href="{{ url_for('admin.forget_password_request') }}" id="m_login_forget_password"
+                                   class="m-link">
                                     忘记密码？
                                 </a>
                             </div>
