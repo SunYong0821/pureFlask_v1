@@ -6,11 +6,22 @@ from wtforms.validators import DataRequired
 from app.models import User
 
 
+class Nonevalidators(object):
+
+    def __init__(self, message):
+        self.message = message
+
+    def __call__(self, form, field):
+        if field.data == "":
+            raise validators.StopValidation(self.message)  # StopValidation 不再继续后面的验证  ValidationError 继续后面的验证
+        return None
+
+
 class LoginForm(FlaskForm):
     email = StringField(
         label='账号',
         validators=[
-            DataRequired('请输入账号')
+            Nonevalidators('请输入账号')
         ],
         description='账号',
         render_kw={
@@ -22,7 +33,7 @@ class LoginForm(FlaskForm):
     pwd = PasswordField(
         label='密码',
         validators=[
-            DataRequired('请输入密码')
+            Nonevalidators('请输入密码')
         ],
         description='密码',
         render_kw={
