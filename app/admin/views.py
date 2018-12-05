@@ -1,5 +1,5 @@
 # coding:utf-8
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm
 from app.lib.email import send_mail
@@ -11,6 +11,7 @@ from flask import render_template, redirect, url_for, request, flash
 @admin.route('/')
 @login_required
 def index():
+    print(current_user)
     return render_template('admin/index.html')
 
 
@@ -73,7 +74,7 @@ def forget_password_request():
         user = User.query.filter_by(email=accoutn_email).first()
         if user:
             send_mail(to=accoutn_email, subject='重置您的密码', template='email/reset_password.html', user=user,
-                  token=user.generate_token())
+                      token=user.generate_token())
             flash("邮件已发送到你的邮箱" + accoutn_email + "请及时查收")
             return redirect(url_for('admin.login'))
         flash('该邮箱未注册！')
@@ -123,6 +124,7 @@ def infotoolslist():
 @admin.route('/runtool.html')
 def runtool():
     return render_template('admin/runtool.html')
+
 
 @admin.route('/tools/rev_com.html')
 def rev_com():
