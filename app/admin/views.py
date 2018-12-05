@@ -1,5 +1,5 @@
 # coding:utf-8
-from flask_login import login_user
+from flask_login import login_user, logout_user, login_required
 
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm
 from app.lib.email import send_mail
@@ -9,6 +9,7 @@ from flask import render_template, redirect, url_for, request, flash
 
 
 @admin.route('/')
+@login_required
 def index():
     return render_template('admin/index.html')
 
@@ -27,14 +28,11 @@ def login():
             userlog = Userlog()
             userlog.ip = request.remote_addr
             userlog.user_id = user.id
+            login_user(user, remember=True)
+            flash("登录成功")
             db.session.add(userlog)
             db.session.commit()
-            login_user(user, remember=True)
-            next = request.args.get('next')
-            flash("登录成功")
-            if not next or not next.startswith('/'):
-                next = url_for('admin.index')
-            return redirect(next)
+            return redirect(url_for('admin.index'))
     return render_template('user/login.html', form=form)
 
 
@@ -72,11 +70,13 @@ def forget_password_request():
     form = ForgetPasswordRequestForm(request.form)
     if request.method == "POST" and form.validate():
         accoutn_email = form.email.data
-        user = User.query.filter_by(email=accoutn_email).first_or_404()
-        send_mail(to=accoutn_email, subject='重置您的密码', template='email/reset_password.html', user=user,
+        user = User.query.filter_by(email=accoutn_email).first()
+        if user:
+            send_mail(to=accoutn_email, subject='重置您的密码', template='email/reset_password.html', user=user,
                   token=user.generate_token())
-        flash("邮件已发送到你的邮箱" + accoutn_email + "请及时查收")
-        return redirect(url_for('admin.login'))
+            flash("邮件已发送到你的邮箱" + accoutn_email + "请及时查收")
+            return redirect(url_for('admin.login'))
+        flash('该邮箱未注册！')
     return render_template("user/forget_password_request.html", form=form)
 
 
@@ -94,8 +94,10 @@ def forget_password(token):
 
 
 @admin.route('/logout.html')
+@login_required
 def logout():
-    return redirect(url_for('login'))
+    logout_user()
+    return redirect(url_for('admin.login'))
 
 
 @admin.route('/videolist.html')
