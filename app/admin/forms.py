@@ -48,7 +48,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField(
         '登陆',
         render_kw={
-            'class': 'btn btn-primary btn-block btn-flat'
+            'class': 'btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air'
         }
     )
 
@@ -118,14 +118,23 @@ class ForgetPasswordRequestForm(FlaskForm):
 
 
 class ForgetPasswordForm(FlaskForm):
-    email = StringField(label="邮箱",
+    pwd = PasswordField(label="密码",
                         validators=[
-                            Nonevalidators(message="请输入邮箱"),
-                            Length(4, 24, message="电子邮箱不符合规范"),
-                        ],
-                        description="账号",
+                            Nonevalidators(message="请输入密码"),
+                            Length(6, 32, message="密码长度在6-32位")],
+                        description="密码",
                         render_kw={
                             "class": "form-control m-input",
-                            "placeholder": "邮箱"
-
+                            "placeholder": "密码"
                         })
+    rpwd = PasswordField(label="密码",
+                         validators=[
+                             EqualTo('pwd', message="两次输入密码不一致")],
+                         description="密码",
+                         render_kw={
+                             "class": "form-control m-input",
+                             "placeholder": "确认密码"
+                         })
+    submit = SubmitField("注册", render_kw={
+        "class": "btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air",
+    })

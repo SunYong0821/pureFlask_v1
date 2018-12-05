@@ -71,15 +71,25 @@ def activate(token):
 def forget_password_request():
     form = ForgetPasswordRequestForm(request.form)
     if request.method == "POST" and form.validate():
-        pass
+        accoutn_email = form.email.data
+        user = User.query.filter_by(email=accoutn_email).first_or_404()
+        send_mail(to=accoutn_email, subject='重置您的密码', template='email/reset_password.html', user=user,
+                  token=user.generate_token())
+        flash("邮件已发送到你的邮箱" + accoutn_email + "请及时查收")
+        return redirect(url_for('admin.login'))
     return render_template("user/forget_password_request.html", form=form)
 
 
-@admin.route('/forget_password.html', methods=['GET', 'POST'])
-def forget_password():
+@admin.route('/forget_password.html/<token>', methods=['GET', 'POST'])
+def forget_password(token):
     form = ForgetPasswordForm(request.form)
     if request.method == "POST" and form.validate():
-        pass
+        success = User.reset_password(token, form.pwd.data)
+        if success:
+            flash("密码重置成功")
+            return redirect(url_for('admin.login'))
+        else:
+            flash("密码重置失败")
     return render_template("user/forget_password.html", form=form)
 
 

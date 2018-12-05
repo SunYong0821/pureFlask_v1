@@ -57,6 +57,19 @@ class User(UserMixin, db.Model):
             db.session.commit()
         return True
 
+    def reset_password(token, new_password):
+        s = Seralize(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except:
+            return False
+        uid = data.get('id')
+        user = User.query.get(uid)
+        user.password = new_password
+        db.session.add(user)
+        db.session.commit()
+        return True
+
     def check_password(self, pwd):
         return check_password_hash(self._password, pwd)
 
