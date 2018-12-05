@@ -1,5 +1,5 @@
 # coding:utf-8
-from flask_login import login_user, logout_user, login_required, current_user
+from flask_login import login_user, logout_user, login_required
 
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm
 from app.lib.email import send_mail
@@ -103,40 +103,48 @@ def logout():
 
 
 @admin.route('/videolist.html')
+@login_required
 def videolist():
     return render_template('admin/videolist.html')
 
 
 @admin.route('/playvideo.html')
+@login_required
 def playvideo():
     return render_template('admin/playvideo.html')
 
 
 @admin.route('/biotoolslist.html')
+@login_required
 def biotoolslist():
     return render_template('admin/biotoolslist.html')
 
 
 @admin.route('/infotoolslist.html')
+@login_required
 def infotoolslist():
     return render_template('admin/infotoolslist.html')
 
 
 @admin.route('/runtool.html')
+@login_required
 def runtool():
     return render_template('admin/runtool.html')
 
 
 @admin.route('/tools/rev_com.html')
+@login_required
 def rev_com():
     return render_template('admin/tools/rev_com.html')
 
 
 @admin.route('/profile.html')
+@login_required
 def profile():
     return render_template('admin/profile.html')
 
 
 @admin.route('/loginlog.html')
+@login_required
 def loginlog():
     return render_template('admin/loginlog.html')
