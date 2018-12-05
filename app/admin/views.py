@@ -11,7 +11,6 @@ from flask import render_template, redirect, url_for, request, flash
 @admin.route('/')
 @login_required
 def index():
-    print(current_user)
     return render_template('admin/index.html')
 
 
@@ -33,7 +32,9 @@ def login():
             flash("登录成功")
             db.session.add(userlog)
             db.session.commit()
-            return redirect(url_for('admin.index'))
+            next = url_for('admin.index')
+            return redirect(next)
+        flash("密码错误")
     return render_template('user/login.html', form=form)
 
 
