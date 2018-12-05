@@ -112,6 +112,10 @@ def infotoolslist():
 def runtool():
     return render_template('admin/runtool.html')
 
+@admin.route('/tools/rev_com.html')
+def rev_com():
+    return render_template('admin/tools/rev_com.html')
+
 
 @admin.route('/profile.html')
 def profile():
