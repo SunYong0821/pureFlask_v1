@@ -1,0 +1,115 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title">
+                DNA反向互补
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-6">
+            <!--begin::Portlet-->
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                DNA反向互补
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="m-form">
+                    <div class="m-portlet__body">
+                        <div class="m-form__group form-group">
+                            <div>
+                                <input id="input-1" name="input-1" type="file" class="file">
+                            </div>
+                            <br>
+                            <div class="m-radio-inline">
+                                <label class="m-radio">
+                                    <input type="radio" name="example_1" value="1" checked="checked">
+                                    反向
+                                    <span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input type="radio" name="example_1" value="2">
+                                    互补
+                                    <span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input type="radio" name="example_1" value="3">
+                                    反向互补
+                                    <span></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit">
+                        <div class="m-form__actions m-form__actions">
+                            <button type="submit" class="btn btn-primary">
+                                提交
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+
+
+        <div class="col-lg-6">
+            <!--begin::Portlet-->
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                说明：
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="m-form">
+                    <div class="m-portlet__body">
+                        <div class="m-list-timeline">
+                            <div class="m-list-timeline__items">
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                        上传文件格式为txt，或者是fasta格式
+                                    </span>
+                                </div>
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                        根据上传格式自动判断每行内容，并根据上传格式输出相应的结果
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
+
+{% endblock%}
