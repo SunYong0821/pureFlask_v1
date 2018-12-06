@@ -1,5 +1,5 @@
 # coding:utf-8
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm
 from app.lib.email import send_mail
@@ -149,8 +149,9 @@ def profile():
 def loginlog(page=None):
     if page is None:
         page = 1
-    page_data = Userlog.query.order_by(
+    page_data = Userlog.query.filter_by(
+        user_id = int(current_user.id)
+    ).order_by(
         Userlog.addtime.desc()
-    ).paginate(page=page, per_page=6)
-    print(page_data.pages)
+    ).paginate(page=page, per_page=10)
     return render_template('admin/loginlog.html', page_data=page_data)

@@ -1,37 +1,33 @@
 {% macro page(data, url) %}
 {% if data %}
-<ul class="m-datatable__pager-nav" style="margin: auto;">
-    <li><a href="{{ url_for(url, page=1)}}" title="First" class="m-datatable__pager-link m-datatable__pager-link--first"
-            ><i class="la la-angle-double-left"></i></a></li>
+<ul class="m-datatable__pager-nav" style="margin: auto;text-decoration: none;">
+    <li><a href="{{ url_for(url, page=1)}}" title="First" class="m-datatable__pager-link m-datatable__pager-link--first"><i
+                class="la la-angle-double-left"></i></a></li>
 
     {% if data.has_prev %}
-    <li><a href="{{ url_for(url, page=data.prev_num)}}" title="Previous" class="m-datatable__pager-link m-datatable__pager-link--prev"
-            ><i class="la la-angle-left"></i></a></li>
-    {% else %}
-    <li><a title="Previous" class="m-datatable__pager-link m-datatable__pager-link--prev"  disabled="disabled"><i
+    <li><a href="{{ url_for(url, page=data.prev_num)}}" title="Previous" class="m-datatable__pager-link m-datatable__pager-link--prev"><i
                 class="la la-angle-left"></i></a></li>
+    {% else %}
+    <li><a title="Previous" class="m-datatable__pager-link m-datatable__pager-link--prev" disabled="disabled"><i class="la la-angle-left"></i></a></li>
     {% endif %}
 
     {% for v in data.iter_pages() %}
     {% if v == data.page %}
-    <li><a href="" class="m-datatable__pager-link m-datatable__pager-link-number m-datatable__pager-link--active"
-             title="1">{{ v }}</a></li>
+    <li><a href="" class="m-datatable__pager-link m-datatable__pager-link-number m-datatable__pager-link--active">{{ v }}</a></li>
     {% else %}
-    <li><a href="{{ url_for(url, page=v)}}" class="m-datatable__pager-link m-datatable__pager-link-number" 
-            title="1">{{ v }}</a></li>
+    <li><a href="{{ url_for(url, page=v)}}" class="m-datatable__pager-link m-datatable__pager-link-number">{{ v }}</a></li>
     {% endif %}
     {% endfor %}
 
     {% if data.has_next %}
-    <li><a href="{{ url_for(url, page=data.next_num)}}" title="Next" class="m-datatable__pager-link m-datatable__pager-link--next"
-            ><i class="la la-angle-right"></i></a></li>
-    {% else %}
-    <li><a title="Next" class="m-datatable__pager-link m-datatable__pager-link--next" disabled="disabled"><i
+    <li><a href="{{ url_for(url, page=data.next_num)}}" title="Next" class="m-datatable__pager-link m-datatable__pager-link--next"><i
                 class="la la-angle-right"></i></a></li>
+    {% else %}
+    <li><a title="Next" class="m-datatable__pager-link m-datatable__pager-link--next" disabled="disabled"><i class="la la-angle-right"></i></a></li>
     {% endif %}
 
-    <li><a href="{{ url_for(url, page=data.pages)}}" title="Last" class="m-datatable__pager-link m-datatable__pager-link--last"
-            ><i class="la la-angle-double-right"></i></a></li>
+    <li><a href="{{ url_for(url, page=data.pages)}}" title="Last" class="m-datatable__pager-link m-datatable__pager-link--last"><i
+                class="la la-angle-double-right"></i></a></li>
 </ul>
 {% endif %}
 {% endmacro %}
