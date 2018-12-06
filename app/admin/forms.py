@@ -1,10 +1,10 @@
 # coding:utf-8
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, validators
+from wtforms import StringField, PasswordField, SubmitField, FileField, validators
 from wtforms.validators import DataRequired, Length, EqualTo, Regexp
 
 from app.models import User
-
+import re
 
 class Nonevalidators(object):
 
@@ -141,3 +141,22 @@ class ForgetPasswordForm(FlaskForm):
     submit = SubmitField("重置", render_kw={
         "class": "btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air",
     })
+
+class RevComForm(FlaskForm):
+    txt = FileField(
+        label = 'fasta|txt',
+        validators=[Nonevalidators(message="请上传文件")],
+        render_kw={"class":"file"}
+    )
+
+
+
+    def validate_txt(form, field):
+        if field.data:
+            field.data = re.sub(r'[^a-z0-9_\.-]', '_', field.data)
+
+    def upload(request):
+        form = RevComForm(request.POST)
+        if form.txt.data:
+            txt_data = request.FILES[form.txt.name].read()
+            open(os.path.join(UPLOAD_PATH, form.image.data), 'w').write(image_data)

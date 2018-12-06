@@ -122,25 +122,18 @@ def biotoolslist():
     ).order_by(
         Toolslist.id
     ).all()
-    return render_template('admin/biotoolslist.html',tools_list=tools_list)
+    return render_template('admin/biotoolslist.html', tools_list=tools_list)
 
 
 @admin.route('/infotoolslist.html')
 @login_required
 def infotoolslist():
-    return render_template('admin/infotoolslist.html')
-
-
-@admin.route('/runtool.html')
-@login_required
-def runtool():
-    return render_template('admin/runtool.html')
-
-
-@admin.route('/tools/rev_com.html')
-@login_required
-def rev_com():
-    return render_template('admin/tools/rev_com.html')
+    tools_list = Toolslist.query.filter_by(
+        group="info"
+    ).order_by(
+        Toolslist.id
+    ).all()
+    return render_template('admin/infotoolslist.html', tools_list=tools_list)
 
 
 @admin.route('/profile.html')
@@ -155,8 +148,14 @@ def loginlog(page=None):
     if page is None:
         page = 1
     page_data = Userlog.query.filter_by(
-        user_id = int(current_user.id)
+        user_id=int(current_user.id)
     ).order_by(
         Userlog.addtime.desc()
     ).paginate(page=page, per_page=10)
     return render_template('admin/loginlog.html', page_data=page_data)
+
+
+@admin.route('/tools/rev_com.html')
+@login_required
+def rev_com():
+    return render_template('admin/tools/rev_com.html')
