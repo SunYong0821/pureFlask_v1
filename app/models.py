@@ -10,6 +10,8 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Seralize
 
 from app import login_manager, db
 
+import os, pathlib
+
 
 class User(UserMixin, db.Model):
     __tablename__ = "user"
@@ -55,6 +57,7 @@ class User(UserMixin, db.Model):
             u.confirm = True
             db.session.add(u)
             db.session.commit()
+            os.makedirs(pathlib.Path('./app/static/user/' + u.name))
         return True
 
     def reset_password(token, new_password):
@@ -67,7 +70,6 @@ class User(UserMixin, db.Model):
         user = User.query.get(uid)
         user.password = new_password
         db.session.add(user)
-        db.session.commit()
         return True
 
     def check_password(self, pwd):

@@ -13,10 +13,10 @@
                 <div class="m-card-profile__details">
                     <span class="m-card-profile__name">
                         {{ current_user.name }}
-                    </span>
+                    </span><!-- 
                     <span class="m-card-profile__email m-link">
                         {{ current_user.email }}
-                    </span>
+                    </span> -->
                 </div>
             </div>
             <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides">
@@ -45,7 +45,7 @@
                 </li>
                 <li class="m-nav__item">
                     <a href="{{ url_for('admin.loginlog', page=1) }}" class="m-nav__link">
-                        <i class="m-nav__link-icon flaticon-share"></i>
+                        <i class="m-nav__link-icon flaticon-notes"></i>
                         <span class="m-nav__link-text">
                             登陆日志
                         </span>

@@ -119,8 +119,9 @@ def playvideo():
 def biotoolslist():
     tools_list = Toolslist.query.filter_by(
         group="bio"
+    ).order_by(
+        Toolslist.id
     ).all()
-    print(tools_list)
     return render_template('admin/biotoolslist.html',tools_list=tools_list)
 
 

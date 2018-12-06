@@ -138,6 +138,6 @@ class ForgetPasswordForm(FlaskForm):
                              "class": "form-control m-input",
                              "placeholder": "确认密码"
                          })
-    submit = SubmitField("注册", render_kw={
+    submit = SubmitField("重置", render_kw={
         "class": "btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air",
     })
