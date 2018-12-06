@@ -12,13 +12,13 @@
     {% endif %}
 
     {% for v in data.iter_pages() %}
-        {%  if v %}
-    {% if v == data.page %}
-    <li><a href="" class="m-datatable__pager-link m-datatable__pager-link-number m-datatable__pager-link--active">{{ v }}</a></li>
-    {% else %}
-   <li><a href="{{ url_for(url, page=v)}}" class="m-datatable__pager-link m-datatable__pager-link-number">{{ v }}</a></li>
-    {% endif %}
-        {% endif  %}
+        {% if v %}
+            {% if v == data.page %}
+                <li><a href="" class="m-datatable__pager-link m-datatable__pager-link-number m-datatable__pager-link--active">{{ v }}</a></li>
+            {% else %}
+                <li><a href="{{ url_for(url, page=v)}}" class="m-datatable__pager-link m-datatable__pager-link-number">{{ v }}</a></li>
+            {% endif %}
+        {% endif %}
     {% endfor %}
 
     {% if data.has_next %}
