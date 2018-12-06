@@ -1,7 +1,7 @@
 # coding:utf-8
 from flask_login import login_user, logout_user, login_required, current_user
 
-from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm
+from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm
 from app.lib.email import send_mail
 from app.models import User, db, Userlog, Toolslist
 from . import admin
@@ -155,7 +155,8 @@ def loginlog(page=None):
     return render_template('admin/loginlog.html', page_data=page_data)
 
 
-@admin.route('/tools/rev_com.html')
+@admin.route('/tools/rev_com.html', methods=["GET", "POST"])
 @login_required
 def rev_com():
-    return render_template('admin/tools/rev_com.html')
+    form = RevComForm()
+    return render_template('admin/tools/rev_com.html', form=form)

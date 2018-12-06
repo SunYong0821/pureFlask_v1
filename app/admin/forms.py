@@ -1,7 +1,7 @@
 # coding:utf-8
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, FileField, validators
-from wtforms.validators import DataRequired, Length, EqualTo, Regexp
+from wtforms import StringField, PasswordField, SubmitField, FileField, RadioField
+from wtforms.validators import ValidationError, DataRequired, Length, EqualTo, Regexp, InputRequired
 
 from app.models import User
 import re
@@ -13,23 +13,18 @@ class Nonevalidators(object):
 
     def __call__(self, form, field):
         if field.data == "":
-            raise validators.StopValidation(self.message)  # StopValidation 不再继续后面的验证  ValidationError 继续后面的验证
+            raise ValidationError(self.message)  # StopValidation 不再继续后面的验证  ValidationError 继续后面的验证
         return None
 
 
 class LoginForm(FlaskForm):
     email = StringField(
         label='账号',
-        validators=[
-            Nonevalidators('请输入邮箱'),
-            Length(2, 30, message=u'电子邮箱不符合规范')
-
-        ],
+        validators=[Nonevalidators('请输入邮箱')],
         description='账号',
         render_kw={
             'class': 'form-control m-input',
-            'placeholder': '请输入账号',
-
+            'placeholder': '请输入账号'
         }
     )
     pwd = PasswordField(
@@ -42,7 +37,6 @@ class LoginForm(FlaskForm):
         render_kw={
             'class': 'form-control',
             'placeholder': '请输入密码',
-
         }
     )
     submit = SubmitField(
@@ -107,7 +101,7 @@ class ForgetPasswordRequestForm(FlaskForm):
     email = StringField(label="邮箱",
                         validators=[
                             Nonevalidators(message="请输入邮箱"),
-                            Length(4, 24, message="电子邮箱不符合规范"),
+                            Regexp(r"\w+@microanaly\.com", message="电子邮箱不符合规范")
                         ],
                         description="账号",
                         render_kw={
@@ -145,18 +139,13 @@ class ForgetPasswordForm(FlaskForm):
 class RevComForm(FlaskForm):
     txt = FileField(
         label = 'fasta|txt',
-        validators=[Nonevalidators(message="请上传文件")],
+        validators=[InputRequired("文件未上传")],
         render_kw={"class":"file"}
     )
-
-
-
-    def validate_txt(form, field):
-        if field.data:
-            field.data = re.sub(r'[^a-z0-9_\.-]', '_', field.data)
-
-    def upload(request):
-        form = RevComForm(request.POST)
-        if form.txt.data:
-            txt_data = request.FILES[form.txt.name].read()
-            open(os.path.join(UPLOAD_PATH, form.image.data), 'w').write(image_data)
+    func = RadioField(
+        label = "run single function",
+        validators=[Nonevalidators("至少选择一项")],
+        choices = [('1', "反向"), ('2', "互补"), ('3', "反向互补")],
+        render_kw={"name":"example_1","class":"m-radio"}
+    )
+    submit = SubmitField("提交", render_kw={"class":"btn btn-primary"})
