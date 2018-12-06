@@ -6,6 +6,7 @@ from wtforms.validators import ValidationError, DataRequired, Length, EqualTo, R
 from app.models import User
 import re
 
+
 class Nonevalidators(object):
 
     def __init__(self, message):
@@ -13,7 +14,8 @@ class Nonevalidators(object):
 
     def __call__(self, form, field):
         if field.data == "":
-            raise ValidationError(self.message)  # StopValidation 不再继续后面的验证  ValidationError 继续后面的验证
+            # StopValidation 不再继续后面的验证  ValidationError 继续后面的验证
+            raise ValidationError(self.message)
         return None
 
 
@@ -92,6 +94,7 @@ class RegisterForm(FlaskForm):
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
             raise validators.StopValidation("邮箱已被注册")
+
     def validate_name(self, field):
         if User.query.filter_by(name=field.data).first():
             raise validators.StopValidation("用户名已被注册")
@@ -133,19 +136,19 @@ class ForgetPasswordForm(FlaskForm):
                              "placeholder": "确认密码"
                          })
     submit = SubmitField("重置", render_kw={
-        "class": "btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air",
-    })
+        "class": "btn btn-focus m-btn m-btn--pill m-btn--custom m-btn--air"})
+
 
 class RevComForm(FlaskForm):
     txt = FileField(
-        label = 'fasta|txt',
+        label='fasta|txt',
         validators=[InputRequired("文件未上传")],
-        render_kw={"class":"file"}
+        render_kw={"class": "file"}
     )
     func = RadioField(
-        label = "run single function",
+        label="run single function",
         validators=[Nonevalidators("至少选择一项")],
-        choices = [('1', "反向"), ('2', "互补"), ('3', "反向互补")],
-        render_kw={"name":"example_1","class":"m-radio"}
+        choices=[('1', "反向"), ('2', "互补"), ('3', "反向互补")],
+        render_kw={"name": "example_1", "class": "m-radio"}
     )
-    submit = SubmitField("提交", render_kw={"class":"btn btn-primary"})
+    submit = SubmitField("提交", render_kw={"class": "btn btn-primary"})
