@@ -12,10 +12,10 @@
                 </div>
                 <div class="m-card-profile__details">
                     <span class="m-card-profile__name">
-                        {{ current_user }}
+                        {{ current_user.name }}
                     </span>
                     <span class="m-card-profile__email m-link">
-                        ???????????????????????
+                        {{ current_user.email }}
                     </span>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     </a>
                 </li>
                 <li class="m-nav__item">
-                    <a href="{{ url_for('admin.loginlog') }}" class="m-nav__link">
+                    <a href="{{ url_for('admin.loginlog', page=1) }}" class="m-nav__link">
                         <i class="m-nav__link-icon flaticon-share"></i>
                         <span class="m-nav__link-text">
                             登陆日志

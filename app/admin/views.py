@@ -144,7 +144,13 @@ def profile():
     return render_template('admin/profile.html')
 
 
-@admin.route('/loginlog.html')
+@admin.route('/loginlog/<int:page>.html', methods=["GET"])
 @login_required
-def loginlog():
-    return render_template('admin/loginlog.html')
+def loginlog(page=None):
+    if page is None:
+        page = 1
+    page_data = Userlog.query.order_by(
+        Userlog.addtime.desc()
+    ).paginate(page=page, per_page=6)
+    print(page_data.pages)
+    return render_template('admin/loginlog.html', page_data=page_data)
