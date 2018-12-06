@@ -57,8 +57,8 @@ class User(UserMixin, db.Model):
             u.confirm = True
             db.session.add(u)
             db.session.commit()
-            os.makedirs(pathlib.Path('./app/static/user/' + u.name + 'profile'))
-            os.makedirs(pathlib.Path('./app/static/user/' + u.name + 'task'))
+            os.makedirs(pathlib.Path('./app/static/user/' + u.name + '/profile'))
+            os.makedirs(pathlib.Path('./app/static/user/' + u.name + '/task'))
         return True
 
     def reset_password(token, new_password):
