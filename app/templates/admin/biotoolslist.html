@@ -28,7 +28,11 @@
 
     <!--Begin::Section-->
     <div class="row">
-
+        {% if not tools_list.items %}
+            !!!!!!!!!!!!!!!!!!!!!!!
+        {% endif %}
+        {% for v in tools_list.items %}
+        
         <div class="col-xl-4">
             <div class="m-portlet m-portlet--full-height">
                 <div class="m-portlet__body">
@@ -43,16 +47,16 @@
                                 <div class="m-widget3__info">
                                     <span class="m-widget3__username">
                                         <a href="{{ url_for('admin.rev_com') }}" style="text-decoration: none">
-                                            <h5>DNA反向互补</h5>
+                                            <h5>{{ v.title }}</h5>
                                         </a>
                                         <br>
-                                        <span class="m-widget3__text">使用次数：100000</span>
+                                        <span class="m-widget3__text">使用次数：{{ v.usenum }}</span>
                                     </span>
                                 </div>
                             </div>
                             <div class="m-widget3__body">
                                 <p class="m-widget3__text">
-                                    将DNA序列进行反向、互补或同时操作
+                                    {{ v.info }}
                                 </p>
                             </div>
                         </div>
@@ -61,6 +65,7 @@
                 <!--end::Total Profit-->
             </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 <!--End::Section-->

@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm
 from app.lib.email import send_mail
-from app.models import User, db, Userlog
+from app.models import User, db, Userlog, Toolslist
 from . import admin
 from flask import render_template, redirect, url_for, request, flash
 
@@ -114,10 +114,14 @@ def playvideo():
     return render_template('admin/playvideo.html')
 
 
-@admin.route('/biotoolslist.html')
+@admin.route('/biotoolslist.html', methods=["GET"])
 @login_required
 def biotoolslist():
-    return render_template('admin/biotoolslist.html')
+    tools_list = Toolslist.query.filter_by(
+        group="bio"
+    ).all()
+    print(tools_list)
+    return render_template('admin/biotoolslist.html',tools_list=tools_list)
 
 
 @admin.route('/infotoolslist.html')
