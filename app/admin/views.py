@@ -12,7 +12,7 @@ from uuid import uuid4
 import os, threading, subprocess
 
 
-@admin.route('/index/<int:page>.html', methods=["GET"])
+@admin.route('/index/<int:page>.html', methods=["GET", "POST"])
 @login_required
 def index(page=None):
     if page is None:
@@ -212,7 +212,7 @@ def rev_com():
             title="DNA反向互补",
             taskid=uuid,
             status="进行中",
-            resulturl=inputfile,
+            resulturl=inputfile+".gz",
             user_id=int(current_user.id)
         )
         db.session.add(task)
