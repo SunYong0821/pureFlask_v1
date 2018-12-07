@@ -1,4 +1,4 @@
-import sys, os, gzip, subprocess
+import sys, os, subprocess
 
 def rev(seq):
     return seq[::-1]
@@ -36,4 +36,4 @@ elif sys.argv[2] == "3":
 else:
     print("参数设置出错！", file=sys.stderr)
 
-subprocess.run("zip " + outdir + '/out.txt.zip ' + outdir + '/out.txt', shell=True)
+subprocess.run("gzip -c " + outdir + '/out.txt ' + outdir + '/out.txt.gz', shell=True)
