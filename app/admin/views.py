@@ -1,4 +1,5 @@
 # coding:utf-8
+from flask import current_app
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm, \
@@ -8,7 +9,7 @@ from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvi
 from . import admin
 from flask import render_template, redirect, url_for, request, flash
 from uuid import uuid4
-import os
+import os, threading, subprocess
 
 
 @admin.route('/')
@@ -173,16 +174,33 @@ def loginlog(page=None):
     return render_template('admin/loginlog.html', page_data=page_data)
 
 
+def runtools(app, script, uuid):
+    with app.app_context():
+        rc = subprocess.run(script, shell=True)
+        tl = Tasklist.query.filter_by(taskid=uuid).first()
+        if rc.returncode == 0:
+            tl.status = "已完成"
+            db.session.add(tl)
+        else:
+            tl.status = "服务区故障"
+            db.session.add(tl)
+        db.session.commit()
+
+
 @admin.route('/tools/rev_com.html', methods=["GET", "POST"])
 @login_required
 def rev_com():
     form = RevComForm()
     if form.validate_on_submit():
+
+        # 保存文件
         filename = secure_filename(form.url.data.filename)
         uuid = uuid4().hex
-        tdir = "./app/static/user/" + current_user.name + "/" + uuid
-        os.makedirs(tdir)
-        form.url.data.save(tdir + "/" + filename)
+        taskdir = "./app/static/user/" + current_user.name + "/task/" + uuid
+        os.makedirs(taskdir)
+        form.url.data.save(taskdir + "/" + filename)
+
+        # 导入任务数据库
         task = Tasklist(
             title="DNA反向互补",
             taskid=uuid,
@@ -191,5 +209,13 @@ def rev_com():
         )
         db.session.add(task)
         db.session.commit()
+
+        # 异步运行执行程序
+        programpath = "python ./app/static/program/rev_com/rev_com.py "
+        script = programpath + filename + " " + form.func.data
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/rev_com.html', form=form)
