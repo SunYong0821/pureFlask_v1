@@ -138,17 +138,18 @@ def infotoolslist():
     return render_template('admin/infotoolslist.html', tools_list=tools_list)
 
 
-@admin.route('/profile.html')
+@admin.route('/profile.html', methods=['GET', 'POST'])
 @login_required
 def profile():
     form = EditProfileForm()
     if form.validate_on_submit():
-        current_user.name = form.name.data
+
         current_user.info = form.info.data
         db.session.add(current_user)
         db.session.commit()
         flash('个人信息更改成功')
-    form.name.data = current_user.name
+        return render_template('admin/profile.html', form=form)
+
     form.info.data = current_user.info
     return render_template('admin/profile.html', form=form)
 
@@ -165,7 +166,6 @@ def loginlog(page=None):
     ).paginate(page=page, per_page=10)
     return render_template('admin/loginlog.html', page_data=page_data)
 
- 
 
 @admin.route('/tools/rev_com.html', methods=["GET", "POST"])
 @login_required

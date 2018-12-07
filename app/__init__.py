@@ -1,9 +1,10 @@
 # coding:utf-8
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 import pymysql
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
+from datetime import timedelta
 
 mail = Mail()
 login_manager = LoginManager()
@@ -19,6 +20,9 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'admin.login'
     login_manager.login_message = "请先登录或注册"
+    # session.permanent = True
+    # app.permanent_session_lifetime = timedelta(seconds=5)
+    login_manager.remember_cookie_duration = timedelta(days=1)
     db.init_app(app)
 
     @app.errorhandler(404)
