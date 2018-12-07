@@ -1,6 +1,6 @@
 # coding:utf-8
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, FileField, RadioField
+from wtforms import StringField, PasswordField, SubmitField, FileField, RadioField, TextField
 from wtforms.validators import ValidationError, DataRequired, Length, EqualTo, Regexp, InputRequired
 
 from app.models import User
@@ -153,3 +153,22 @@ class RevComForm(FlaskForm):
     )
     submit = SubmitField("提交", render_kw={
         "class": "btn btn-primary"})
+
+
+class EditProfileForm(FlaskForm):
+    name = StringField(label=u"用户名",
+                       validators=[
+                           Nonevalidators(message="请输入用户名"),
+                           Length(2, 10,
+                                  message=u"用户名至少需要两个字符,最多10个字符")],
+                       render_kw={
+                           "class": "form-control m-input",
+                           "placeholder": u"用户名昵称",
+                       })
+    info = StringField(label="个性签名", validators=[Length(0, 50)], render_kw={
+        "class": "form-control m-input",
+        "placeholder": u"个性签名",
+    })
+    submit = SubmitField("保存", render_kw={
+        "class": "btn btn-accent m-btn m-btn--air m-btn--custom",
+    })

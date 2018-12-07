@@ -1,7 +1,8 @@
 # coding:utf-8
 from flask_login import login_user, logout_user, login_required, current_user
 
-from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm
+from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm, \
+    EditProfileForm
 from app.lib.email import send_mail
 from app.models import User, db, Userlog, Toolslist, Tasklist
 from . import admin
@@ -139,7 +140,15 @@ def infotoolslist():
 @admin.route('/profile.html')
 @login_required
 def profile():
-    return render_template('admin/profile.html')
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        current_user.name = form.name.data
+        current_user.info = form.info.data
+        db.session.add(current_user)
+        flash('个人信息更改成功')
+    form.name.data = current_user.name
+    form.info.data = current_user.name
+    return render_template('admin/profile.html', form=form)
 
 
 @admin.route('/loginlog/<int:page>.html', methods=["GET"])
