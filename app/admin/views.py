@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm, \
     EditProfileForm
 from app.lib.email import send_mail
-from app.models import User, db, Userlog, Toolslist, Tasklist
+from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvideo
 from . import admin
 from flask import render_template, redirect, url_for, request, flash
 from uuid import uuid4
@@ -107,13 +107,26 @@ def logout():
 @admin.route('/videolist.html')
 @login_required
 def videolist():
-    return render_template('admin/videolist.html')
+    video_list = Videolist.find_all_video_by_page()
+    return render_template('admin/videolist.html', video_list=video_list)
 
 
-@admin.route('/playvideo.html')
+@admin.route('/<int:id>/playvideo.html', methods=['GET', 'POST'])
 @login_required
-def playvideo():
-    return render_template('admin/playvideo.html')
+def play_video(id):
+    play_video = Playvideo.query.filter_by(videolist_id=id).first()
+    return render_template('admin/playvideo.html', play_video=play_video)
+
+
+@admin.route('/<int:video_list_id>/<int:id>/playvideo_list.html', methods=['GET', 'POST'])
+@login_required
+def play_video_list(video_list_id, id):
+    play_video = Playvideo.query.filter_by(videolist_id=video_list_id).order_by(Playvideo.addtime).distinct().all()
+    if id == 0:
+        video = play_video[0]
+    else:
+        video = Playvideo.query.filter_by(id=id).first()
+    return render_template('admin/playvideo.html', play_video=play_video, video=video)
 
 
 @admin.route('/biotoolslist.html', methods=["GET"])
@@ -143,7 +156,6 @@ def infotoolslist():
 def profile():
     form = EditProfileForm()
     if form.validate_on_submit():
-
         current_user.info = form.info.data
         db.session.add(current_user)
         db.session.commit()

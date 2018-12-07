@@ -2,59 +2,54 @@
 
 {% block content %}
 
-<div class="m-subheader ">
-    <div class="d-flex align-items-center">
-        <div class="mr-auto">
-            <h3 class="m-subheader__title ">
-                内部培训视频
-            </h3>
-        </div>
-        <!-- <div>
-                <span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
-                    <span class="m-subheader__daterange-label">
-                        <span class="m-subheader__daterange-title"></span>
-                        <span class="m-subheader__daterange-date m--font-brand"></span>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title ">
+                    内部培训视频
+                </h3>
+            </div>
+            <!-- <div>
+                    <span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
+                        <span class="m-subheader__daterange-label">
+                            <span class="m-subheader__daterange-title"></span>
+                            <span class="m-subheader__daterange-date m--font-brand"></span>
+                        </span>
+                        <a href="#" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                            <i class="la la-angle-down"></i>
+                        </a>
                     </span>
-                    <a href="#" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
-                        <i class="la la-angle-down"></i>
-                    </a>
-                </span>
-            </div> -->
+                </div> -->
+        </div>
     </div>
-</div>
-<!-- END: Subheader -->
-<div class="m-content">
+    <!-- END: Subheader -->
+    <div class="m-content">
 
-    <!--Begin::Section-->
-    <div class="row">
-        <div class="col-xl-4">
-            <div class="m-portlet m-portlet--bordered-semi m-portlet--full-height  m-portlet--rounded-force">
-                <!-- <div class="m-portlet__head m-portlet__head--fit">
-                                    <div class="m-portlet__head-caption">
-                                        <div class="m-portlet__head-action">
-                                            <button type="button" class="btn btn-sm m-btn--pill  btn-brand">
-                                                Blog
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div> -->
-                <div class="m-portlet__body">
-                    <div class="m-widget19">
-                        <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides" style="min-height: 250px;">
-                            <a href="{{ url_for('admin.playvideo') }}">
-                                <img src="{{ url_for('static', filename='video/pythonbasic/pythonlog.png') }}" style=" width: 100%"
-                                    alt="">
-                                <h3 class="m-widget19__title m--font-light">
-                                    python基础
-                                </h3>
-                                <div class="m-widget19__shadow"></div>
-                            </a>
+        <!--Begin::Section-->
+        <div class="row">
+            {% for video in video_list %}
+                <div class="col-xl-4">
+                    <div class="m-portlet m-portlet--bordered-semi m-portlet--full-height  m-portlet--rounded-force">
+                        <div class="m-portlet__body">
+                            <div class="m-widget19">
+                                <div class="m-widget19__pic m-portlet-fit--top m-portlet-fit--sides"
+                                     style="min-height: 250px;">
+                                    <a href="{{ url_for('admin.play_video_list',video_list_id=video.id,id=0) }}">
+                                        <img src="{{ url_for('static', filename='video/pythonbasic/pythonlog.png') }}"
+                                             style=" width: 100%"
+                                             alt="">
+                                        <h3 class="m-widget19__title m--font-light">
+                                            {{ video.title }}
+                                        </h3>
+                                        <div class="m-widget19__shadow"></div>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-xl-4">
+            {% endfor %}
+            {# <div class="col-xl-4">
             <div class="m-portlet m-portlet--bordered-semi m-portlet--full-height  m-portlet--rounded-force">
                 <!-- <div class="m-portlet__head m-portlet__head--fit">
                                         <div class="m-portlet__head-caption">
@@ -80,9 +75,9 @@
                     </div>
                 </div>
             </div>
+        </div>#}
         </div>
-    </div>
-    <!--End::Section-->
+        <!--End::Section-->
 
-</div>
-{% endblock%}
+    </div>
+{% endblock %}

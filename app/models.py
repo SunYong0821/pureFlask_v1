@@ -121,6 +121,11 @@ class Videolist(db.Model):
 
     playvideo = db.relationship('Playvideo', backref='videolist')
 
+    @classmethod
+    def find_all_video_by_page(cls):
+        videolist = Videolist.query.order_by(Videolist.addtime).distinct().all()
+        return videolist
+
     def __repr__(self):
         return f'<Videolist {self.title}>'
 
@@ -151,6 +156,7 @@ class Toolslist(db.Model):
 
     def __repr__(self):
         return f'<Toolslist {self.title}>'
+
 
 class Tasklist(db.Model):
     __tablename__ = 'tasklist'
