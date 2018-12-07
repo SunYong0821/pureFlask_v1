@@ -150,7 +150,6 @@ class Toolslist(db.Model):
     title = db.Column(db.String(255), unique=True)
     img = db.Column(db.String(255))
     info = db.Column(db.Text)
-    usenum = db.Column(db.BigInteger)
     group = db.Column(db.String(100))
     addtime = db.Column(db.DateTime, index=True, default=datetime.now())
 
@@ -164,6 +163,7 @@ class Tasklist(db.Model):
     title = db.Column(db.String(255))
     taskid = db.Column(db.String(255), unique=True)
     status = db.Column(db.String(255))
+    resulturl = db.Column(db.String(255))
     addtime = db.Column(db.DateTime, index=True, default=datetime.now())
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))

@@ -182,7 +182,7 @@ def runtools(app, script, uuid):
             tl.status = "已完成"
             db.session.add(tl)
         else:
-            tl.status = "服务区故障"
+            tl.status = "服务器故障"
             db.session.add(tl)
         db.session.commit()
 
@@ -198,13 +198,15 @@ def rev_com():
         uuid = uuid4().hex
         taskdir = "./app/static/user/" + current_user.name + "/task/" + uuid
         os.makedirs(taskdir)
-        form.url.data.save(taskdir + "/" + filename)
+        inputfile = taskdir + "/" + filename
+        form.url.data.save(inputfile)
 
         # 导入任务数据库
         task = Tasklist(
             title="DNA反向互补",
             taskid=uuid,
             status="进行中",
+            resulturl=taskdir,
             user_id=int(current_user.id)
         )
         db.session.add(task)
@@ -212,7 +214,7 @@ def rev_com():
 
         # 异步运行执行程序
         programpath = "python ./app/static/program/rev_com/rev_com.py "
-        script = programpath + filename + " " + form.func.data
+        script = programpath + inputfile + " " + form.func.data
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
