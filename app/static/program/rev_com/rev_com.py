@@ -36,4 +36,4 @@ elif sys.argv[2] == "3":
 else:
     print("参数设置出错！", file=sys.stderr)
 
-subprocess.run("gzip -c " + outdir + '/out.txt > ' + outdir + '/out.txt.gz', shell=True)
+subprocess.run("gzip -c " + outdir + '/out.txt > ' + outdir + '/out.gz', shell=True)
