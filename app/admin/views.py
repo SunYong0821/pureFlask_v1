@@ -12,13 +12,20 @@ from uuid import uuid4
 import os, threading, subprocess
 
 
-@admin.route('/')
+@admin.route('/index/<int:page>.html', methods=["GET"])
 @login_required
-def index():
-    return render_template('admin/index.html')
+def index(page=None):
+    if page is None:
+        page = 1
+    page_data = Tasklist.query.filter_by(
+        user_id=int(current_user.id)
+    ).order_by(
+        Tasklist.addtime.desc()
+    ).paginate(page=page, per_page=10)
+    return render_template('admin/index.html', page_data=page_data)
 
 
-@admin.route('/login.html', methods=['GET', 'POST'])
+@admin.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -156,7 +163,6 @@ def profile():
         db.session.commit()
         flash('个人信息更改成功')
         return render_template('admin/profile.html', form=form)
-
     form.info.data = current_user.info
     return render_template('admin/profile.html', form=form)
 
