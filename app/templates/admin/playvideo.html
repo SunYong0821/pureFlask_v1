@@ -1,161 +1,99 @@
 {% extends 'admin/base.html' %}
 
 {% block content %}
-<div class="m-subheader ">
-    <div class="d-flex align-items-center">
-        <div class="mr-auto">
-            <h3 class="m-subheader__title ">
-                python基础
-            </h3>
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title ">
+                    python基础
+                </h3>
+            </div>
         </div>
     </div>
-</div>
-<!-- END: Subheader -->
-<div class="m-content">
+    <!-- END: Subheader -->
+    <div class="m-content">
 
-    <!--Begin::Section-->
-    <div class="m-portlet">
-        <div class="m-portlet__body  m-portlet__body--no-padding">
-            <div class="row m-row--no-padding m-row--col-separator-xl">
-                <div class="col-xl-8">
-                    <!--begin:: Widgets/Stats2-1 -->
-                    <div class="m-widget1">
+        <!--Begin::Section-->
+        <div class="m-portlet">
+            <div class="m-portlet__body  m-portlet__body--no-padding">
+                <div class="row m-row--no-padding m-row--col-separator-xl">
+                    <div class="col-xl-8">
+                        <!--begin:: Widgets/Stats2-1 -->
+                        <div class="m-widget1">
 
-                        <div class="m-widget1__item">
-                            <div class="row m-row--no-padding align-items-center">
-                                <div class="zoom-container" style="width:100%;height:100%">
-                                    <video controls controlsList="nodownload" style="width: 100%; height: 100%; background-color: rgb(0, 0, 0);"
-                                        src="{{ url_for('static', filename='video/pythonbasic/0._漫谈生物信息分析.mp4') }}">
-                                    </video>
+                            <div class="m-widget1__item">
+                                <div class="row m-row--no-padding align-items-center">
+                                    <div class="zoom-container" style="width:100%;height:100%">
+                                        <video controls controlsList="nodownload"
+                                               style="width: 100%; height: 100%; background-color: rgb(0, 0, 0);"
+                                               src="{{ url_for('static', filename=video.url ) }}">
+                                        </video>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="m-widget1__item">
-                            <div class="row m-row--no-padding align-items-center">
-                                <div class="col">
+                            <div class="m-widget1__item">
+                                <div class="row m-row--no-padding align-items-center">
+                                    <div class="col">
                                     <span class="m-widget1__desc">
                                         讲解人：XXX
                                     </span>
-                                </div>
-                                <div class="col m--align-right">
+                                    </div>
+                                    <div class="col m--align-right">
                                     <span class="m-widget1__desc">
                                         播放量：100000
                                     </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <!--end:: Widgets/Stats2-1 -->
                     </div>
-                    <!--end:: Widgets/Stats2-1 -->
-                </div>
-                <div class="col-xl-4">
-                    <!--begin:: Widgets/Daily Sales-->
-                    <div class="m-widget14">
-                        <div class="m-widget14__header">
-                            <h3 class="m-widget14__title">
-                                播放列表
-                            </h3>
-                        </div>
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="m_widget4_tab1_content">
-                                <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true" data-height="400"
-                                    style="height: 320px; overflow: hidden;">
-                                    <div class="m-list-timeline m-list-timeline--skin-light">
-                                        <div class="m-list-timeline__items">
+                    <div class="col-xl-4">
+                        <!--begin:: Widgets/Daily Sales-->
+                        <div class="m-widget14">
+                            <div class="m-widget14__header">
+                                <h3 class="m-widget14__title">
+                                    播放列表
+                                </h3>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="m_widget4_tab1_content">
+                                    <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true"
+                                         data-height="400"
+                                         style="height: 320px; overflow: hidden;">
+                                        <div class="m-list-timeline m-list-timeline--skin-light">
+                                            {# <div class="m-list-timeline__items">
                                             <div class="m-list-timeline__item">
                                                 <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
 
                                                 <span class="m-list-timeline__text"><a href="{{ url_for('static', filename='video/pythonbasic/0._漫谈生物信息分析.mp4') }}"
                                                         style="text-decoration: none;color:#575962 ">0._漫谈生物信息分析</a></span>
                                             </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
+                                        </div>#}
+                                            {% for video_list in play_video %}
+                                                <div class="m-list-timeline__items">
+                                                    <div class="m-list-timeline__item">
+                                                        <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
 
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
+                                                        <span class="m-list-timeline__text"><a
+                                                                href="{{ url_for('admin.play_video_list',video_list_id=video_list.videolist_id, id = video_list.id) }}
 
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
-                                        </div>
-                                        <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                <span class="m-list-timeline__text"><a href="#" style="text-decoration: none">adfsdadfaaaaaaaaaaaaaaaaaaaasFADSF</a></span>
-                                            </div>
+                                                                    "
+                                                                style="text-decoration: none">{{ video_list.title }}</a></span>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!--end:: Widgets/Daily Sales-->
                     </div>
-                    <!--end:: Widgets/Daily Sales-->
                 </div>
             </div>
         </div>
+        <!--End::Section-->
     </div>
-    <!--End::Section-->
-</div>
 
 {% endblock %}
