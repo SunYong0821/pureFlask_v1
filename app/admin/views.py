@@ -111,17 +111,11 @@ def videolist():
     return render_template('admin/videolist.html', video_list=video_list)
 
 
-@admin.route('/<int:id>/playvideo.html', methods=['GET', 'POST'])
-@login_required
-def play_video(id):
-    play_video = Playvideo.query.filter_by(videolist_id=id).first()
-    return render_template('admin/playvideo.html', play_video=play_video)
-
-
 @admin.route('/<int:video_list_id>/<int:id>/playvideo_list.html', methods=['GET', 'POST'])
 @login_required
 def play_video_list(video_list_id, id):
-    play_video = Playvideo.query.filter_by(videolist_id=video_list_id).order_by(Playvideo.addtime).distinct().all()
+    play_video = Playvideo.query.filter_by(
+        videolist_id=video_list_id).order_by(Playvideo.addtime).all()
     if id == 0:
         video = play_video[0]
     else:

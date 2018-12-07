@@ -1,7 +1,7 @@
 # coding:utf-8
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, FileField, RadioField, TextField
-from wtforms.validators import ValidationError, DataRequired, Length, EqualTo, Regexp, InputRequired
+from wtforms.validators import ValidationError, Length, EqualTo, Regexp
 
 from app.models import User
 import re
@@ -142,7 +142,7 @@ class ForgetPasswordForm(FlaskForm):
 class RevComForm(FlaskForm):
     url = FileField(
         label='fasta|txt',
-        validators=[InputRequired("文件未上传")],
+        validators=[Nonevalidators("请上传一个文件")],
         render_kw={"class": "file"}
     )
     func = RadioField(
@@ -153,7 +153,6 @@ class RevComForm(FlaskForm):
     )
     submit = SubmitField("提交", render_kw={
         "class": "btn btn-primary"})
-
 
 class EditProfileForm(FlaskForm):
     name = StringField(label=u"用户名",
