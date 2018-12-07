@@ -3,9 +3,10 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm
 from app.lib.email import send_mail
-from app.models import User, db, Userlog, Toolslist
+from app.models import User, db, Userlog, Toolslist, Tasklist
 from . import admin
 from flask import render_template, redirect, url_for, request, flash
+from uuid import uuid4
 
 
 @admin.route('/')
@@ -32,8 +33,7 @@ def login():
             flash("登录成功")
             db.session.add(userlog)
             db.session.commit()
-            next = url_for('admin.index')
-            return redirect(next)
+            return redirect(url_for('admin.index'))
         flash("密码错误")
     return render_template('user/login.html', form=form)
 
@@ -120,7 +120,7 @@ def biotoolslist():
     tools_list = Toolslist.query.filter_by(
         group="bio"
     ).order_by(
-        Toolslist.id
+        Toolslist.addtime
     ).all()
     return render_template('admin/biotoolslist.html', tools_list=tools_list)
 
@@ -131,7 +131,7 @@ def infotoolslist():
     tools_list = Toolslist.query.filter_by(
         group="info"
     ).order_by(
-        Toolslist.id
+        Toolslist.addtime
     ).all()
     return render_template('admin/infotoolslist.html', tools_list=tools_list)
 
@@ -159,4 +159,16 @@ def loginlog(page=None):
 @login_required
 def rev_com():
     form = RevComForm()
+    if form.validate_on_submit():
+        data = form.data
+        uuid = uuid4().hex
+        task = Tasklist(
+            title="DNA反向互补",
+            taskid=uuid,
+            status="进行中",
+            user_id=int(current_user.id)
+        )
+        db.session.add(task)
+        db.session.commit()
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/rev_com.html', form=form)

@@ -22,12 +22,14 @@ class User(UserMixin, db.Model):
     info = db.Column(db.Text)
     img = db.Column(db.String(255))
     addtime = db.Column(db.DateTime, index=True, default=datetime.now())
-    uuid = db.Column(db.String(255), unique=True)
+    confirm = db.Column(db.Boolean, default=False)
 
     userlogs = db.relationship('Userlog', backref='user')
+    task_id = db.relationship('Tasklist', backref='user')
+
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+
     # 当前账号激活状态
-    confirm = db.Column(db.Boolean, default=False)
 
     @property
     def password(self):
@@ -149,6 +151,19 @@ class Toolslist(db.Model):
 
     def __repr__(self):
         return f'<Toolslist {self.title}>'
+
+class Tasklist(db.Model):
+    __tablename__ = 'tasklist'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255))
+    taskid = db.Column(db.String(255), unique=True)
+    status = db.Column(db.String(255))
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+
+    def __repr__(self):
+        return f'<Tasklist {self.title}>'
 
 
 if __name__ == '__main__':

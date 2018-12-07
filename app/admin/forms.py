@@ -151,4 +151,5 @@ class RevComForm(FlaskForm):
         choices=[('1', "反向"), ('2', "互补"), ('3', "反向互补")],
         render_kw={"name": "example_1", "class": "m-radio"}
     )
-    submit = SubmitField("提交", render_kw={"class": "btn btn-primary"})
+    submit = SubmitField("提交", render_kw={
+                         "class": "btn btn-primary"})
