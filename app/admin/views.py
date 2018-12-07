@@ -1,5 +1,5 @@
 # coding:utf-8
-from flask import current_app
+from flask import current_app, send_file
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm, \
@@ -23,6 +23,10 @@ def index(page=None):
         Tasklist.addtime.desc()
     ).paginate(page=page, per_page=10)
     return render_template('admin/index.html', page_data=page_data)
+
+@admin.route("/download/<filename>", methods=['GET'])
+def download(filename):
+    return send_file(filename, as_attachment=True)
 
 
 @admin.route('/', methods=['GET', 'POST'])

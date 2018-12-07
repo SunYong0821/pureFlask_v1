@@ -66,7 +66,7 @@
                                     <td data-field="status">{{ v.status }}</td>
                                     {% if v.status == "已完成" %}
                                     <td data-field="result">
-                                        <a href="{{ v.resulturl|replace('/index', '') }}" class="btn btn-success m-btn m-btn--icon m-btn--icon-only">
+                                        <a href="{{ url_for('admin.download', filename=v.resulturl) }}" class="btn btn-success m-btn m-btn--icon m-btn--icon-only">
                                             <i class="fa fa-download"></i></a></td>
                                     {% else %}
                                     <td data-field="result">
