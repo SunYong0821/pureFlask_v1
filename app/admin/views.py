@@ -1,12 +1,13 @@
 # coding:utf-8
 from flask_login import login_user, logout_user, login_required, current_user
-
+from werkzeug.utils import secure_filename
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm
 from app.lib.email import send_mail
 from app.models import User, db, Userlog, Toolslist, Tasklist
 from . import admin
 from flask import render_template, redirect, url_for, request, flash
 from uuid import uuid4
+import os
 
 
 @admin.route('/')
@@ -154,14 +155,18 @@ def loginlog(page=None):
     ).paginate(page=page, per_page=10)
     return render_template('admin/loginlog.html', page_data=page_data)
 
+ 
 
 @admin.route('/tools/rev_com.html', methods=["GET", "POST"])
 @login_required
 def rev_com():
     form = RevComForm()
     if form.validate_on_submit():
-        data = form.data
+        filename = secure_filename(form.url.data.filename)
         uuid = uuid4().hex
+        tdir = "./app/static/user/" + current_user.name + "/" + uuid
+        os.makedirs(tdir)
+        form.url.data.save(tdir + "/" + filename)
         task = Tasklist(
             title="DNA反向互补",
             taskid=uuid,

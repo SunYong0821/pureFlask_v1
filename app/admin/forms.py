@@ -140,7 +140,7 @@ class ForgetPasswordForm(FlaskForm):
 
 
 class RevComForm(FlaskForm):
-    txt = FileField(
+    url = FileField(
         label='fasta|txt',
         validators=[InputRequired("文件未上传")],
         render_kw={"class": "file"}
