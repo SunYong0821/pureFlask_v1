@@ -146,9 +146,10 @@ def profile():
         current_user.name = form.name.data
         current_user.info = form.info.data
         db.session.add(current_user)
+        db.session.commit()
         flash('个人信息更改成功')
     form.name.data = current_user.name
-    form.info.data = current_user.name
+    form.info.data = current_user.info
     return render_template('admin/profile.html', form=form)
 
 
