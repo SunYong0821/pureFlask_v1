@@ -212,7 +212,7 @@ def rev_com():
             title="DNA反向互补",
             taskid=uuid,
             status="进行中",
-            resulturl=taskdir,
+            resulturl=inputfile,
             user_id=int(current_user.id)
         )
         db.session.add(task)
