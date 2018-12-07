@@ -22,7 +22,7 @@ class Nonevalidators(object):
 class LoginForm(FlaskForm):
     email = StringField(
         label='账号',
-        validators=[Nonevalidators('请输入邮箱')],
+        validators=[Nonevalidators(message="请输入邮箱")],
         description='账号',
         render_kw={
             'class': 'form-control m-input',
@@ -93,11 +93,11 @@ class RegisterForm(FlaskForm):
 
     def validate_email(self, field):
         if User.query.filter_by(email=field.data).first():
-            raise validators.StopValidation("邮箱已被注册")
+            raise ValidationError("邮箱已被注册")
 
     def validate_name(self, field):
         if User.query.filter_by(name=field.data).first():
-            raise validators.StopValidation("用户名已被注册")
+            raise ValidationError("用户名已被注册")
 
 
 class ForgetPasswordRequestForm(FlaskForm):
@@ -152,4 +152,4 @@ class RevComForm(FlaskForm):
         render_kw={"name": "example_1", "class": "m-radio"}
     )
     submit = SubmitField("提交", render_kw={
-                         "class": "btn btn-primary"})
+        "class": "btn btn-primary"})
