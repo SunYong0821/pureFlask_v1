@@ -225,5 +225,5 @@ def rev_com():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index"))
+        return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/rev_com.html', form=form)
