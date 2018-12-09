@@ -9,7 +9,7 @@ from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvi
 from . import admin
 from flask import render_template, redirect, url_for, request, flash
 from uuid import uuid4
-import os, threading, subprocess
+import os, threading, subprocess, pathlib
 
 
 @admin.route('/index/<int:page>.html', methods=["GET", "POST"])
@@ -206,9 +206,10 @@ def rev_com():
         # 保存文件
         filename = secure_filename(form.url.data.filename)
         uuid = uuid4().hex
-        taskdir = "./app/static/user/" + current_user.name + "/task/" + uuid
+        userdir = pathlib.Path("./app/static/user")
+        taskdir =  userdir / current_user.name / "task" / uuid
         os.makedirs(taskdir)
-        inputfile = taskdir + "/" + filename
+        inputfile = taskdir / filename
         form.url.data.save(inputfile)
 
         # 导入任务数据库
