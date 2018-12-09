@@ -192,7 +192,7 @@ def runtools(app, script, uuid):
             tl.status = "已完成"
             db.session.add(tl)
         else:
-            tl.status = "服务器故障"
+            tl.status = "运行错误"
             db.session.add(tl)
         db.session.commit()
 
@@ -210,7 +210,7 @@ def rev_com():
         taskdir =  userdir / current_user.name / "task" / uuid
         os.makedirs(taskdir)
         inputfile = taskdir / filename
-        form.url.data.save(inputfile)
+        form.url.data.save(inputfile._str)
 
         # 导入任务数据库
         task = Tasklist(
