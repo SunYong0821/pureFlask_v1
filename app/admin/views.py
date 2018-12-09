@@ -207,7 +207,7 @@ def rev_com():
         filename = secure_filename(form.url.data.filename)
         uuid = uuid4().hex
         # 不能使用pathlib，与flask存储文件用法冲突
-        taskdir = "./app/static/user/" + current_user.name + "/task/" + uuid
+        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
         os.makedirs(taskdir)
         inputfile = taskdir + "/" + filename
         form.url.data.save(inputfile)
@@ -224,8 +224,7 @@ def rev_com():
         db.session.commit()
 
         # 异步运行执行程序
-        programpath = "python ./app/static/program/rev_com/rev_com.py "
-        script = programpath + inputfile + " " + form.func.data
+        script = f"python ./app/static/program/rev_com/rev_com.py {inputfile} {form.func.data} 2>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
