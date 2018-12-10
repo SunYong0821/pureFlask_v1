@@ -1,7 +1,7 @@
 # coding:utf-8
 from datetime import timedelta
 
-from flask import current_app, send_file, session
+from flask import current_app, send_from_directory, session
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm, \
@@ -11,7 +11,7 @@ from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvi
 from . import admin
 from flask import render_template, redirect, url_for, request, flash
 from uuid import uuid4
-import os, threading, subprocess
+import os, threading, subprocess, pathlib
 
 
 @admin.route('/index/<int:page>.html', methods=["GET", "POST"])
@@ -27,9 +27,10 @@ def index(page=None):
     return render_template('admin/index.html', page_data=page_data)
 
 
-@admin.route("/download/<filename>", methods=['GET'])
-def download(filename):
-    return send_file(filename, as_attachment=True)
+@admin.route("/download/<path:dirname>", methods=['GET'])
+def download(dirname):
+    root_dir = pathlib.Path(os.getcwd())
+    return send_from_directory(root_dir / dirname, 'out.gz', as_attachment=True)
 
 
 @admin.route('/', methods=['GET', 'POST'])
