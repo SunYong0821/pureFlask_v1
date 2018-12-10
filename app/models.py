@@ -2,7 +2,7 @@
 
 from datetime import datetime
 
-from flask import current_app
+from flask import current_app, flash
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -41,38 +41,40 @@ class User(UserMixin, db.Model):
         self._password = generate_password_hash(raw)
 
     # 生成token方法
-    def generate_token(self):
-        s = Seralize(current_app.config['SECRET_KEY'])
+    def generate_token(self, expiration=60):
+        s = Seralize(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'id': self.id})
 
-    def check_token(token):
+    def check_token(self, token):
         s = Seralize(current_app.config['SECRET_KEY'])
         # 从当前的token中拿出
         try:
-            id = s.loads(token)['id']
+            data = s.loads(token.encode('utf-8'))
         except:
             return False
-        u = User.query.get(id)
-        if not u:
+        if data.get("confirm") != self.id:
             return False
-        if not u.confirm:
-            u.confirm = True
-            db.session.add(u)
-            db.session.commit()
-            os.makedirs(pathlib.Path('./app/static/user/' + u.name + '/profile'))
-            os.makedirs(pathlib.Path('./app/static/user/' + u.name + '/task'))
+        # TODO 更改token有效时间
+        self.confirm = True
+        db.session.add(self)
+        db.session.commit()
+        os.makedirs(pathlib.Path('./app/static/user/' + self.name + '/profile'))
+        os.makedirs(pathlib.Path('./app/static/user/' + self.name + '/task'))
         return True
 
+    @staticmethod
     def reset_password(token, new_password):
         s = Seralize(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token.encode('utf-8'))
         except:
+            flash("token已失效请重新发送", "danger")
             return False
         uid = data.get('id')
         user = User.query.get(uid)
         user.password = new_password
         db.session.add(user)
+        db.session.commit()
         return True
 
     def check_password(self, pwd):

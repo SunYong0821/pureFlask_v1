@@ -1,0 +1,1 @@
+###flash 消息闪现类型：success 、info、warning 、danger 、brand 、primary 

@@ -81,9 +81,9 @@ def register():
 @admin.route('/activate/<token>')
 def activate(token):
     if User.check_token(token):
-        flash("激活成功，请登录")
+        flash("激活成功，请登录", "success")
     else:
-        flash("激活失败")
+        flash("激活失败", "danger")
     return redirect(url_for('admin.login'))
 
 
@@ -96,9 +96,9 @@ def forget_password_request():
         if user:
             send_mail(to=accoutn_email, subject='重置您的密码', template='email/reset_password.html', user=user,
                       token=user.generate_token())
-            flash("邮件已发送到你的邮箱" + accoutn_email + "请及时查收")
+            flash("邮件已发送到你的邮箱" + accoutn_email + "请及时查收", "success")
             return redirect(url_for('admin.login'))
-        flash('该邮箱未注册！')
+        flash('该邮箱未注册！', "Warning")
     return render_template("user/forget_password_request.html", form=form)
 
 
@@ -108,10 +108,10 @@ def forget_password(token):
     if request.method == "POST" and form.validate():
         success = User.reset_password(token, form.pwd.data)
         if success:
-            flash("密码重置成功")
+            flash("密码重置成功", "success")
             return redirect(url_for('admin.login'))
         else:
-            flash("密码重置失败")
+            flash("密码重置失败", "danger")
     return render_template("user/forget_password.html", form=form)
 
 
