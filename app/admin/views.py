@@ -134,15 +134,18 @@ def videolist():
 def play_video_list(video_list_id, id):
     play_video = Playvideo.query.filter_by(
         videolist_id=video_list_id).order_by(Playvideo.addtime).all()
-
-    if id == 0:
-        video = play_video[0]
-
+    if play_video:
+        if id == 0:
+            video = play_video[0]
+        else:
+            video = Playvideo.query.filter_by(id=id).first()
+        video.playnum = video.playnum + 1
+        db.session.add(video)
+        db.session.commit()
     else:
-        video = Playvideo.query.filter_by(id=id).first()
-    video.playnum = video.playnum + 1
-    db.session.add(video)
-    db.session.commit()
+        flash("没有可播放视频", "danger")
+        return redirect(url_for('admin.videolist'))
+
     return render_template('admin/playvideo.html', play_video=play_video, video=video)
 
 
