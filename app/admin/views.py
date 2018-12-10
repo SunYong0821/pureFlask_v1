@@ -133,7 +133,7 @@ def videolist():
 @login_required
 def play_video_list(video_list_id, id):
     play_video = Playvideo.query.filter_by(
-        videolist_id=video_list_id).order_by(Playvideo.addtime).all()
+        videolist_id=video_list_id).order_by(Playvideo.id).all()
     if play_video:
         if id == 0:
             video = play_video[0]
