@@ -31,6 +31,7 @@
     <link href="{{ url_for('static', filename='default/assets/demo/default/base/style.bundle.css') }}" rel="stylesheet"
           type="text/css"/>
 
+    <link href="{{ url_for('static', filename='3rd/video.css') }}" rel="stylesheet" type="text/css"/>
     <!--end::Base Styles -->
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/ma_x.ico') }}"/>
     {% block css %}{% endblock %}
@@ -187,6 +188,56 @@
         </div>
         <!-- END: Left Aside -->
         <div class="m-grid__item m-grid__item--fluid m-wrapper">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="m-section__content">
+                        {% for category, message in messages %}
+                            {% if category=="success" %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    </button>
+                                    <strong>success!</strong> {{ message }}
+                                </div>
+                            {% endif %}
+                            {% if category=="info" %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    </button>
+                                    <strong>info!</strong> {{ message }}
+                                </div>
+                            {% endif %}
+                            {% if category=="warning" %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    </button>
+                                    <strong>warning!</strong> {{ message }}
+                                </div>
+                            {% endif %}
+                            {% if category=="danger" %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    </button>
+                                    <strong>danger!</strong> {{ message }}
+                                </div>
+                            {% endif %}
+                            {% if category=="brand" %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    </button>
+                                    <strong>brand!</strong> {{ message }}
+                                </div>
+                            {% endif %}
+                            {% if category=="primary" %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    </button>
+                                    <strong>primary!</strong> {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
             {% block content %}{% endblock %}
         </div>
     </div>

@@ -38,10 +38,10 @@ def login():
     if request.method == 'POST' and form.validate():
         user = User.query.filter_by(email=form.email.data).first()
         if not user:
-            flash("用户不存在，请注册")
+            flash("用户不存在，请注册", 'info')
             return redirect(url_for('admin.register'))
         elif not user.confirm:
-            flash("请前往邮箱激活账号")
+            flash("请前往邮箱激活账号", 'info')
         elif user.check_password(form.pwd.data):
             userlog = Userlog()
             userlog.ip = request.remote_addr
@@ -50,11 +50,11 @@ def login():
             #  设置session 过期时间   remember_token和session 必须同时设置过期时间
             session.permanent = True
             current_app.permanent_session_lifetime = timedelta(seconds=3600)
-            flash("登录成功")
+            flash("登录成功", "success")
             db.session.add(userlog)
             db.session.commit()
             return redirect(url_for('admin.index', page=1))
-        flash("密码错误")
+        flash("密码错误", "warning")
     return render_template('user/login.html', form=form)
 
 

@@ -29,6 +29,38 @@
         <div class="row">
             {% for video in video_list %}
                 <div class="col-xl-4">
+                    <div style="margin:12px">
+                        <!--begin:: Widgets/Stats2-1 -->
+                        <div class="zoom-container">
+                            <div class="zoom-caption">
+                                <span>dfsdaf</span>
+                                <a href="#">
+                                    <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
+                                </a>
+                                <p> {{ video.title }}</p>
+                            </div>
+                            <img src="{{ url_for('static',filename='3rd/1.png') }}">
+                        </div>
+                      {#  <h3 class="vid-name">
+                            <a href="#">Video's Name</a>
+                        </h3>#}
+                        <div class="info">
+                           {# <h5>By
+                                <a href="#">孙勇</a>
+                            </h5>#}
+{#                            <span>#}
+{#												<i class="fa fa-calendar" aria-hidden="true">上传时间：</i>25/3/2015</span>#}
+                            {#<span>
+												<i class="fa fa-heart">播放量：</i>1,200</span>#}
+                        </div>
+                        <!--end:: Widgets/Stats2-1 -->
+                        {#  <p class="more">{{ video.video_contents }}</p>
+                <a href="single.html" class="btn btn-1">Read More</a>#}
+                        <div class="line"></div>
+                    </div>
+                </div>
+
+                {#    <div class="col-xl-4">
                     <div style="margin: 8px">
                         <div class="m-portlet__body">
                             <div class="m-widget19">
@@ -49,7 +81,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>#}
             {% endfor %}
             {# <div class="col-xl-4">
             <div class="m-portlet m-portlet--bordered-semi m-portlet--full-height  m-portlet--rounded-force">
