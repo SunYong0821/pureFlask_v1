@@ -28,34 +28,24 @@
         <!--Begin::Section-->
         <div class="row">
             {% for video in video_list %}
-                <div class="col-xl-4">
+                <div class="col-xl-4" style="padding-left: 2px;padding-right: 2px;">
                     <div style="margin:12px">
                         <!--begin:: Widgets/Stats2-1 -->
                         <div class="zoom-container">
                             <div class="zoom-caption">
-                                <span>dfsdaf</span>
-                                <a href="#">
+                                {# <span></span>#}
+                                <a href="{{ url_for('admin.play_video_list',video_list_id=video.id,id=0) }}">
                                     <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
                                 </a>
                                 <p> {{ video.title }}</p>
                             </div>
                             <img src="{{ url_for('static',filename='3rd/1.png') }}">
                         </div>
-                      {#  <h3 class="vid-name">
+                        {#  <h3 class="vid-name">
                             <a href="#">Video's Name</a>
                         </h3>#}
                         <div class="info">
-                           {# <h5>By
-                                <a href="#">孙勇</a>
-                            </h5>#}
-{#                            <span>#}
-{#												<i class="fa fa-calendar" aria-hidden="true">上传时间：</i>25/3/2015</span>#}
-                            {#<span>
-												<i class="fa fa-heart">播放量：</i>1,200</span>#}
                         </div>
-                        <!--end:: Widgets/Stats2-1 -->
-                        {#  <p class="more">{{ video.video_contents }}</p>
-                <a href="single.html" class="btn btn-1">Read More</a>#}
                         <div class="line"></div>
                     </div>
                 </div>
