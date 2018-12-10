@@ -46,14 +46,14 @@ def login():
             userlog = Userlog()
             userlog.ip = request.remote_addr
             userlog.user_id = user.id
-            login_user(user, remember=True, duration=timedelta(hours=1))  # duration 是设置remember_token的过期时间
+            login_user(user, remember=True, duration=timedelta(seconds=3600))  # duration 是设置remember_token的过期时间
             #  设置session 过期时间   remember_token和session 必须同时设置过期时间
             session.permanent = True
-            current_app.permanent_session_lifetime = timedelta(hours=1)
+            current_app.permanent_session_lifetime = timedelta(seconds=3600)
             flash("登录成功")
             db.session.add(userlog)
             db.session.commit()
-            return redirect(url_for('admin.index'))
+            return redirect(url_for('admin.index', page=1))
         flash("密码错误")
     return render_template('user/login.html', form=form)
 
