@@ -1,5 +1,7 @@
 # coding:utf-8
-from flask import current_app, send_file
+from datetime import timedelta
+
+from flask import current_app, send_file, session
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm, \
@@ -23,6 +25,7 @@ def index(page=None):
         Tasklist.addtime.desc()
     ).paginate(page=page, per_page=10)
     return render_template('admin/index.html', page_data=page_data)
+
 
 @admin.route("/download/<filename>", methods=['GET'])
 def download(filename):
@@ -205,7 +208,6 @@ def runtools(app, script, uuid):
 def rev_com():
     form = RevComForm()
     if form.validate_on_submit():
-
         # 保存文件
         filename = secure_filename(form.url.data.filename)
         uuid = uuid4().hex
@@ -220,7 +222,7 @@ def rev_com():
             title="DNA反向互补",
             taskid=uuid,
             status="进行中",
-            resulturl=inputfile+".gz",
+            resulturl=inputfile + ".gz",
             user_id=int(current_user.id)
         )
         db.session.add(task)
