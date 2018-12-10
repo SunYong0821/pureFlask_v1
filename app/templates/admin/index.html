@@ -48,25 +48,33 @@
                         <table class="table table-border table-striped table-hover m-table" style="text-align: center;">
                             <thead>
                                 <tr>
-                                    <th data-field="id">#</th>
+                                    <!-- <th data-field="id">#</th> -->
                                     <th data-field="uuid">任务编号</th>
-                                    <th data-field="name">工具具名称</th>
+                                    <th data-field="title">工具具名称</th>
                                     <th data-field="starttime">提交时间</th>
                                     <th data-field="status">任务状态</th>
                                     <th data-field="result">查看结果</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for v in page_data.items %}
                                 <tr>
-                                    <td data-field="id">2</td>
-                                    <td data-field="uuid">78f834rfehf8372hf78eghf78hg37fh8</td>
-                                    <td data-field="name">fq转fa</td>
-                                    <td data-field="starttime">2018-12-04</td>
-                                    <td data-field="status">进行中</td>
+                                    <!-- <td data-field="id">{{ v.id }}</td> -->
+                                    <td data-field="uuid">{{ v.taskid }}</td>
+                                    <td data-field="title">{{ v.title}}</td>
+                                    <td data-field="starttime">{{ v.addtime }}</td>
+                                    <td data-field="status">{{ v.status }}</td>
+                                    {% if v.status == "已完成" %}
+                                    <td data-field="result">
+                                        <a href="{{ url_for('admin.download', filename=v.resulturl) }}" target="_blank" class="btn btn-success m-btn m-btn--icon m-btn--icon-only">
+                                            <i class="fa fa-download"></i></a></td>
+                                    {% else %}
                                     <td data-field="result">
                                         <a href="#" class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only disabled">
                                             <i class="fa fa-download"></i></a></td>
+                                    {% endif %}
                                 </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                         <div class="m-datatable__pager m-datatable--paging-loaded clearfix" style="margin: auto;text-align: center">

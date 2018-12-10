@@ -162,8 +162,8 @@ class Tasklist(db.Model):
     __tablename__ = 'tasklist'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255))
-    taskid = db.Column(db.String(255), unique=True)
-    status = db.Column(db.String(255))
+    taskid = db.Column(db.String(300), unique=True)
+    status = db.Column(db.String(100))
     resulturl = db.Column(db.String(255))
     addtime = db.Column(db.DateTime, index=True, default=datetime.now())
 

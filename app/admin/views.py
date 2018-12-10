@@ -1,29 +1,35 @@
 # coding:utf-8
-import os
-import subprocess
-import threading
-from datetime import timedelta
-from uuid import uuid4
-
-from flask import current_app, session, app
-from flask import render_template, redirect, url_for, request, flash
+from flask import current_app, send_file
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
-
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm, \
     EditProfileForm
 from app.lib.email import send_mail
 from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvideo
 from . import admin
+from flask import render_template, redirect, url_for, request, flash
+from uuid import uuid4
+import os, threading, subprocess
 
 
-@admin.route('/')
+@admin.route('/index/<int:page>.html', methods=["GET", "POST"])
 @login_required
-def index():
-    return render_template('admin/index.html')
+def index(page=None):
+    if page is None:
+        page = 1
+    page_data = Tasklist.query.filter_by(
+        user_id=int(current_user.id)
+    ).order_by(
+        Tasklist.addtime.desc()
+    ).paginate(page=page, per_page=10)
+    return render_template('admin/index.html', page_data=page_data)
+
+@admin.route("/download/<filename>", methods=['GET'])
+def download(filename):
+    return send_file(filename, as_attachment=True)
 
 
-@admin.route('/login.html', methods=['GET', 'POST'])
+@admin.route('/', methods=['GET', 'POST'])
 def login():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
@@ -164,7 +170,6 @@ def profile():
         db.session.commit()
         flash('个人信息更改成功')
         return render_template('admin/profile.html', form=form)
-
     form.info.data = current_user.info
     return render_template('admin/profile.html', form=form)
 
@@ -190,7 +195,7 @@ def runtools(app, script, uuid):
             tl.status = "已完成"
             db.session.add(tl)
         else:
-            tl.status = "服务器故障"
+            tl.status = "运行错误"
             db.session.add(tl)
         db.session.commit()
 
@@ -200,10 +205,12 @@ def runtools(app, script, uuid):
 def rev_com():
     form = RevComForm()
     if form.validate_on_submit():
+
         # 保存文件
         filename = secure_filename(form.url.data.filename)
         uuid = uuid4().hex
-        taskdir = "./app/static/user/" + current_user.name + "/task/" + uuid
+        # 不能使用pathlib，与flask存储文件用法冲突
+        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
         os.makedirs(taskdir)
         inputfile = taskdir + "/" + filename
         form.url.data.save(inputfile)
@@ -213,18 +220,17 @@ def rev_com():
             title="DNA反向互补",
             taskid=uuid,
             status="进行中",
-            resulturl=taskdir,
+            resulturl=inputfile+".gz",
             user_id=int(current_user.id)
         )
         db.session.add(task)
         db.session.commit()
 
         # 异步运行执行程序
-        programpath = "python ./app/static/program/rev_com/rev_com.py "
-        script = programpath + inputfile + " " + form.func.data
+        script = f"python ./app/static/program/rev_com/rev_com.py {inputfile} {form.func.data} 2>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index"))
+        return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/rev_com.html', form=form)

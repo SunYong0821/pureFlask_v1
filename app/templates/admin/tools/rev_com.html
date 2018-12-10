@@ -58,8 +58,38 @@
                     </div>
                     <div class="m-portlet__foot m-portlet__foot--fit" style="text-align: center">
                         <div class="m-form__actions m-form__actions">
-                            {{ form.submit }}
-                            {{ form.csrf_token }}
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_modal_6">
+                                提交
+                            </button>
+                            <div class="modal fade" id="m_modal_6" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                                任务即将加入执行队列
+                                            </h5><!-- 
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">
+                                                    ×
+                                                </span>
+                                            </button> -->
+                                        </div><!-- 
+                                        <div class="modal-body">
+                                            <p>
+
+                                            </p>
+                                        </div> -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                取消
+                                            </button>
+                                            {{ form.submit }}
+                                            {{ form.csrf_token }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
