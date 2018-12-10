@@ -107,37 +107,3 @@ a {
 color: #337ab7;
 text-decoration: none;
 }
-
-.btn-1 {
-color: #f85a46;
- background-color: transparent;
-padding: 0;
-font-weight: 700;
-}
-
-.btn {
-font-size: 15px;
-border-radius: 5px;
-padding: 5px 14px;
-}
-.btn {
-display: inline-block;
-padding: 6px 0px;
-margin-bottom: 0;
-font-size: 14px;
-font-weight: normal;
-line-height: 1.42857143;
-text-align: center;
-white-space: nowrap;
-vertical-align: middle;
--ms-touch-action: manipulation;
-touch-action: manipulation;
-cursor: pointer;
--webkit-user-select: none;
--moz-user-select: none;
--ms-user-select: none;
-user-select: none;
-background-image: none;
-border: 1px solid transparent;
-border-radius: 4px;
-}
