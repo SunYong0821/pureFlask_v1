@@ -5,7 +5,7 @@ import threading
 from datetime import timedelta
 from uuid import uuid4
 
-from flask import current_app, session
+from flask import current_app, session, app
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
@@ -37,9 +37,10 @@ def login():
             userlog = Userlog()
             userlog.ip = request.remote_addr
             userlog.user_id = user.id
-            login_user(user, remember=True)
+            login_user(user, remember=True, duration=timedelta(hours=1))  # duration 是设置remember_token的过期时间
+            #  设置session 过期时间   remember_token和session 必须同时设置过期时间
             session.permanent = True
-            admin.permanent_session_lifetime = timedelta(minutes=1)
+            current_app.permanent_session_lifetime = timedelta(hours=1)
             flash("登录成功")
             db.session.add(userlog)
             db.session.commit()
