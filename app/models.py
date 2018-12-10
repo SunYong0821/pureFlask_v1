@@ -137,6 +137,7 @@ class Playvideo(db.Model):
     url = db.Column(db.String(255), unique=True)
     playnum = db.Column(db.BigInteger)
     addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+    video_owner = db.Column(db.String(255), comment='视频讲解人')
 
     videolist_id = db.Column(db.Integer, db.ForeignKey('videolist.id'))
 

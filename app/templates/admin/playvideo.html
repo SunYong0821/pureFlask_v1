@@ -35,12 +35,12 @@
                                 <div class="row m-row--no-padding align-items-center">
                                     <div class="col">
                                     <span class="m-widget1__desc">
-                                        讲解人：XXX
+                                        讲解人：{{ video.video_owner }}
                                     </span>
                                     </div>
                                     <div class="col m--align-right">
                                     <span class="m-widget1__desc">
-                                        播放量：100000
+                                        播放量：{{ video.playnum }}
                                     </span>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                     <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true"
                                          data-height="400"
                                          style="height: 320px; overflow: hidden;">
-                                        <div class="m-list-timeline m-list-timeline--skin-light">
+                                        <div class="m-list-timeline ">
                                             {# <div class="m-list-timeline__items">
                                             <div class="m-list-timeline__item">
                                                 <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
@@ -73,6 +73,8 @@
                                             {% for video_list in play_video %}
                                                 <div class="m-list-timeline__items">
                                                     <div class="m-list-timeline__item">
+
+
                                                         <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
 
                                                         <span class="m-list-timeline__text"><a
@@ -81,6 +83,7 @@
                                                                     "
                                                                 style="text-decoration: none">{{ video_list.title }}</a></span>
                                                     </div>
+                                                    <span></span>
                                                 </div>
                                             {% endfor %}
                                         </div>

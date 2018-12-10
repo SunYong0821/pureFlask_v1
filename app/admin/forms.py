@@ -154,16 +154,17 @@ class RevComForm(FlaskForm):
     submit = SubmitField("提交", render_kw={
         "class": "btn btn-primary"})
 
+
 class EditProfileForm(FlaskForm):
-    name = StringField(label=u"用户名",
-                       validators=[
-                           Nonevalidators(message="请输入用户名"),
-                           Length(2, 10,
-                                  message=u"用户名至少需要两个字符,最多10个字符")],
-                       render_kw={
-                           "class": "form-control m-input",
-                           "placeholder": u"用户名昵称",
-                       })
+    # name = StringField(label=u"用户名",
+    #                    validators=[
+    #                        Nonevalidators(message="请输入用户名"),
+    #                        Length(2, 10,
+    #                               message=u"用户名至少需要两个字符,最多10个字符")],
+    #                    render_kw={
+    #                        "class": "form-control m-input",
+    #                        "placeholder": u"用户名昵称",
+    #                    })
     info = StringField(label="个性签名", validators=[Length(0, 50)], render_kw={
         "class": "form-control m-input",
         "placeholder": u"个性签名",

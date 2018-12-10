@@ -1,15 +1,20 @@
 # coding:utf-8
-from flask import current_app
+import os
+import subprocess
+import threading
+from datetime import timedelta
+from uuid import uuid4
+
+from flask import current_app, session
+from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.utils import secure_filename
+
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm, \
     EditProfileForm
 from app.lib.email import send_mail
 from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvideo
 from . import admin
-from flask import render_template, redirect, url_for, request, flash
-from uuid import uuid4
-import os, threading, subprocess
 
 
 @admin.route('/')
@@ -33,6 +38,8 @@ def login():
             userlog.ip = request.remote_addr
             userlog.user_id = user.id
             login_user(user, remember=True)
+            session.permanent = True
+            admin.permanent_session_lifetime = timedelta(minutes=1)
             flash("登录成功")
             db.session.add(userlog)
             db.session.commit()
@@ -192,7 +199,6 @@ def runtools(app, script, uuid):
 def rev_com():
     form = RevComForm()
     if form.validate_on_submit():
-
         # 保存文件
         filename = secure_filename(form.url.data.filename)
         uuid = uuid4().hex
