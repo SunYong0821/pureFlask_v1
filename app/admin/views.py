@@ -99,7 +99,7 @@ def forget_password_request():
                       token=user.generate_token())
             flash("邮件已发送到你的邮箱" + accoutn_email + "请及时查收", "success")
             return redirect(url_for('admin.login'))
-        flash('该邮箱未注册！', "Warning")
+        flash('该邮箱未注册！', "warning")
     return render_template("user/forget_password_request.html", form=form)
 
 

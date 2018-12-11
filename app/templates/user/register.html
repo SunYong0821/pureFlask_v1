@@ -81,6 +81,7 @@
 
 
                     </div>
+
                     <div class="m-grid__item m-grid__item--fluid m-wrapper">
                         {% with messages = get_flashed_messages(with_categories=true) %}
                             {% if messages %}
@@ -146,6 +147,8 @@
                         {% endwith %}
                         {% block content %}{% endblock %}
                     </div>
+
+
                     <form class="m-login__form m-form" method="post">
                         <div class="form-group m-form__group">
                             {{ form.name }}
