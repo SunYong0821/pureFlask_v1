@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 from app import db
 from . import tools
 from app.tools.tools_forms import RevComForm
-from app.models import Tasklist
+from app.models import Tasklist, Toolslist
 
 
 def runtools(app, script, uuid):
@@ -50,6 +50,12 @@ def rev_com():
             user_id=int(current_user.id)
         )
         db.session.add(task)
+        db.session.commit()
+
+        # 导入使用次数
+        tool = Toolslist.query.filter_by(title="DNA反向互补").first()
+        tool.usenum += 1
+        db.session.add(tool)
         db.session.commit()
 
         # 异步运行执行程序

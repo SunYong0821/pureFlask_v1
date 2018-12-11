@@ -154,6 +154,7 @@ class Toolslist(db.Model):
     img = db.Column(db.String(255))
     info = db.Column(db.Text)
     group = db.Column(db.String(100))
+    usenum = db.Column(db.BigInteger)
     addtime = db.Column(db.DateTime, index=True, default=datetime.now)
 
     def __repr__(self):
