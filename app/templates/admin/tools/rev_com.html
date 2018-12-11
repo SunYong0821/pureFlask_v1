@@ -32,16 +32,19 @@
                 <form class="m-form" method="post" enctype="multipart/form-data">
                     <div class="m-portlet__body">
                         <div class="m-form__group form-group">
-                            <div>
-                                <label>请选择一个文件：</label>
+                            <div class="custom-file">
                                 {{ form.url }}
+                                <label class="custom-file-label" for="customFile">
+                                    请选择一个文件
+                                </label>
                                 {% for error in form.url.errors %}
                                 <span style="color: red">{{ error }}</span>
                                 {% endfor %}
                             </div>
+                            <div></div>
                             <br>
                             <div class="m-radio-inline">
-                                <label>请选择一项功能：</label>
+                                <label>请选择功能：</label>
                                 {% for v in form.func %}
                                 <label class="m-radio">
                                     {{ v }}

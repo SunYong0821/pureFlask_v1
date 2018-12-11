@@ -3388,7 +3388,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 
 .custom-file-input:lang(en) ~ .custom-file-label::after {
-    content: "Browse"
+    content: "浏览"
 }
 
 .custom-file-label {

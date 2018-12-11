@@ -9,7 +9,7 @@ class RevComForm(FlaskForm):
     url = FileField(
         label='fasta|txt',
         validators=[Nonevalidators("请上传一个文件")],
-        render_kw={"class": "file"}
+        render_kw={"class": "custom-file-input", "id":"customFile"}
     )
     func = RadioField(
         label="run single function",
