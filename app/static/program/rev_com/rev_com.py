@@ -39,4 +39,4 @@ elif sys.argv[2] == "3":
 else:
     print("参数设置出错！", file=sys.stderr)
 
-make_archive("out", "zip", inputdir, "out")
+make_archive(inputdir + "/out", "zip", inputdir, "out")
