@@ -1,6 +1,122 @@
 {% extends 'admin/base.html' %}
 
 {% block content %}
-<h1>待设计。。。</h1>
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title">
+                ？？？
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-6">
+            <!--begin::Portlet-->
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                ？？？
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="m-form" method="post" enctype="multipart/form-data">
+                    <div class="m-portlet__body">
+                        <div class="m-form__group form-group">
+                            ？？？
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit" style="text-align: center">
+                        <div class="m-form__actions m-form__actions">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_modal_6">
+                                提交
+                            </button>
+                            <div class="modal fade" id="m_modal_6" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                                任务即将加入执行队列
+                                            </h5>
+                                            <!-- 
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">
+                                                    ×
+                                                </span>
+                                            </button> -->
+                                        </div>
+                                        <!-- 
+                                        <div class="modal-body">
+                                            <p>
+
+                                            </p>
+                                        </div> -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                取消
+                                            </button>
+                                            {{ form.submit }}
+                                            {{ form.csrf_token }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+
+
+        <div class="col-lg-6">
+            <!--begin::Portlet-->
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                说明：
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <div class="m-list-timeline">
+                        <div class="m-list-timeline__items">
+                            <div class="m-list-timeline__item">
+                                <span class="m-list-timeline__badge"></span>
+                                <span class="m-list-timeline__text">
+                                    ？？？
+                                </span>
+                            </div>
+                            <div class="m-list-timeline__item">
+                                <span class="m-list-timeline__badge"></span>
+                                <span class="m-list-timeline__text">
+                                    ？？？
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
 
 {% endblock%}
