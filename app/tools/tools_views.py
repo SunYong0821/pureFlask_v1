@@ -1,0 +1,65 @@
+# -*- coding: utf-8 -*-
+import os
+import subprocess
+import threading
+from uuid import uuid4
+
+from flask import current_app, url_for, render_template, redirect
+from flask_login import login_required, current_user
+from werkzeug.utils import secure_filename
+
+from app import db
+from . import tools
+from app.tools.tools_forms import RevComForm
+from app.models import Tasklist
+
+
+def runtools(app, script, uuid):
+    with app.app_context():
+        rc = subprocess.run(script, shell=True)
+        tl = Tasklist.query.filter_by(taskid=uuid).first()
+        if rc.returncode == 0:
+            tl.status = "已完成"
+            db.session.add(tl)
+        else:
+            tl.status = "运行错误"
+            db.session.add(tl)
+        db.session.commit()
+
+
+@tools.route('/rev_com.html', methods=["GET", "POST"])
+@login_required
+def rev_com():
+    form = RevComForm()
+    if form.validate_on_submit():
+        # 保存文件
+        filename = secure_filename(form.url.data.filename)
+        uuid = uuid4().hex
+        # 不能使用pathlib，与flask存储文件用法冲突
+        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
+        os.makedirs(taskdir)
+        inputfile = taskdir + "/" + filename
+        form.url.data.save(inputfile)
+
+        # 导入任务数据库
+        task = Tasklist(
+            title="DNA反向互补",
+            taskid=uuid,
+            status="进行中",
+            resulturl=inputfile + ".gz",
+            user_id=int(current_user.id)
+        )
+        db.session.add(task)
+        db.session.commit()
+
+        # 异步运行执行程序
+        script = f"python ./app/static/program/rev_com/rev_com.py {inputfile} {form.func.data} 2>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index", page=1))
+    return render_template('admin/tools/rev_com.html', form=form)
+
+
+

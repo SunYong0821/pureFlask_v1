@@ -1,6 +1,5 @@
 # coding:utf-8
-from flask import Flask, render_template, session
-import pymysql
+from flask import Flask, render_template
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
@@ -36,4 +35,6 @@ def create_app():
 
 def register_blueprint(app):
     from app.admin import admin
+    from app.tools import tools
     app.register_blueprint(admin)
+    app.register_blueprint(tools, url_prefix="/tools")
