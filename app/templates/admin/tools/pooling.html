@@ -5,7 +5,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title">
-                DNA反向互补
+                文库Pooling
             </h3>
         </div>
     </div>
@@ -23,7 +23,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                DNA反向互补
+                                文库Pooling
                             </h3>
                         </div>
                     </div>
@@ -43,19 +43,32 @@
                             </div>
                         </div>
                         <div class="m-form__group form-group">
-                            <label>请选择功能：</label>
-                            <div class="m-radio-inline">
-                                {% for v in form.func %}
-                                <label class="m-radio">
-                                    {{ v }}
-                                    {{ v.label }}
-                                    <span></span>
-                                </label>
-                                {% endfor %}
-                                {% for error in form.func.errors %}
-                                <span style="color: red">{{ error }}</span>
-                                {% endfor %}
+                            <label>选择lane数目：</label>
+                            {{ form.lane }}
+                            {% for error in form.lane.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group">
+                            <label>输入相应lane数的基准片段：</label>
+                            {{ form.sizes }}
+                            {% for error in form.sizes.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group">
+                            <label>输入最大混合体积：</label>
+                            <div class="input-group m-input-group">
+                                {{ form.vol }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        ul
+                                    </span>
+                                </div>
                             </div>
+                            {% for error in form.vol.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="m-portlet__foot m-portlet__foot--fit" style="text-align: center">
@@ -130,13 +143,7 @@
                             <div class="m-list-timeline__item">
                                 <span class="m-list-timeline__badge"></span>
                                 <span class="m-list-timeline__text">
-                                    上传文件格式为文本格式（excel可以认为不是文本格式），txt或者fasta（fa）为后缀的文件
-                                </span>
-                            </div>
-                            <div class="m-list-timeline__item">
-                                <span class="m-list-timeline__badge"></span>
-                                <span class="m-list-timeline__text">
-                                    根据上传格式自动判断每行内容，并根据上传格式输出相应的结果
+                                    文件输入格式为excel格式，后缀名为.xlsx
                                 </span>
                             </div>
                         </div>

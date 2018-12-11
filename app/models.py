@@ -151,6 +151,7 @@ class Toolslist(db.Model):
     __tablename__ = 'toolslist'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), unique=True)
+    url = db.Column(db.String(255))
     img = db.Column(db.String(255))
     info = db.Column(db.Text)
     group = db.Column(db.String(100))

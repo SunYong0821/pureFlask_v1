@@ -37,13 +37,13 @@
                                 <div class="m-widget3__item">
                                     <div class="m-widget3__header">
                                         <div class="m-widget3__user-img">
-                                            <a href="{{ url_for('tools.rev_com') }}"><img
+                                            <a href="{{ url_for(v.url) }}"><img
                                                     src="{{ url_for('static', filename=v.img) }}"
                                                     alt></a>
                                         </div>
                                         <div class="m-widget3__info">
                                     <span class="m-widget3__username">
-                                        <a href="{{ url_for('tools.rev_com') }}" style="text-decoration: none">
+                                        <a href="{{ url_for(v.url) }}" style="text-decoration: none">
                                             <h5>{{ v.title }}</h5>
                                         </a>
                                         <br>

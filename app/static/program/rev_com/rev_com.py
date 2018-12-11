@@ -1,4 +1,4 @@
-import sys, os, subprocess
+import sys, os
 from shutil import make_archive
 
 def rev(seq):
@@ -9,8 +9,7 @@ def com(seq):
     return ''.join(comdict[i] for i in seq)
 
 inputdir = os.path.dirname(sys.argv[1])
-outdir = inputdir+ "/out"
-os.makedirs(outdir)
+outdir = inputdir + "/out"
 
 if sys.argv[2] == "1":
     with open(sys.argv[1]) as inputfile, open(outdir + '/result.txt', 'w') as out:
