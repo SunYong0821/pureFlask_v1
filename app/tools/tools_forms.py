@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask_wtf import FlaskForm
 from wtforms import FileField, RadioField, SubmitField
+from wtforms.validators import DataRequired
 
 from app.admin.forms import Nonevalidators
 
@@ -13,7 +14,7 @@ class RevComForm(FlaskForm):
     )
     func = RadioField(
         label="run single function",
-        validators=[Nonevalidators("至少选择一项")],
+        # validators=[DataRequired("至少选择一项")], radio验证器无法使用
         choices=[('1', "反向"), ('2', "互补"), ('3', "反向互补")],
         render_kw={"name": "example_1", "class": "m-radio"}
     )
