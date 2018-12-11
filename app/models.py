@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     info = db.Column(db.Text)
     img = db.Column(db.String(255))
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
     confirm = db.Column(db.Boolean, default=False)
 
     userlogs = db.relationship('Userlog', backref='user')
@@ -93,7 +93,7 @@ class Userlog(db.Model):
     __tablename__ = 'userlog'
     id = db.Column(db.Integer, primary_key=True)
     ip = db.Column(db.String(100))
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -106,7 +106,7 @@ class Role(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
     auths = db.Column(db.String(1000))
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
 
     userid = db.relationship('User', backref='role')
 
@@ -119,7 +119,7 @@ class Videolist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), unique=True)
     img = db.Column(db.String(255))
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
 
     playvideo = db.relationship('Playvideo', backref='videolist')
 
@@ -138,7 +138,7 @@ class Playvideo(db.Model):
     title = db.Column(db.String(255), unique=True)
     url = db.Column(db.String(255), unique=True)
     playnum = db.Column(db.BigInteger)
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
     video_owner = db.Column(db.String(255), comment='视频讲解人')
 
     videolist_id = db.Column(db.Integer, db.ForeignKey('videolist.id'))
@@ -154,7 +154,7 @@ class Toolslist(db.Model):
     img = db.Column(db.String(255))
     info = db.Column(db.Text)
     group = db.Column(db.String(100))
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
 
     def __repr__(self):
         return f'<Toolslist {self.title}>'
@@ -167,7 +167,7 @@ class Tasklist(db.Model):
     taskid = db.Column(db.String(300), unique=True)
     status = db.Column(db.String(100))
     resulturl = db.Column(db.String(255))
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now())
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
