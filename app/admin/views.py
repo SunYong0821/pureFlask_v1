@@ -1,17 +1,17 @@
 # coding:utf-8
+import os
+import pathlib
 from datetime import timedelta
 
 from flask import current_app, send_from_directory, session
+from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from werkzeug.utils import secure_filename
-from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, RevComForm, \
+
+from app.admin import admin
+from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, \
     EditProfileForm
 from app.lib.email import send_mail
 from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvideo
-from . import admin
-from flask import render_template, redirect, url_for, request, flash
-from uuid import uuid4
-import os, threading, subprocess, pathlib
 
 
 @admin.route('/index/<int:page>.html', methods=["GET", "POST"])
@@ -197,51 +197,3 @@ def loginlog(page=None):
         Userlog.addtime.desc()
     ).paginate(page=page, per_page=10)
     return render_template('admin/loginlog.html', page_data=page_data)
-
-
-def runtools(app, script, uuid):
-    with app.app_context():
-        rc = subprocess.run(script, shell=True)
-        tl = Tasklist.query.filter_by(taskid=uuid).first()
-        if rc.returncode == 0:
-            tl.status = "已完成"
-            db.session.add(tl)
-        else:
-            tl.status = "运行错误"
-            db.session.add(tl)
-        db.session.commit()
-
-
-@admin.route('/tools/rev_com.html', methods=["GET", "POST"])
-@login_required
-def rev_com():
-    form = RevComForm()
-    if form.validate_on_submit():
-        # 保存文件
-        filename = secure_filename(form.url.data.filename)
-        uuid = uuid4().hex
-        # 不能使用pathlib，与flask存储文件用法冲突
-        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
-        os.makedirs(taskdir)
-        inputfile = taskdir + "/" + filename
-        form.url.data.save(inputfile)
-
-        # 导入任务数据库
-        task = Tasklist(
-            title="DNA反向互补",
-            taskid=uuid,
-            status="进行中",
-            resulturl=taskdir,
-            user_id=int(current_user.id)
-        )
-        db.session.add(task)
-        db.session.commit()
-
-        # 异步运行执行程序
-        script = f"python ./app/static/program/rev_com/rev_com.py {inputfile} {form.func.data} 2>{taskdir}/run.log"
-        app = current_app._get_current_object()
-        crun = threading.Thread(target=runtools, args=(app, script, uuid))
-        crun.start()
-
-        return redirect(url_for("admin.index", page=1))
-    return render_template('admin/tools/rev_com.html', form=form)

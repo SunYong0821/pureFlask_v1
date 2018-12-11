@@ -2,66 +2,67 @@
 
 {% block content %}
 
-<!-- BEGIN: Subheader -->
-<div class="m-subheader ">
-    <div class="d-flex align-items-center">
-        <div class="mr-auto">
-            <h3 class="m-subheader__title ">
-                实验部
-            </h3>
-        </div>
-        <!-- <div>
-                <span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
-                    <span class="m-subheader__daterange-label">
-                        <span class="m-subheader__daterange-title"></span>
-                        <span class="m-subheader__daterange-date m--font-brand"></span>
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title ">
+                    实验部
+                </h3>
+            </div>
+            <!-- <div>
+                    <span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
+                        <span class="m-subheader__daterange-label">
+                            <span class="m-subheader__daterange-title"></span>
+                            <span class="m-subheader__daterange-date m--font-brand"></span>
+                        </span>
+                        <a href="#" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                            <i class="la la-angle-down"></i>
+                        </a>
                     </span>
-                    <a href="#" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
-                        <i class="la la-angle-down"></i>
-                    </a>
-                </span>
-            </div> -->
+                </div> -->
+        </div>
     </div>
-</div>
-<!-- END: Subheader -->
-<div class="m-content">
+    <!-- END: Subheader -->
+    <div class="m-content">
 
-    <!--Begin::Section-->
-    <div class="row">
-        {% for v in tools_list %}
-        <div class="col-xl-4">
-            <div class="m-portlet m-portlet--full-height">
-                <div class="m-portlet__body">
-                    <!--begin::Total Profit-->
-                    <div class="m-widget3">
-                        <div class="m-widget3__item">
-                            <div class="m-widget3__header">
-                                <div class="m-widget3__user-img">
-                                    <a href="{{ url_for('admin.rev_com') }}"><img src="{{ url_for('static', filename=v.img) }}"
-                                            alt></a>
-                                </div>
-                                <div class="m-widget3__info">
+        <!--Begin::Section-->
+        <div class="row">
+            {% for v in tools_list %}
+                <div class="col-xl-4">
+                    <div class="m-portlet m-portlet--full-height">
+                        <div class="m-portlet__body">
+                            <!--begin::Total Profit-->
+                            <div class="m-widget3">
+                                <div class="m-widget3__item">
+                                    <div class="m-widget3__header">
+                                        <div class="m-widget3__user-img">
+                                            <a href="{{ url_for('tools.rev_com') }}"><img
+                                                    src="{{ url_for('static', filename=v.img) }}"
+                                                    alt></a>
+                                        </div>
+                                        <div class="m-widget3__info">
                                     <span class="m-widget3__username">
-                                        <a href="{{ url_for('admin.rev_com') }}" style="text-decoration: none">
+                                        <a href="{{ url_for('tools.rev_com') }}" style="text-decoration: none">
                                             <h5>{{ v.title }}</h5>
                                         </a>
                                     </span>
+                                        </div>
+                                    </div>
+                                    <div class="m-widget3__body">
+                                        <p class="m-widget3__text">
+                                            {{ v.info }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="m-widget3__body">
-                                <p class="m-widget3__text">
-                                    {{ v.info }}
-                                </p>
-                            </div>
                         </div>
+                        <!--end::Total Profit-->
                     </div>
                 </div>
-                <!--end::Total Profit-->
-            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-</div>
-<!--End::Section-->
+    <!--End::Section-->
 
-{% endblock%}
+{% endblock %}
