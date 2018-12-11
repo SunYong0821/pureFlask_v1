@@ -19,8 +19,6 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = 'admin.login'
     login_manager.login_message = "请先登录或注册"
-    # session.permanent = True
-    # app.permanent_session_lifetime = timedelta(seconds=5)
     login_manager.remember_cookie_duration = timedelta(days=1)
     db.init_app(app)
 
