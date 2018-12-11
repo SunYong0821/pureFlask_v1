@@ -30,7 +30,7 @@ def index(page=None):
 @admin.route("/download/<path:dirname>", methods=['GET'])
 def download(dirname):
     root_dir = pathlib.Path(os.getcwd())
-    return send_from_directory(root_dir / dirname, 'out.gz', as_attachment=True)
+    return send_from_directory(root_dir / dirname, 'out.zip', as_attachment=True)
 
 
 @admin.route('/', methods=['GET', 'POST'])
@@ -231,7 +231,7 @@ def rev_com():
             title="DNA反向互补",
             taskid=uuid,
             status="进行中",
-            resulturl=inputfile + ".gz",
+            resulturl=taskdir,
             user_id=int(current_user.id)
         )
         db.session.add(task)
