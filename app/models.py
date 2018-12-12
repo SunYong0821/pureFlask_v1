@@ -41,25 +41,27 @@ class User(UserMixin, db.Model):
         self._password = generate_password_hash(raw)
 
     # 生成token方法
-    def generate_token(self, expiration=60):
+    def generate_token(self, expiration=36000):
         s = Seralize(current_app.config['SECRET_KEY'], expiration)
         return s.dumps({'id': self.id})
 
-    def check_token(self, token):
+    @staticmethod
+    def check_token(token):
         s = Seralize(current_app.config['SECRET_KEY'])
         # 从当前的token中拿出
         try:
-            data = s.loads(token.encode('utf-8'))
+            id = s.loads(token)['id']
         except:
             return False
-        if data.get("confirm") != self.id:
+        user = User.query.get(id)
+        if not user:
             return False
-        # TODO 更改token有效时间
-        self.confirm = True
-        db.session.add(self)
-        db.session.commit()
-        os.makedirs(pathlib.Path('./app/static/user/' + self.name + '/profile'))
-        os.makedirs(pathlib.Path('./app/static/user/' + self.name + '/task'))
+        if not user.confirm:
+            user.confirm = True
+            db.session.add(user)
+            db.session.commit()
+            os.makedirs(pathlib.Path('./app/static/user/' + user.name + '/profile'))
+            os.makedirs(pathlib.Path('./app/static/user/' + user.name + '/task'))
         return True
 
     @staticmethod

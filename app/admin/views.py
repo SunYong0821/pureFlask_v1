@@ -75,7 +75,7 @@ def register():
         # 发送邮件
         send_mail(subject="账号激活", to=form.email.data, template='email/activate.html', user=user,
                   token=token)
-        flash("注册成功请去邮箱中激活！")
+        flash("注册成功请去邮箱中激活！", "success")
         return redirect(url_for('admin.login'))
     return render_template('user/register.html', form=form)
 
