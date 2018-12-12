@@ -160,11 +160,12 @@
                         </div>
                         <div class="row m-login__form-sub">
                             <div class="col m--align-left">
-                                <label class="m-checkbox m-checkbox--focus">
+                                {{ form.remember_me }}记住账号
+                                {#<label class="m-checkbox m-checkbox--focus">
                                     <input type="checkbox" name="remember">
-                                    记住账号
+
                                     <span></span>
-                                </label>
+                                </label>#}
                             </div>
                             <div class="col m--align-right">
                                 <a href="{{ url_for('admin.forget_password_request') }}" id="m_login_forget_password"

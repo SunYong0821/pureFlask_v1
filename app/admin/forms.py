@@ -1,6 +1,6 @@
 # coding:utf-8
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
 from wtforms.validators import ValidationError, Length, EqualTo, Regexp
 
 from app.models import User
@@ -40,6 +40,10 @@ class LoginForm(FlaskForm):
             'placeholder': '请输入密码',
         }
     )
+    remember_me = BooleanField(label="记住密码",
+                               default=False,
+                               render_kw={"class": "m-checkbox m-checkbox--focus",
+                                          })
     submit = SubmitField(
         '登陆',
         render_kw={
