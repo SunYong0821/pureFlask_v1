@@ -10,8 +10,9 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.admin import admin
 from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetPasswordRequestForm, \
     EditProfileForm
+from app.lib.decorators import permission_required
 from app.lib.email import send_mail
-from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvideo
+from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvideo, Permission
 
 
 @admin.route('/index/<int:page>.html', methods=["GET", "POST"])
@@ -126,6 +127,7 @@ def logout():
 
 @admin.route('/videolist.html')
 @login_required
+@permission_required(Permission.OURS)
 def videolist():
     video_list = Videolist.find_all_video_by_page()
     return render_template('admin/videolist.html', video_list=video_list)
@@ -133,6 +135,7 @@ def videolist():
 
 @admin.route('/<int:video_list_id>/<int:id>/playvideo_list.html', methods=['GET', 'POST'])
 @login_required
+@permission_required(Permission.OURS)
 def play_video_list(video_list_id, id):
     play_video = Playvideo.query.filter_by(
         videolist_id=video_list_id).order_by(Playvideo.id).all()

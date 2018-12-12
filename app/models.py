@@ -1,16 +1,49 @@
 # coding:utf-8
 
+import os
+import pathlib
 from datetime import datetime
 
 from flask import current_app, flash
 from flask_login import UserMixin
-from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Seralize
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import login_manager, db
 
-import os, pathlib
+
+class Permission:
+    COMMON = 0x01  # 关注其他用户
+    VIP = 0x02  # 评论
+    OURS = 0x04  # 写文章
+    ADMIN = 0x08  # 管理评论
+
+
+class Role(db.Model):
+    __tablename__ = "role"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True)
+    default = db.Column(db.Boolean)
+    permissions = db.Column(db.Integer)
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
+    users = db.relationship('User', back_populates='role')
+
+    def add_permission(self, perm):
+        if not self.has_permission(perm):
+            self.permissions += perm
+
+    def remove_permission(self, perm):
+        if self.has_permission(perm):
+            self.permissions -= perm
+
+    def reset_permission(self):
+        self.permissions = 0
+
+    def has_permission(self, perm):
+        return self.permissions & perm == perm
+
+    def __repr__(self):
+        return f'<Role {self.name}>'
 
 
 class User(UserMixin, db.Model):
@@ -23,14 +56,26 @@ class User(UserMixin, db.Model):
     img = db.Column(db.String(255))
     addtime = db.Column(db.DateTime, index=True, default=datetime.now)
     confirm = db.Column(db.Boolean, default=False)
-
     userlogs = db.relationship('Userlog', backref='user')
     task_id = db.relationship('Tasklist', backref='user')
-
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
-    # 当前账号激活状态
+    role = db.relationship('Role', back_populates='users')
 
+    def __init__(self, **kwargs):
+        super(User, self).__init__(**kwargs)
+        self.set_role()
+
+    def set_role(self):
+        if self.role is None:
+            if self.email == current_app.config['MAIL_USERNAME']:
+                self.role = Role.query.filter_by(name='ADMIN').first()
+            if self.email.endswith('@microanaly.com'):
+                self.role = Role.query.filter_by(name='OURS').first()
+            else:
+                self.role = Role.query.filter_by(name='COMMON').first()
+
+    # 当前账号激活状态
     @property
     def password(self):
         return self._password
@@ -82,6 +127,12 @@ class User(UserMixin, db.Model):
     def check_password(self, pwd):
         return check_password_hash(self._password, pwd)
 
+    def can(self, perm):
+        return self.role is not None and self.role.has_permission(perm)
+
+    def is_administrator(self):
+        return self.can(Permission.ADMIN)
+
     def __repr__(self):
         return f'<User {self.name}>'
 
@@ -101,19 +152,6 @@ class Userlog(db.Model):
 
     def __repr__(self):
         return f'<Userlog {self.id}>'
-
-
-class Role(db.Model):
-    __tablename__ = "role"
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), unique=True)
-    auths = db.Column(db.String(1000))
-    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
-
-    userid = db.relationship('User', backref='role')
-
-    def __repr__(self):
-        return f'<Role {self.name}>'
 
 
 class Videolist(db.Model):
