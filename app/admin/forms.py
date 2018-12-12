@@ -65,7 +65,7 @@ class RegisterForm(FlaskForm):
     email = StringField(label="邮箱",
                         validators=[
                             Nonevalidators(message="请输入邮箱"),
-                            Regexp(r"\w+@microanaly\.com", message="电子邮箱不符合规范")
+                            Regexp(r"\w+@+\w+\.com", message="电子邮箱不符合规范")
                         ],
                         description="账号",
                         render_kw={
