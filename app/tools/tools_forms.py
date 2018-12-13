@@ -30,7 +30,7 @@ class PoolingForm(FlaskForm):
     )
     lane = SelectField(
         label="lane number",
-        choices=[('2', "2"), ('4', "4")],
+        choices=[('1', "1"), ('2', "2"), ('3', "3"), ('4', "4")],
         render_kw={"class": "form-control m-input m-input--air"}
     )
     sizes = StringField(
