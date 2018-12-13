@@ -139,6 +139,8 @@ def videolist():
 def play_video_list(video_list_id, id):
     play_video = Playvideo.query.filter_by(
         videolist_id=video_list_id).order_by(Playvideo.id).all()
+
+    video_list = Videolist.query.filter_by(id=video_list_id).first()
     if play_video:
         if id == 0:
             video = play_video[0]
@@ -151,7 +153,7 @@ def play_video_list(video_list_id, id):
         flash("没有可播放视频", "danger")
         return redirect(url_for('admin.videolist'))
 
-    return render_template('admin/playvideo.html', play_video=play_video, video=video)
+    return render_template('admin/playvideo.html', play_video=play_video, video=video, video_list=video_list)
 
 
 @admin.route('/biotoolslist.html', methods=["GET"])
