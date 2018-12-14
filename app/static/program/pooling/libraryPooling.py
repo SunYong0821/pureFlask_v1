@@ -11,6 +11,9 @@ basesize = sys.argv[4]
 bs = basesize.split(',')
 bsint = [int(i) for i in bs]
 
+if len(bs) != int(sys.argv[2]):
+    sys.exit("The number of basesize(250[,350,450]) must equal number of lane!")
+
 inputdir = os.path.dirname(sys.argv[1])
 outdir = inputdir + "/out"
 

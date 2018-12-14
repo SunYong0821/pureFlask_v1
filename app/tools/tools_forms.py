@@ -47,3 +47,17 @@ class PoolingForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+class SplitLaneForm(FlaskForm):
+    url = FileField(
+        label='excel',
+        validators=[Nonevalidators("请上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    lane = SelectField(
+        label="lane number",
+        choices=[('2', "2"), ('3', "3"), ('4', "4")],
+        render_kw={"class": "form-control m-input m-input--air"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
