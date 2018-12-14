@@ -53,6 +53,8 @@ def taskprepare(toolname, form):
     db.session.add(tool)
     db.session.commit()
 
+    return taskdir, uuid
+
 
 @tools.route('/rev_com.html', methods=["GET", "POST"])
 @login_required
