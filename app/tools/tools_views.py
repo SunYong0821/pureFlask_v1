@@ -53,7 +53,7 @@ def taskprepare(toolname, form):
     db.session.add(tool)
     db.session.commit()
 
-    return taskdir, uuid
+    return taskdir, uuid, inputfile
 
 
 @tools.route('/rev_com.html', methods=["GET", "POST"])
@@ -61,7 +61,7 @@ def taskprepare(toolname, form):
 def rev_com():
     form = RevComForm()
     if form.validate_on_submit():
-        taskdir, uuid = taskprepare("DNA反向互补", form)
+        taskdir, uuid, inputfile = taskprepare("DNA反向互补", form)
 
         # 异步运行执行程序
         script = f"python ./app/static/program/rev_com/rev_com.py {inputfile} {form.func.data} 2>{taskdir}/out/run.log"
@@ -78,7 +78,7 @@ def rev_com():
 def pooling():
     form = PoolingForm()
     if form.validate_on_submit():
-        taskdir, uuid = taskprepare("文库Pooling", form)
+        taskdir, uuid, inputfile = taskprepare("文库Pooling", form)
 
         script = f"python ./app/static/program/pooling/libraryPooling.py {inputfile} {form.lane.data} {form.vol.data} {form.sizes.data} 2>{taskdir}/out/run.log"
         app = current_app._get_current_object()
@@ -94,7 +94,7 @@ def pooling():
 def splitlane():
     form = SplitLaneForm()
     if form.validate_on_submit():
-        taskdir, uuid = taskprepare("文库分Lane", form)
+        taskdir, uuid, inputfile = taskprepare("文库分Lane", form)
 
         script = f"python ./app/static/program/splitlane/splitlane.py {inputfile} {form.lane.data} 2>{taskdir}/out/run.log"
         app = current_app._get_current_object()
