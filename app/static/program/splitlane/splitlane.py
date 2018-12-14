@@ -100,3 +100,5 @@ while 1:
         randomsuccess += 1
         if randomsuccess > 50 or test > 10:
             break
+
+make_archive(inputdir + "/out", "zip", inputdir, "out")
