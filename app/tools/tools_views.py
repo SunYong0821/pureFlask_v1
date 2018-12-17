@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-import os
+import os, shutil
 import subprocess
 import threading
 from uuid import uuid4
 
-from flask import current_app, url_for, render_template, redirect
+from flask import current_app, url_for, render_template, redirect, abort
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
@@ -35,6 +35,9 @@ def taskprepare(toolname, form):
     os.makedirs(taskdir + "/out")
     inputfile = taskdir + "/" + filename
     form.url.data.save(inputfile)
+    if os.path.getsize(inputfile) > 10 * 1024 * 1024:
+        shutil.rmtree(taskdir)
+        abort(413)
 
     # 导入任务数据库
     task = Tasklist(
