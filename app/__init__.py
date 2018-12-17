@@ -12,14 +12,19 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
+    app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
     app.config.from_pyfile('./setting.py')
     app.config.from_pyfile('./secure.py')
+
     register_blueprint(app)
+
     mail.init_app(app)
+
     login_manager.init_app(app)
     login_manager.login_view = 'admin.login'
     login_manager.login_message = "请先登录或注册"
     login_manager.remember_cookie_duration = timedelta(days=1)
+    
     db.init_app(app)
 
     @app.errorhandler(404)
