@@ -35,9 +35,9 @@ def taskprepare(toolname, form):
     os.makedirs(taskdir + "/out")
     inputfile = taskdir + "/" + filename
     form.url.data.save(inputfile)
-    if os.path.getsize(inputfile) > 10 * 1024 * 1024:
+    """ if os.path.getsize(inputfile) > 10 * 1024 * 1024:
         shutil.rmtree(taskdir)
-        abort(413)
+        abort(413) """
 
     # 导入任务数据库
     task = Tasklist(
