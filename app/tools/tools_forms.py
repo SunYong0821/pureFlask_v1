@@ -1,27 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask_wtf import FlaskForm
 from wtforms import FileField, RadioField, SubmitField, SelectField, StringField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms.validators import DataRequired
 from app.admin.forms import Nonevalidators
-import os, pathlib
-
-class FileSize(object):
-
-    def __init__(self, message):
-        self.message = message
-
-    def __call__(self, form, field):
-        if field.data:
-            a = os.path.abspath(pathlib.Path(field.data.stream.name))
-            s = os.path.getsize(a)
-            self.message = str(s) + a
-        raise ValidationError(self.message)
 
 
 class RevComForm(FlaskForm):
     url = FileField(
         label='fasta|txt',
-        validators=[Nonevalidators("请上传一个文件"), FileSize(' aaaa')],
+        validators=[Nonevalidators("请上传一个文件")],
         render_kw={"class": "custom-file-input", "id": "customFile"}
     )
     func = RadioField(
