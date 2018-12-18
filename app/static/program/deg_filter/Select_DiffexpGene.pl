@@ -46,7 +46,7 @@ Attention:
 	if Both Pvalue and FDR are used to select Diff Analysis Results, We will only use FDR to select Diff Analysis Results!
 =============================================================================
 USAGE
-	exit;
+	die;
 }
 $infile=abs_path($infile);
 my $odir=dirname($infile);
@@ -62,7 +62,7 @@ unless(-d $check){
 open OUT,">$odir/out/$prefix.Diffexp.xls";
 open LOG,">$odir/run.log";
 my @files;
-push @files,"out/run.log";
+#push @files,"out/run.log";
 push @files,"out/$prefix.Diffexp.xls";
 if(defined $split){
 	open UP,">$odir/out/$prefix.Diffexp_up.xls";
