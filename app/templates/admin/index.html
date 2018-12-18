@@ -65,15 +65,25 @@
                                     <td data-field="starttime">{{ v.addtime }}</td>
                                     {% if v.status == "任务完成" %}
                                     <td data-field="status">
-                                        <span class="m-badge  m-badge--success m-badge--wide m-badge--rounded">{{ v.status }}</span>
+                                        <span class="m-badge  m-badge--success m-badge--wide m-badge--rounded">{{
+                                            v.status }}</span>
                                     </td>
                                     <td data-field="result">
                                         <a href="{{ url_for('admin.download', dirname=v.resulturl) }}" target="_blank"
                                             class="btn btn-success m-btn m-btn--icon m-btn--icon-only">
                                             <i class="fa fa-download"></i></a></td>
+                                    {% elif v.status == "进行中" %}
+                                    <td data-field="status">
+                                        <span class="m-badge  m-badge--primary m-badge--wide m-badge--rounded">{{
+                                            v.status }}</span>
+                                    </td>
+                                    <td data-field="result">
+                                        <a href="#" class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only disabled">
+                                            <i class="fa fa-download"></i></a></td>
                                     {% else %}
                                     <td data-field="status">
-                                        <span class="m-badge  m-badge--danger m-badge--wide m-badge--rounded">{{ v.status }}</span>
+                                        <span class="m-badge  m-badge--danger m-badge--wide m-badge--rounded">{{
+                                            v.status }}</span>
                                     </td>
                                     <td data-field="result">
                                         <a href="#" class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only disabled">

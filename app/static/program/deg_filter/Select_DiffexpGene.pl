@@ -50,15 +50,19 @@ USAGE
 }
 $infile=abs_path($infile);
 my $odir=dirname($infile);
+$fc=abs($fc);
+&checknum($fc);
+##my ($infile,$fc,$fccolumn,$pvalue,$pcolumn,$fdr,$fcolumn,$head,$split,$prefix);
+&checknum($fccolumn);
 open IN,$infile;
 my $check="$odir/out";
 unless(-d $check){
 	mkdir($check);
 }
 open OUT,">$odir/out/$prefix.Diffexp.xls";
-open LOG,">$odir/out/run_log.txt";
+open LOG,">$odir/run.log";
 my @files;
-push @files,"out/run_log.txt";
+push @files,"out/run.log";
 push @files,"out/$prefix.Diffexp.xls";
 if(defined $split){
 	open UP,">$odir/out/$prefix.Diffexp_up.xls";
@@ -82,23 +86,26 @@ while(<IN>){
 	my @a=split /\t/,$_;
 	if($fccolumn>$#a+1){
 		print LOG "Fold change column out of range!\n";
-		last;
+		die;
 	}
+####my ($infile,$fc,$fccolumn,$pvalue,$pcolumn,$fdr,$fcolumn,$head,$split,$prefix);
+	&checknum($a[$fccolumn-1]);
 	if($a[$fccolumn-1]!~/\d+/){
 		print LOG "Fold change column error:\n$l\n";
-		last;
+		die;
 	}
 	if(abs($a[$fccolumn-1])<$fc){
 		next;
 	}
 	if($fdr){
+		&checknum($fcolumn);
 		if($fcolumn>$#a+1){
 			print LOG "FDR column out of range!\n";
-			last;
+			die;
 		}
 		if($a[$fcolumn-1]!~/\d+/){
 			print LOG "FDR column error:\n$l\n";
-			last;
+			die;
 		}
 		if($a[$fcolumn-1]<=$fdr){
 			print OUT "$l\n";
@@ -109,13 +116,14 @@ while(<IN>){
 		}
 	}
 	elsif($pvalue){
+		&checknum($pcolumn);
 		if($pcolumn>$#a+1){
 			print LOG "Pvalue column out of range!\n";
-			last;
+			die;
 		}
 		if($a[$pcolumn-1]!~/\d+/){
 			print LOG "Pvalue column error:\n$l\n";
-			last;
+			die;
 		}
 		if($a[$pcolumn-1]<=$pvalue){
 			print OUT "$l\n";
@@ -138,3 +146,15 @@ foreach(@files){
 	$obj->addFile($file);
 }
 $obj->writeToFileNamed("out.zip");
+
+sub checknum{
+	my ($num)=@_;
+	$num=~s/\.//g;
+	$num=~s/-//g;
+	if($num=~/^\d+$/){
+		return(1);
+	}
+	else{
+		die;
+	}
+}

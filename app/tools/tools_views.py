@@ -68,7 +68,7 @@ def rev_com():
         taskdir, uuid, inputfile = taskprepare("DNA反向互补", form)
 
         # 异步运行执行程序
-        script = f"python ./app/static/program/rev_com/rev_com.py {inputfile} {form.func.data} 2>{taskdir}/out/run.log"
+        script = f"python ./app/static/program/rev_com/rev_com.py {inputfile} {form.func.data} 2>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -84,7 +84,7 @@ def pooling():
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("文库Pooling", form)
 
-        script = f"python ./app/static/program/pooling/libraryPooling.py {inputfile} {form.lane.data} {form.vol.data} {form.sizes.data} 2>{taskdir}/out/run.log"
+        script = f"python ./app/static/program/pooling/libraryPooling.py {inputfile} {form.lane.data} {form.vol.data} {form.sizes.data} 2>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -100,7 +100,7 @@ def splitlane():
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("文库分Lane", form)
 
-        script = f"python ./app/static/program/splitlane/splitlane.py {inputfile} {form.lane.data} 2>{taskdir}/out/run.log"
+        script = f"python ./app/static/program/splitlane/splitlane.py {inputfile} {form.lane.data} 2>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
