@@ -67,8 +67,10 @@ def rev_com():
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("DNA反向互补", form)
 
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(f"Options: {form.func.data}\n")
         # 异步运行执行程序
-        script = f"python ./app/static/program/rev_com/rev_com.py {inputfile} {form.func.data} 2>{taskdir}/run.log"
+        script = f"python ./app/static/program/rev_com/rev_com.py {inputfile} {form.func.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -84,7 +86,9 @@ def pooling():
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("文库Pooling", form)
 
-        script = f"python ./app/static/program/pooling/libraryPooling.py {inputfile} {form.lane.data} {form.vol.data} {form.sizes.data} 2>{taskdir}/run.log"
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(f"Options: {form.lane.data} {form.vol.data} {form.sizes.data}\n")
+        script = f"python ./app/static/program/pooling/libraryPooling.py {inputfile} {form.lane.data} {form.vol.data} {form.sizes.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -100,7 +104,9 @@ def splitlane():
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("文库分Lane", form)
 
-        script = f"python ./app/static/program/splitlane/splitlane.py {inputfile} {form.lane.data} 2>{taskdir}/run.log"
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(f"Options: {form.lane.data}\n")
+        script = f"python ./app/static/program/splitlane/splitlane.py {inputfile} {form.lane.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -116,10 +122,12 @@ def deg_filter():
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("差异表达筛选", form)
 
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.yuzhi.data} {form.outpre.data}\n")
         if form.pq.data == 1:
-            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -pvalue {form.pq.data} -pcolumn {form.yuzhi.data} -head -prefix {form.outpre.data}"
+            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -pvalue {form.pq.data} -pcolumn {form.yuzhi.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         else:
-            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -fdr {form.pq.data} -fdrcolumn {form.yuzhi.data} -head -prefix {form.outpre.data}"
+            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -fdr {form.pq.data} -fdrcolumn {form.yuzhi.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
