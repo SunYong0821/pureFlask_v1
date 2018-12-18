@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-import os, shutil
+import os
+import shutil
 import subprocess
 import threading
 from uuid import uuid4
@@ -10,7 +11,7 @@ from werkzeug.utils import secure_filename
 
 from app import db
 from . import tools
-from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm
+from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm
 from app.models import Tasklist, Toolslist
 
 
@@ -19,7 +20,7 @@ def runtools(app, script, uuid):
         rc = subprocess.run(script, shell=True)
         tl = Tasklist.query.filter_by(taskid=uuid).first()
         if rc.returncode == 0:
-            tl.status = "已完成"
+            tl.status = "任务完成"
             db.session.add(tl)
         else:
             tl.status = "运行错误"
@@ -106,3 +107,22 @@ def splitlane():
 
         return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/splitlane.html', form=form)
+
+
+@tools.route('/deg_filter.html', methods=["GET", "POST"])
+@login_required
+def deg_filter():
+    form = DEGForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("差异表达筛选", form)
+
+        if form.pq.data == 1:
+            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -pvalue {form.pq.data} -pcolumn {form.yuzhi.data} -head -prefix {form.outpre.data}"
+        else:
+            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -fdr {form.pq.data} -fdrcolumn {form.yuzhi.data} -head -prefix {form.outpre.data}"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index", page=1))
+    return render_template('admin/tools/deg_filter.html', form=form)

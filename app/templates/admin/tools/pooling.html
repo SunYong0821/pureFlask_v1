@@ -35,30 +35,37 @@
                             <div class="custom-file">
                                 {{ form.url }}
                                 <label class="custom-file-label" for="customFile">
-                                    请选择一个文件
+                                    选择一个文件
                                 </label>
                                 {% for error in form.url.errors %}
                                 <span style="color: red">{{ error }}</span>
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="m-form__group form-group">
-                            <label>选择lane数目：</label>
-                            {{ form.lane }}
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-8">选择lane数目：</label>
+                            <div>{{ form.lane }}</div>
                             {% for error in form.lane.errors %}
                             <span style="color: red">{{ error }}</span>
                             {% endfor %}
                         </div>
-                        <div class="m-form__group form-group">
-                            <label>输入相应lane数的基准片段：</label>
-                            {{ form.sizes }}
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入相应lane数的基准片段：</label>
+                            <div class="input-group m-input-group col-lg-6">
+                                {{ form.sizes }}
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        bp
+                                    </span>
+                                </div>
+                            </div>
                             {% for error in form.sizes.errors %}
                             <span style="color: red">{{ error }}</span>
                             {% endfor %}
                         </div>
-                        <div class="m-form__group form-group">
-                            <label>输入最大混合体积：</label>
-                            <div class="input-group m-input-group">
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入最大混合体积：</label>
+                            <div class="input-group m-input-group col-lg-6">
                                 {{ form.vol }}
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon1">

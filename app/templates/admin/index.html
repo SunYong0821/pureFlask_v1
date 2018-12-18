@@ -63,12 +63,18 @@
                                     <td data-field="uuid">{{ v.taskid }}</td>
                                     <td data-field="title">{{ v.title}}</td>
                                     <td data-field="starttime">{{ v.addtime }}</td>
-                                    <td data-field="status">{{ v.status }}</td>
-                                    {% if v.status == "已完成" %}
+                                    {% if v.status == "任务完成" %}
+                                    <td data-field="status">
+                                        <span class="m-badge  m-badge--success m-badge--wide m-badge--rounded">{{ v.status }}</span>
+                                    </td>
                                     <td data-field="result">
-                                        <a href="{{ url_for('admin.download', dirname=v.resulturl) }}" target="_blank" class="btn btn-success m-btn m-btn--icon m-btn--icon-only">
+                                        <a href="{{ url_for('admin.download', dirname=v.resulturl) }}" target="_blank"
+                                            class="btn btn-success m-btn m-btn--icon m-btn--icon-only">
                                             <i class="fa fa-download"></i></a></td>
                                     {% else %}
+                                    <td data-field="status">
+                                        <span class="m-badge  m-badge--danger m-badge--wide m-badge--rounded">{{ v.status }}</span>
+                                    </td>
                                     <td data-field="result">
                                         <a href="#" class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only disabled">
                                             <i class="fa fa-download"></i></a></td>
@@ -92,7 +98,7 @@
 
 {% block js%}
 <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
         $("#a-1").addClass("m-menu__item--active");
     });
 </script>

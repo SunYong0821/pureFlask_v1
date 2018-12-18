@@ -35,16 +35,16 @@
                             <div class="custom-file">
                                 {{ form.url }}
                                 <label class="custom-file-label" for="customFile">
-                                    请选择一个文件
+                                    选择一个文件
                                 </label>
                                 {% for error in form.url.errors %}
                                 <span style="color: red">{{ error }}</span>
                                 {% endfor %}
                             </div>
                         </div>
-                        <div class="m-form__group form-group">
-                            <label>请选择功能：</label>
-                            <div class="m-radio-inline">
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-4">选择功能：</label>
+                            <div class="m-radio-inline col-lg-8">
                                 {% for v in form.func %}
                                 <label class="m-radio">
                                     {{ v }}

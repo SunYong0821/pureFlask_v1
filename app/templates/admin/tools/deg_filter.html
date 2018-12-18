@@ -5,7 +5,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title">
-                文库分Lane
+                差异表达筛选
             </h3>
         </div>
     </div>
@@ -23,7 +23,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                文库分Lane
+                                差异表达筛选
                             </h3>
                         </div>
                     </div>
@@ -43,9 +43,52 @@
                             </div>
                         </div>
                         <div class="m-form__group form-group row">
-                            <label class="col-form-label col-lg-4">选择lane数目：</label>
-                            <div>{{ form.lane }}</div>
-                            {% for error in form.lane.errors %}
+                            <label class="col-form-label col-lg-6">选择p值或fdr值过滤：</label>
+                            <div class="m-radio-inline col-lg-6">
+                                {% for v in form.pq %}
+                                <label class="m-radio">
+                                    {{ v }}
+                                    {{ v.label }}
+                                    <span></span>
+                                </label>
+                                {% endfor %}
+                                {% for error in form.pq.errors %}
+                                <span style="color: red">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入p值或fdr所在列：</label>
+                            <div class="col-lg-3">{{ form.pqcol }}</div>
+                            {% for error in form.pqcol.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入p值或fdr阈值大小：</label>
+                            <div class="col-lg-3">{{ form.yuzhi }}</div>
+                            {% for error in form.yuzhi.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入FC所在列：</label>
+                            <div class="col-lg-3">{{ form.fccol }}</div>
+                            {% for error in form.fccol.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入FC(log2)阈值大小：</label>
+                            <div class="col-lg-3">{{ form.fc }}</div>
+                            {% for error in form.fc.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入输出结果前缀：</label>
+                            <div class="col-lg-6">{{ form.outpre }}</div>
+                            {% for error in form.outpre.errors %}
                             <span style="color: red">{{ error }}</span>
                             {% endfor %}
                         </div>
@@ -122,7 +165,13 @@
                             <div class="m-list-timeline__item">
                                 <span class="m-list-timeline__badge"></span>
                                 <span class="m-list-timeline__text">
-                                    文件输入格式为excel格式，后缀名为.xlsx
+                                    文件输入格式为文本格式，后缀名可能为txt,xls(非excel格式)等
+                                </span>
+                            </div>
+                            <div class="m-list-timeline__item">
+                                <span class="m-list-timeline__badge"></span>
+                                <span class="m-list-timeline__text">
+                                    文件第一行默认必须有行头
                                 </span>
                             </div>
                         </div>
