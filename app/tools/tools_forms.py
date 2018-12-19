@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask_wtf import FlaskForm
 from wtforms import FileField, RadioField, SubmitField, SelectField, StringField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Regexp
 from app.admin.forms import Nonevalidators
 
 
@@ -34,13 +34,13 @@ class PoolingForm(FlaskForm):
     )
     sizes = StringField(
         label="size",
-        validators=[Nonevalidators("输入相应数目的片段大小")],
+        validators=[Nonevalidators("输入相应数目的片段大小"), Regexp(r"[\d,]+", message="必须是整数和英文逗号的组合")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "350[,350,300,500]", "aria-describedby": "basic-addon1"}
     )
     vol = StringField(
         label="volume",
-        validators=[Nonevalidators("输入体积")],
+        validators=[Nonevalidators("输入体积"), Regexp(r"[\d\.]+", message="必须是数字")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "体积", "aria-describedby": "basic-addon1"}
     )
@@ -76,25 +76,25 @@ class DEGForm(FlaskForm):
     )
     pqcol = StringField(
         label="column",
-        validators=[Nonevalidators("输入p值或fdr所在列")],
+        validators=[Nonevalidators("输入p值或fdr所在列"), Regexp(r"^\d+$", message="必须是正整数")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "6", "aria-describedby": "basic-addon1"}
     )
     yuzhi = StringField(
         label="阈值",
-        validators=[Nonevalidators("输入阈值大小")],
+        validators=[Nonevalidators("输入阈值大小"), Regexp(r"[\d\.]+", message="必须是数字")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "0.05", "aria-describedby": "basic-addon1"}
     )
     fccol = StringField(
         label="column",
-        validators=[Nonevalidators("输入fold change所在列")],
+        validators=[Nonevalidators("输入fold change所在列"), Regexp(r"^\d+$", message="必须是正整数")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "5", "aria-describedby": "basic-addon1"}
     )
     fc = StringField(
         label="阈值",
-        validators=[Nonevalidators("输入fold change阈值")],
+        validators=[Nonevalidators("输入fold change阈值"), Regexp(r"[\d\.]+", message="必须是数字")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "1", "aria-describedby": "basic-addon1"}
     )
