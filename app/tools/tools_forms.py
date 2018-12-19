@@ -82,7 +82,7 @@ class DEGForm(FlaskForm):
     )
     yuzhi = StringField(
         label="阈值",
-        validators=[Nonevalidators("输入阈值大小"), Regexp(r"[\d.]+", message="必须是数字")],
+        validators=[Nonevalidators("输入阈值大小"), Regexp(r"[\d\.]+", message="必须是数字")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "0.05", "aria-describedby": "basic-addon1"}
     )
