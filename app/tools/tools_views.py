@@ -124,7 +124,7 @@ def deg_filter():
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.yuzhi.data} {form.outpre.data}\n")
-        if form.pq.data == 1:
+        if int(form.pq.data) == 1:
             script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -pvalue {form.pq.data} -pcolumn {form.yuzhi.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         else:
             script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -fdr {form.pq.data} -fdrcolumn {form.yuzhi.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
