@@ -105,8 +105,13 @@ class User(UserMixin, db.Model):
             user.confirm = True
             db.session.add(user)
             db.session.commit()
-            os.makedirs(pathlib.Path('./app/static/user/' + user.name + '/profile'))
-            os.makedirs(pathlib.Path('./app/static/user/' + user.name + '/task'))
+            user_profile = pathlib.Path('./app/static/user/' + user.name + '/profile')
+            user_task = pathlib.Path('./app/static/user/' + user.name + '/task')
+            if  user_task.exists() and  user_profile.exists():
+                pass
+            else:
+                os.makedirs(user_profile)
+                os.makedirs(user_task)
         return True
 
     @staticmethod
