@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 
 from app import db
 from . import tools
-from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm
+from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm
 from app.models import Tasklist, Toolslist
 
 
@@ -87,7 +87,8 @@ def pooling():
         taskdir, uuid, inputfile = taskprepare("文库Pooling", form)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
-            optfile.write(f"Options: {form.lane.data} {form.vol.data} {form.sizes.data}\n")
+            optfile.write(
+                f"Options: {form.lane.data} {form.vol.data} {form.sizes.data}\n")
         script = f"python ./app/static/program/pooling/libraryPooling.py {inputfile} {form.lane.data} {form.vol.data} {form.sizes.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
@@ -123,14 +124,34 @@ def deg_filter():
         taskdir, uuid, inputfile = taskprepare("差异表达筛选", form)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
-            optfile.write(f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.yuzhi.data} {form.outpre.data}\n")
-        if int(form.pq.data) == 1:
-            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -pvalue {form.pq.data} -pcolumn {form.yuzhi.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+            optfile.write(
+                f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.yuzhi.data} {form.pqcol.data} {form.outpre.data}\n")
+        if form.pq.data == "1":
+            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -pvalue {form.yuzhi.data} -pcolumn {form.pqcol.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         else:
-            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -fdr {form.pq.data} -fdrcolumn {form.yuzhi.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -fdr {form.yuzhi.data} -fdrcolumn {form.pqcol.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
         return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/deg_filter.html', form=form)
+
+
+@tools.route('/volcano.html', methods=["GET", "POST"])
+@login_required
+def volcano():
+    form = VolcanoForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("火山图", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.pqcol.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/volcano/Volcano_plot.pl -i {inputfile} -f {form.fc.data} -log2col {form.fccol.data} -pvalue {form.pq.data} -pCol {form.pqcol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index", page=1))
+    return render_template('admin/tools/volcano.html', form=form)

@@ -58,7 +58,7 @@ class RegisterForm(FlaskForm):
                            Nonevalidators(message="请输入用户名"),
                            Length(2, 10,
                                   message=u"用户名至少需要两个字符,最多10个字符"),
-                           Regexp(r'^[\d\w]+$', message="用户名只能是数字+字母的组合")],
+                           Regexp(r'^\w+$', message="用户名只能是数字+字母+汉字的组合")],
                        render_kw={
                            "class": "form-control m-input",
                            "placeholder": u"用户名",

@@ -106,3 +106,42 @@ class DEGForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+class VolcanoForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    pqcol = StringField(
+        label="column",
+        validators=[Nonevalidators("输入p值或fdr所在列"), Regexp(r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "6", "aria-describedby": "basic-addon1"}
+    )
+    pq = StringField(
+        label="阈值",
+        validators=[Nonevalidators("输入阈值大小"), Regexp(r"[\d\.]+", message="必须是数字")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "0.05", "aria-describedby": "basic-addon1"}
+    )
+    fccol = StringField(
+        label="column",
+        validators=[Nonevalidators("输入fold change所在列"), Regexp(r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "5", "aria-describedby": "basic-addon1"}
+    )
+    fc = StringField(
+        label="阈值",
+        validators=[Nonevalidators("输入fold change阈值"), Regexp(r"[\d\.]+", message="必须是数字")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "1", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="out",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
