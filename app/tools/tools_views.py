@@ -155,3 +155,22 @@ def volcano():
 
         return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/volcano.html', form=form)
+
+
+@tools.route('/ma_plot.html', methods=["GET", "POST"])
+@login_required
+def ma_plot():
+    form = VolcanoForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("MA图", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.pqcol.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/ma_plot/MA_plot.pl -i {inputfile} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index", page=1))
+    return render_template('admin/tools/ma_plot.html', form=form)
