@@ -176,6 +176,18 @@ class MAplotForm(FlaskForm):
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "1", "aria-describedby": "basic-addon1"}
     )
+    exp1 = StringField(
+        label="阈值",
+        validators=[Nonevalidators("输入样本组1所在列"), Regexp(r"[\d-]+", message="必须是数字和-的组合")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "3[3-5]", "aria-describedby": "basic-addon1"}
+    )
+    exp2 = StringField(
+        label="阈值",
+        validators=[Nonevalidators("输入样本组2所在列"), Regexp(r"[\d-]+", message="必须是数字和-的组合")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "6[6-8]", "aria-describedby": "basic-addon1"}
+    )
     outpre = StringField(
         label="out",
         validators=[Nonevalidators("输入输出结果前缀")],

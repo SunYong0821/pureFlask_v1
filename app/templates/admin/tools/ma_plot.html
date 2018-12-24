@@ -71,6 +71,20 @@
                             {% endfor %}
                         </div>
                         <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入样本组1所在列：</label>
+                            <div class="col-lg-3">{{ form.exp1 }}</div>
+                            {% for error in form.exp1.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入样本组2所在列：</label>
+                            <div class="col-lg-3">{{ form.exp2 }}</div>
+                            {% for error in form.exp2.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group row">
                             <label class="col-form-label col-lg-6">输入输出结果前缀：</label>
                             <div class="col-lg-6">{{ form.outpre }}</div>
                             {% for error in form.outpre.errors %}
