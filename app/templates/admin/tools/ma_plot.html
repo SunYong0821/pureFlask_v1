@@ -1,0 +1,171 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div class="m-subheader ">
+    <div class="d-flex align-items-center">
+        <div class="mr-auto">
+            <h3 class="m-subheader__title">
+                MA图
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div class="m-content">
+    <div class="row">
+        <div class="col-lg-6">
+            <!--begin::Portlet-->
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                MA图
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <!--begin::Form-->
+                <form class="m-form" method="post" enctype="multipart/form-data">
+                    <div class="m-portlet__body">
+                        <div class="m-form__group form-group">
+                            <div class="custom-file">
+                                {{ form.url }}
+                                <label class="custom-file-label" for="customFile">
+                                    选择一个文件
+                                </label>
+                                {% for error in form.url.errors %}
+                                <span style="color: red">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入p值或fdr所在列：</label>
+                            <div class="col-lg-3">{{ form.pqcol }}</div>
+                            {% for error in form.pqcol.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入p值或fdr阈值大小：</label>
+                            <div class="col-lg-3">{{ form.pq }}</div>
+                            {% for error in form.pq.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入FC所在列：</label>
+                            <div class="col-lg-3">{{ form.fccol }}</div>
+                            {% for error in form.fccol.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入|FC|阈值(log2)大小：</label>
+                            <div class="col-lg-3">{{ form.fc }}</div>
+                            {% for error in form.fc.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="m-form__group form-group row">
+                            <label class="col-form-label col-lg-6">输入输出结果前缀：</label>
+                            <div class="col-lg-6">{{ form.outpre }}</div>
+                            {% for error in form.outpre.errors %}
+                            <span style="color: red">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="m-portlet__foot m-portlet__foot--fit" style="text-align: center">
+                        <div class="m-form__actions m-form__actions">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#m_modal_6">
+                                提交
+                            </button>
+                            <div class="modal fade" id="m_modal_6" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+                                aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                                任务即将加入执行队列
+                                            </h5>
+                                            <!-- 
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">
+                                                    ×
+                                                </span>
+                                            </button> -->
+                                        </div>
+                                        <!-- 
+                                        <div class="modal-body">
+                                            <p>
+
+                                            </p>
+                                        </div> -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                取消
+                                            </button>
+                                            {{ form.submit }}
+                                            {{ form.csrf_token }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--end::Form-->
+            </div>
+            <!--end::Portlet-->
+        </div>
+
+
+        <div class="col-lg-6">
+            <!--begin::Portlet-->
+            <div class="m-portlet">
+                <div class="m-portlet__head">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                说明：
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-portlet__body">
+                    <div class="m-list-timeline">
+                        <div class="m-list-timeline__items">
+                            <div class="m-list-timeline__item">
+                                <span class="m-list-timeline__badge"></span>
+                                <span class="m-list-timeline__text">
+                                    文件名命名最好是字母、数字加下划线的组合
+                                </span>
+                            </div>
+                            <div class="m-list-timeline__item">
+                                <span class="m-list-timeline__badge"></span>
+                                <span class="m-list-timeline__text">
+                                    文件输入格式为文本格式，后缀名可能为txt,xls(非excel格式)等
+                                </span>
+                            </div>
+                            <div class="m-list-timeline__item">
+                                <span class="m-list-timeline__badge"></span>
+                                <span class="m-list-timeline__text">
+                                    文件第一行默认必须有行头
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end::Portlet-->
+        </div>
+    </div>
+</div>
+
+{% endblock%}
