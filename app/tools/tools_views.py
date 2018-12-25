@@ -190,9 +190,9 @@ def ezcollinear():
         in1 = taskdir + "/" + f1
         in2 = taskdir + "/" + f2
         in3 = taskdir + "/" + link
-        form.url.data.save(in1)
-        form.url.data.save(in2)
-        form.url.data.save(in3)
+        form.fai1.data.save(in1)
+        form.fai2.data.save(in2)
+        form.links.data.save(in3)
         if os.path.getsize(in1) > 10 * 1024 * 1024 or os.path.getsize(in2) > 10 * 1024 * 1024 or os.path.getsize(in3) > 10 * 1024 * 1024:
             shutil.rmtree(taskdir)
             abort(413)
