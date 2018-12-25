@@ -214,8 +214,8 @@ def ezcollinear():
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
-                f"Options: {form.fai1.data} {form.fai2.data} {form.links.data} {form.name.data} {form.opacity.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/ezcollinear/collinearity.pl {form.fai1.data},{form.fai2.data} {form.name.data} {form.links.data} {form.outpre.data} {form.opacity.data} 2>>{taskdir}/run.log"
+                f"Options: {in1} {in2} {in3} {form.name.data} {form.opacity.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/ezcollinear/collinearity.pl {in1},{in2} {form.name.data} {in3} {form.outpre.data} {form.opacity.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
