@@ -8,7 +8,7 @@ use Archive::Zip;
 die "perl $0 <a.fai,b.fai> <alabel,blabel> <collinearity(6 column)>  <outprefix> <touming>\n" if @ARGV != 5;
 my ($alabel, $blabel) = split /,/, $ARGV[1];
 
-$infile=abs_path($ARGV[2]);
+my $infile=abs_path($ARGV[2]);
 my $filedir=dirname($infile);
 my $outdir = "$filedir/out";
 
@@ -132,8 +132,8 @@ system("convert -density 200 $outdir/$ARGV[3]\.svg $outdir/$ARGV[3]\.png");
 
 
 my $obj=Archive::Zip->new();
-my $fff="$outdir/$ARGV[3]\.svg";
-$obj->addFile($fff);
-my $fff="$outdir/$ARGV[3]\.png";
-$obj->addFile($fff);
+my $f1="$outdir/$ARGV[3]\.svg";
+$obj->addFile($f1);
+my $f2="$outdir/$ARGV[3]\.png";
+$obj->addFile($f2);
 $obj->writeToFileNamed("$filedir/out.zip");
