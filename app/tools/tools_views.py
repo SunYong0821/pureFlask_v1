@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 
 from app import db
 from . import tools
-from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm
+from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm
 from app.models import Tasklist, Toolslist
 
 
@@ -183,3 +183,52 @@ def ma_plot():
 
         return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/ma_plot.html', form=form)
+
+
+@tools.route('/ezcollinear.html', methods=["GET", "POST"])
+@login_required
+def ezcollinear():
+    form = EZCLForm()
+    if form.validate_on_submit():
+        f1 = secure_filename(form.fai1.data.filename)
+        f2 = secure_filename(form.fai2.data.filename)
+        link = secure_filename(form.links.data.filename)
+        uuid = uuid4().hex
+        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
+        os.makedirs(taskdir + "/out")
+        in1 = taskdir + "/" + f1
+        in2 = taskdir + "/" + f2
+        in3 = taskdir + "/" + link
+        form.url.data.save(in1)
+        form.url.data.save(in2)
+        form.url.data.save(in3)
+        if os.path.getsize(in1) > 10 * 1024 * 1024 or os.path.getsize(in2) > 10 * 1024 * 1024 or os.path.getsize(in3) > 10 * 1024 * 1024:
+            shutil.rmtree(taskdir)
+            abort(413)
+
+        task = Tasklist(
+            title="简单共线性图",
+            taskid=uuid,
+            status="进行中",
+            resulturl=taskdir,
+            user_id=int(current_user.id)
+        )
+        db.session.add(task)
+        db.session.commit()
+
+        tool = Toolslist.query.filter_by(title="简单共线性图").first()
+        tool.usenum += 1
+        db.session.add(tool)
+        db.session.commit()
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.fai1.data} {form.fai2.data} {form.links.data} {form.name.data} {form.opacity.data} {form.outpre.data}\n")
+        script = f"""perl ./app/static/program/ma_plot/collinearity.pl {form.fai1.data},{form.fai2.data} 
+            {form.name.data} {form.links.data} {form.outpre.data} {form.opacity.data} 2>>{taskdir}/run.log"""
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index", page=1))
+    return render_template('admin/tools/ezcollinear.html', form=form)
