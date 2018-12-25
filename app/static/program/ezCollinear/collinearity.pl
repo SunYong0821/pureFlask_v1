@@ -3,6 +3,7 @@ use warnings;
 use strict;
 use SVG;
 use File::Basename qw(basename dirname);
+use Cwd qw(abs_path);
 use Archive::Zip;
 
 die "perl $0 <a.fai,b.fai> <alabel,blabel> <collinearity(6 column)>  <outprefix> <touming>\n" if @ARGV != 5;
