@@ -46,7 +46,15 @@ def login():
             flash("请前往邮箱激活账号", 'info')
         elif user.check_password(form.pwd.data):
             userlog = Userlog()
-            userlog.ip = request.remote_addr
+            try:
+                #real_ip = request.headers['X-Forwarded-For']
+                #if len(real_ip.split(',')) > 1:
+                    #userlog.ip = real_ip.split(",")[1]
+                #else:
+                    #userlog.ip = real_ip
+            	userlog.ip = request.headers['Remote_Addr']
+            except:
+                userlog.ip = request.remote_addr
             userlog.user_id = user.id
             login_user(user, remember=form.remember_me.data,
                        duration=timedelta(seconds=3600))  # duration 是设置remember_token的过期时间
