@@ -46,7 +46,7 @@ unless(-d $check){
 open LOG,">$odir/run.log";
 my $Xlab="log2(fold change)";
 my $Ylab="-log10(Pvalue)";
-my $Rscript="$Bin/Rscript";
+my $Rscript="Rscript";
 $foldchange=abs($foldchange);
 &check_parameters($Log2Col,$pvalue,$pCol,$foldchange);
 
