@@ -243,7 +243,7 @@ class EZCLForm(FlaskForm):
         validators=[Nonevalidators("输入透明度"), Regexp(
             r"^[\.0-9]+$", message="必须是数字和点的组合")],
         render_kw={"class": "form-control m-input m-input--air",
-                   "placeholder": "0.5", "aria-describedby": "basic-addon1"}
+                   "placeholder": "0.2", "aria-describedby": "basic-addon1"}
     )
     outpre = StringField(
         label="out",
