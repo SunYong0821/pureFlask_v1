@@ -131,7 +131,7 @@ close OUT;
 
 system("convert -density 200 $outdir/$ARGV[3]\.svg $outdir/$ARGV[3]\.png");
 
-chdir($outdir);
+chdir($filedir);
 my $obj=Archive::Zip->new();
 my $f1="out/$ARGV[3]\.svg";
 $obj->addFile($f1);
