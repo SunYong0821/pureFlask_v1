@@ -133,8 +133,8 @@ system("convert -density 200 $outdir/$ARGV[3]\.svg $outdir/$ARGV[3]\.png");
 
 
 my $obj=Archive::Zip->new();
-my $f1="$outdir/$ARGV[3]\.svg";
+my $f1="out/$ARGV[3]\.svg";
 $obj->addFile($f1);
-my $f2="$outdir/$ARGV[3]\.png";
+my $f2="out/$ARGV[3]\.png";
 $obj->addFile($f2);
-$obj->writeToFileNamed("$filedir/out.zip");
+$obj->writeToFileNamed("$out.zip");
