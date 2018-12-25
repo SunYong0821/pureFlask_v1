@@ -170,7 +170,7 @@ def biotoolslist():
     tools_list = Toolslist.query.filter_by(
         group="bio"
     ).order_by(
-        Toolslist.addtime
+        Toolslist.addtime.desc()
     ).all()
     return render_template('admin/biotoolslist.html', tools_list=tools_list)
 
@@ -181,7 +181,7 @@ def infotoolslist():
     tools_list = Toolslist.query.filter_by(
         group="info"
     ).order_by(
-        Toolslist.addtime
+        Toolslist.addtime.desc()
     ).all()
     return render_template('admin/infotoolslist.html', tools_list=tools_list)
 

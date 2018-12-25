@@ -11,7 +11,7 @@ from werkzeug.utils import secure_filename
 
 from app import db
 from . import tools
-from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm
+from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm
 from app.models import Tasklist, Toolslist
 
 
@@ -89,8 +89,7 @@ def pooling():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.lane.data} {form.vol.data} {form.sizes.data}\n")
-        script = f"""python ./app/static/program/pooling/libraryPooling.py {inputfile} {form.lane.data} {form.vol.data} {form.sizes.data} 
-            2>>{taskdir}/run.log"""
+        script = f"python ./app/static/program/pooling/libraryPooling.py {inputfile} {form.lane.data} {form.vol.data} {form.sizes.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -128,13 +127,9 @@ def deg_filter():
             optfile.write(
                 f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.yuzhi.data} {form.pqcol.data} {form.outpre.data}\n")
         if form.pq.data == "1":
-            script = f"""perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} 
-                -fc {form.fc.data} -fccolumn {form.fccol.data} -pvalue {form.yuzhi.data} -pcolumn {form.pqcol.data} -head 
-                -prefix {form.outpre.data} 2>>{taskdir}/run.log"""
+            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -pvalue {form.yuzhi.data} -pcolumn {form.pqcol.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         else:
-            script = f"""perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} 
-                -fc {form.fc.data} -fccolumn {form.fccol.data} -fdr {form.yuzhi.data} -fdrcolumn {form.pqcol.data} -head 
-                -prefix {form.outpre.data} 2>>{taskdir}/run.log"""
+            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile} -fc {form.fc.data} -fccolumn {form.fccol.data} -fdr {form.yuzhi.data} -fdrcolumn {form.pqcol.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -153,9 +148,7 @@ def volcano():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.pqcol.data} {form.outpre.data}\n")
-        script = f"""perl ./app/static/program/volcano/Volcano_plot.pl -i {inputfile} 
-            -f {form.fc.data} -log2col {form.fccol.data} -pvalue {form.pq.data} -pCol {form.pqcol.data} 
-            -prefix {form.outpre.data} 2>>{taskdir}/run.log"""
+        script = f"perl ./app/static/program/volcano/Volcano_plot.pl -i {inputfile} -f {form.fc.data} -log2col {form.fccol.data} -pvalue {form.pq.data} -pCol {form.pqcol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -174,12 +167,58 @@ def ma_plot():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.pqcol.data} {form.exp1.data} {form.exp2.data} {form.outpre.data}\n")
-        script = f"""perl ./app/static/program/ma_plot/MA_plot.pl -i {inputfile} 
-            -log2col {form.fccol.data} -exp1col {form.exp1.data} -exp2col {form.exp2.data} 
-            -pvalue {form.pq.data} -pCol {form.pqcol.data} -prefix {form.outpre.data} -f {form.fc.data} 2>>{taskdir}/run.log"""
+        script = f"perl ./app/static/program/ma_plot/MA_plot.pl -i {inputfile} -log2col {form.fccol.data} -exp1col {form.exp1.data} -exp2col {form.exp2.data} -pvalue {form.pq.data} -pCol {form.pqcol.data} -prefix {form.outpre.data} -f {form.fc.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
         return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/ma_plot.html', form=form)
+
+
+@tools.route('/ezcollinear.html', methods=["GET", "POST"])
+@login_required
+def ezcollinear():
+    form = EZCLForm()
+    if form.validate_on_submit():
+        f1 = secure_filename(form.fai1.data.filename)
+        f2 = secure_filename(form.fai2.data.filename)
+        link = secure_filename(form.links.data.filename)
+        uuid = uuid4().hex
+        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
+        os.makedirs(taskdir + "/out")
+        in1 = taskdir + "/" + f1
+        in2 = taskdir + "/" + f2
+        in3 = taskdir + "/" + link
+        form.fai1.data.save(in1)
+        form.fai2.data.save(in2)
+        form.links.data.save(in3)
+        if os.path.getsize(in1) > 10 * 1024 * 1024 or os.path.getsize(in2) > 10 * 1024 * 1024 or os.path.getsize(in3) > 10 * 1024 * 1024:
+            shutil.rmtree(taskdir)
+            abort(413)
+
+        task = Tasklist(
+            title="简单共线性图",
+            taskid=uuid,
+            status="进行中",
+            resulturl=taskdir,
+            user_id=int(current_user.id)
+        )
+        db.session.add(task)
+        db.session.commit()
+
+        tool = Toolslist.query.filter_by(title="简单共线性图").first()
+        tool.usenum += 1
+        db.session.add(tool)
+        db.session.commit()
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {in1} {in2} {in3} {form.name.data} {form.opacity.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/ezcollinear/collinearity.pl {in1},{in2} {form.name.data} {in3} {form.outpre.data} {form.opacity.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index", page=1))
+    return render_template('admin/tools/ezcollinear.html', form=form)
