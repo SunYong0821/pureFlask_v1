@@ -215,6 +215,7 @@ class MAplotForm(FlaskForm):
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
 
+
 class EZCLForm(FlaskForm):
     fai1 = FileField(
         label='txt',
@@ -250,6 +251,29 @@ class EZCLForm(FlaskForm):
         validators=[Nonevalidators("输入输出结果前缀")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
+
+
+class VennForm(FlaskForm):
+    files = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传2~5个文件")],
+        render_kw={"class": "custom-file-input",
+                   "id": "customFile", "multiple": ""}
+    )
+    head = RadioField(
+        label="head",
+        choices=[('T', "有"), ('F', "无")],
+        render_kw={"class": "m-radio"}
+    )
+    col = StringField(
+        label="column",
+        validators=[Nonevalidators("选择一列进行绘图"), Regexp(
+            r"[^0-9$]+", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "1", "aria-describedby": "basic-addon1"}
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
