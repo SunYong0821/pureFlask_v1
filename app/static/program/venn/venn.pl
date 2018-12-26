@@ -263,5 +263,5 @@ system("convert -density 200 $outdir/Venn.svg $outdir/Venn.png");
 
 chdir $filedir;
 my $obj=Archive::Zip->new();
-$obj->addDirectory("out/");
+$obj->addTree("out/", "out");
 $obj->writeToFileNamed("out.zip");
