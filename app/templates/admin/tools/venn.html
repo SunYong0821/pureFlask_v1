@@ -5,7 +5,7 @@
     <div class="d-flex align-items-center">
         <div class="mr-auto">
             <h3 class="m-subheader__title">
-                文库Pooling
+                Venn图
             </h3>
         </div>
     </div>
@@ -23,7 +23,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                             <h3 class="m-portlet__head-text">
-                                文库Pooling
+                                Venn图
                             </h3>
                         </div>
                     </div>
@@ -33,47 +33,31 @@
                     <div class="m-portlet__body">
                         <div class="m-form__group form-group">
                             <div class="custom-file">
-                                {{ form.url }}
+                                {{ form.files }}
                                 <label class="custom-file-label" for="customFile">
-                                    选择一个文件
+                                    选择2~5个文件
                                 </label>
-                                {% for error in form.url.errors %}
+                                {% for error in form.files.errors %}
                                 <span style="color: red">{{ error }}</span>
                                 {% endfor %}
                             </div>
                         </div>
                         <div class="m-form__group form-group row">
-                            <label class="col-form-label col-lg-4">选择lane数目：</label>
-                            <div>{{ form.lane }}</div>
-                            {% for error in form.lane.errors %}
-                            <span style="color: red">{{ error }}</span>
-                            {% endfor %}
+                            <label class="col-form-label col-lg-6">是否有行头：</label>
+                            <div class="m-radio-inline col-lg-6">
+                                {% for v in form.head %}
+                                <label class="m-radio">
+                                    {{ v }}
+                                    {{ v.label }}
+                                    <span></span>
+                                </label>
+                                {% endfor %}
+                            </div>
                         </div>
                         <div class="m-form__group form-group row">
-                            <label class="col-form-label col-lg-6">输入相应lane数的基准片段：</label>
-                            <div class="input-group m-input-group col-lg-6">
-                                {{ form.sizes }}
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        bp
-                                    </span>
-                                </div>
-                            </div>
-                            {% for error in form.sizes.errors %}
-                            <span style="color: red">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                        <div class="m-form__group form-group row">
-                            <label class="col-form-label col-lg-6">输入最大混合体积：</label>
-                            <div class="input-group m-input-group col-lg-6">
-                                {{ form.vol }}
-                                <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        ul
-                                    </span>
-                                </div>
-                            </div>
-                            {% for error in form.vol.errors %}
+                            <label class="col-form-label col-lg-6">选择第几列分析：</label>
+                            <div class="col-lg-3">{{ form.col }}</div>
+                            {% for error in form.col.errors %}
                             <span style="color: red">{{ error }}</span>
                             {% endfor %}
                         </div>
@@ -144,13 +128,25 @@
                             <div class="m-list-timeline__item">
                                 <span class="m-list-timeline__badge"></span>
                                 <span class="m-list-timeline__text">
+                                    每个输入文件的格式尽量一致，选择某一列进行分析
+                                </span>
+                            </div>
+                            <div class="m-list-timeline__item">
+                                <span class="m-list-timeline__badge"></span>
+                                <span class="m-list-timeline__text">
+                                    输出结果根据输入文件的命名决定，如输入文件A.txt，输出A；输入文件B.type.xls，输出B
+                                </span>
+                            </div>
+                            <div class="m-list-timeline__item">
+                                <span class="m-list-timeline__badge"></span>
+                                <span class="m-list-timeline__text">
                                     输入文件名命名最好是字母、数字加下划线的组合，必须以tab键进行分隔列
                                 </span>
                             </div>
                             <div class="m-list-timeline__item">
                                 <span class="m-list-timeline__badge"></span>
                                 <span class="m-list-timeline__text">
-                                    输入文件输入格式为excel格式，后缀名为.xlsx
+                                    输入文件输入格式为文本格式，后缀名可能为txt,xls(非excel格式)等
                                 </span>
                             </div>
                         </div>

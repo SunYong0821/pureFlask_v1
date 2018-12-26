@@ -5,13 +5,13 @@ import subprocess
 import threading
 from uuid import uuid4
 
-from flask import current_app, url_for, render_template, redirect, abort
+from flask import current_app, url_for, render_template, redirect, abort, request
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
 from app import db
 from . import tools
-from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm
+from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, VennForm
 from app.models import Tasklist, Toolslist
 
 
@@ -214,7 +214,7 @@ def ezcollinear():
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
-                f"Options: {in1} {in2} {in3} {form.name.data} {form.opacity.data} {form.outpre.data}\n")
+                f"Options: {form.name.data} {form.opacity.data} {form.outpre.data}\n")
         script = f"perl ./app/static/program/ezcollinear/collinearity.pl {in1},{in2} {form.name.data} {in3} {form.outpre.data} {form.opacity.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
@@ -222,3 +222,50 @@ def ezcollinear():
 
         return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/ezcollinear.html', form=form)
+
+
+@tools.route('/venn.html', methods=["GET", "POST"])
+@login_required
+def venn():
+    form = VennForm()
+    if form.validate_on_submit():
+        uuid = uuid4().hex
+        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
+        os.makedirs(taskdir + "/out")
+        files = request.files.getlist('files')
+        filelist = []
+        for i in files:
+            filename = secure_filename(i.filename)
+            pfile = taskdir+'/'+filename
+            filelist.append(pfile)
+            i.save(pfile)
+            if os.path.getsize(pfile) > 10 * 1024 * 1024:
+                shutil.rmtree(taskdir)
+                abort(413)
+        
+        task = Tasklist(
+            title="Venn图",
+            taskid=uuid,
+            status="进行中",
+            resulturl=taskdir,
+            user_id=int(current_user.id)
+        )
+        db.session.add(task)
+        db.session.commit()
+
+        tool = Toolslist.query.filter_by(title="Venn图").first()
+        tool.usenum += 1
+        db.session.add(tool)
+        db.session.commit()
+
+        filestr = ",".join(filelist)
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.head.data} {form.col.data}\n")
+        script = f"perl ./app/static/program/venn/venn.pl -l {filestr} -h {form.head.data} -col {form.col.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index", page=1))
+    return render_template('admin/tools/venn.html', form=form)
