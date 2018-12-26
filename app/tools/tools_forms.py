@@ -271,7 +271,7 @@ class VennForm(FlaskForm):
     col = StringField(
         label="column",
         validators=[Nonevalidators("选择一列进行绘图"), Regexp(
-            r"[^0-9$]+", message="必须是正整数")],
+            r"^[0-9]+$", message="必须是正整数")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "1", "aria-describedby": "basic-addon1"}
     )
