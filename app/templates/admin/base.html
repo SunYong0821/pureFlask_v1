@@ -102,6 +102,7 @@
                                     <div class="m-menu__submenu m-menu__submenu--classic m-menu__submenu--left">
                                         <span class="m-menu__arrow m-menu__arrow--adjust" style="left: 89.5px;"></span>
                                         <ul class="m-menu__subnav">
+                                            <!-- 实验类 -->
                                             <li class="m-menu__item m-menu__item--submenu" m-menu-submenu-toggle="hover"
                                                 m-menu-link-redirect="1" aria-haspopup="true">
                                                 <a href="#" class="m-menu__link m-menu__toggle">
@@ -134,6 +135,7 @@
                                                     </ul>
                                                 </div>
                                             </li>
+                                            <!-- 表格处理类 -->
                                             <li class="m-menu__item m-menu__item--submenu" m-menu-submenu-toggle="hover"
                                                 m-menu-link-redirect="1" aria-haspopup="true">
                                                 <a href="#" class="m-menu__link m-menu__toggle">
@@ -155,17 +157,10 @@
                                                                 </span>
                                                             </a>
                                                         </li>
-                                                        <li class="m-menu__item " m-menu-link-redirect="1"
-                                                            aria-haspopup="true">
-                                                            <a href="{{ url_for('tools.edger') }}" class="m-menu__link ">
-                                                                <span class="m-menu__link-text">
-                                                                    edgeR差异分析
-                                                                </span>
-                                                            </a>
-                                                        </li>
                                                     </ul>
                                                 </div>
                                             </li>
+                                            <!-- 序列处理类 -->
                                             <li class="m-menu__item m-menu__item--submenu" m-menu-submenu-toggle="hover"
                                                 m-menu-link-redirect="1" aria-haspopup="true">
                                                 <a href="#" class="m-menu__link m-menu__toggle">
@@ -190,6 +185,7 @@
                                                     </ul>
                                                 </div>
                                             </li>
+                                            <!-- 基础绘图类 -->
                                             <li class="m-menu__item m-menu__item--submenu" m-menu-submenu-toggle="hover"
                                                 m-menu-link-redirect="1" aria-haspopup="true">
                                                 <a href="#" class="m-menu__link m-menu__toggle">
@@ -232,6 +228,31 @@
                                                             <a href="{{ url_for('tools.venn') }}" class="m-menu__link ">
                                                                 <span class="m-menu__link-text">
                                                                     Venn图
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                            <!-- 统计检验类 -->
+                                            <li class="m-menu__item m-menu__item--submenu" m-menu-submenu-toggle="hover"
+                                                m-menu-link-redirect="1" aria-haspopup="true">
+                                                <a href="#" class="m-menu__link m-menu__toggle">
+                                                    <i class="m-menu__link-icon flaticon-folder-1"></i>
+                                                    <span class="m-menu__link-text">
+                                                        统计检验类
+                                                    </span>
+                                                    <i class="m-menu__hor-arrow la la-angle-right"></i>
+                                                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                                                </a>
+                                                <div class="m-menu__submenu m-menu__submenu--classic m-menu__submenu--right">
+                                                    <span class="m-menu__arrow "></span>
+                                                    <ul class="m-menu__subnav">
+                                                        <li class="m-menu__item " m-menu-link-redirect="1"
+                                                            aria-haspopup="true">
+                                                            <a href="{{ url_for('tools.edger') }}" class="m-menu__link ">
+                                                                <span class="m-menu__link-text">
+                                                                    edgeR差异分析
                                                                 </span>
                                                             </a>
                                                         </li>
