@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 from app import db
 from . import tools
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, VennForm, \
-    EdgeRForm
+    EdgeRForm, DESeq2Form
 from app.models import Tasklist, Toolslist
 
 
@@ -290,3 +290,21 @@ def edger():
         return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/edger.html', form=form)
 
+
+@tools.route('/deseq2.html', methods=["GET", "POST"])
+@login_required
+def deseq2():
+    form = DESeq2Form()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("DESeq2差异分析", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.exp1.data} {form.exp2.data} {form.gene.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/deseq2/DiffExp_DeSeq2.pl -i {inputfile} -count1col {form.exp1.data} -count2col {form.exp2.data} -genecol {form.gene.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index", page=1))
+    return render_template('admin/tools/deseq2.html', form=form)
