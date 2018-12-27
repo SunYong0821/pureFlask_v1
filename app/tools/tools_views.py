@@ -11,7 +11,8 @@ from werkzeug.utils import secure_filename
 
 from app import db
 from . import tools
-from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, VennForm
+from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, VennForm, \
+    EdgeRForm
 from app.models import Tasklist, Toolslist
 
 
@@ -269,3 +270,23 @@ def venn():
 
         return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/venn.html', form=form)
+
+
+@tools.route('/edger.html', methods=["GET", "POST"])
+@login_required
+def edger():
+    form = EdgeRForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("edgeR差异分析", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.exp1.data} {form.exp2.data} {form.bcv.data} {form.gene.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/edger/DiffExp_edgeR.pl -i {inputfile} -count1col {form.exp1.data} -count2col {form.exp2.data} -genecol {form.gene.data} -bcv {form.bcv.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index", page=1))
+    return render_template('admin/tools/edger.html', form=form)
+

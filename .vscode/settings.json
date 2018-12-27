@@ -1,3 +1,4 @@
 {
-    "search.useGlobalIgnoreFiles": true
+    "search.useGlobalIgnoreFiles": true,
+    "python.linting.pylintEnabled": false
 }
