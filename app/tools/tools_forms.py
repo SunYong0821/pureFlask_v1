@@ -332,16 +332,16 @@ class DESeq2Form(FlaskForm):
     exp1 = StringField(
         label="阈值",
         validators=[Nonevalidators("输入样本组1所在列"), Regexp(
-            r"[\d-]+", message="必须是正整数和-的组合")],
+            r"\d+-\d+", message="必须是正整数和-的组合，必须有重复样本")],
         render_kw={"class": "form-control m-input m-input--air",
-                   "placeholder": "3[3-5]", "aria-describedby": "basic-addon1"}
+                   "placeholder": "3-5", "aria-describedby": "basic-addon1"}
     )
     exp2 = StringField(
         label="阈值",
         validators=[Nonevalidators("输入样本组2所在列"), Regexp(
-            r"[\d-]+", message="必须是正整数和-的组合")],
+            r"\d+-\d+", message="必须是正整数和-的组合，必须有重复样本")],
         render_kw={"class": "form-control m-input m-input--air",
-                   "placeholder": "6[6-8]", "aria-describedby": "basic-addon1"}
+                   "placeholder": "6-8", "aria-describedby": "basic-addon1"}
     )
     gene = StringField(
         label="column",
