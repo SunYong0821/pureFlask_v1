@@ -46,7 +46,7 @@ unless(-d $check){
         mkdir($check);
 }
 open LOG,">$odir/run.log";
-my $Rscript="$Bin/Rscript";
+my $Rscript="Rscript";
 
 &check_parameters($count1Col,$count2Col,$geneCol,$bcv);
 

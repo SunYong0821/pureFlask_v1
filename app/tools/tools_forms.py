@@ -304,7 +304,7 @@ class EdgeRForm(FlaskForm):
         validators=[Nonevalidators("输入bcv值"), Regexp(
             r"^[\.0-9]+$", message="必须是小数")],
         render_kw={"class": "form-control m-input m-input--air",
-                   "placeholder": "0.4", "aria-describedby": "basic-addon1"}
+                   "placeholder": "0.3", "aria-describedby": "basic-addon1"}
     )
     gene = StringField(
         label="column",
