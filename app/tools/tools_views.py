@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 from app import db
 from . import tools
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, VennForm, \
-    EdgeRForm, DESeq2Form
+    EdgeRForm, DESeq2Form, KEGGbublleForm
 from app.models import Tasklist, Toolslist
 
 
@@ -308,3 +308,22 @@ def deseq2():
 
         return redirect(url_for("admin.index", page=1))
     return render_template('admin/tools/deseq2.html', form=form)
+
+
+@tools.route('/keggbublle.html', methods=["GET", "POST"])
+@login_required
+def keggbublle():
+    form = KEGGbublleForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("KEGG气泡图", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.pathcol.data} {form.genecol.data} {form.bgcol.data} {form.pqcol.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/keggbublle/Pathway_EnrichFigure.pl -i {inputfile} -pathcol {form.pathcol.data} -genecol {form.genecol.data} -background {form.bgcol.data} -pcol {form.pqcol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index", page=1))
+    return render_template('admin/tools/keggbublle.html', form=form)

@@ -358,3 +358,47 @@ class DESeq2Form(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class KEGGbublleForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    pathcol = StringField(
+        label="输入pathway所在列",
+        validators=[Nonevalidators("输入pathway所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "3", "aria-describedby": "basic-addon1"}
+    )
+    genecol = StringField(
+        label="输入富集基因数目所在列",
+        validators=[Nonevalidators("输入富集基因数目所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "4", "aria-describedby": "basic-addon1"}
+    )
+    bgcol = StringField(
+        label="输入背景基因基所在列",
+        validators=[Nonevalidators("输入背景基因基所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "5", "aria-describedby": "basic-addon1"}
+    )
+    pqcol = StringField(
+        label="输入p值或fdr所在列",
+        validators=[Nonevalidators("输入p值或fdr所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "6", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="输入输出结果前缀",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
