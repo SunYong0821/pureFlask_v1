@@ -2083,7 +2083,7 @@ select.form-control:focus::-ms-value {
 }
 
 .form-inline {
-    display: flex;
+    /*display: flex;*/
     flex-flow: row wrap;
     align-items: center
 }
@@ -4279,7 +4279,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 }
 
 .pagination {
-    display: flex;
+    /*display: flex;*/
     padding-left: 0;
     list-style: none;
     border-radius: .25rem
