@@ -15,16 +15,17 @@ from app.lib.email import send_mail
 from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvideo, Permission
 
 
-@admin.route('/index/<int:page>.html', methods=["GET", "POST"])
+@admin.route('/index.html', methods=["GET", "POST"])
 @login_required
-def index(page=None):
-    if page is None:
-        page = 1
+def index():
+    """ if page is None:
+        page = 1 """
     page_data = Tasklist.query.filter_by(
         user_id=int(current_user.id)
-    ).order_by(
+    ).all()
+    """ .order_by(
         Tasklist.addtime.desc()
-    ).paginate(page=page, per_page=10)
+    ).paginate(page=page, per_page=10) """
     return render_template('admin/index.html', page_data=page_data)
 
 
