@@ -11,8 +11,8 @@ from werkzeug.utils import secure_filename
 
 from app import db
 from . import tools
-from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, VennForm, \
-    EdgeRForm, DESeq2Form, KEGGbublleForm
+from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
+    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm
 from app.models import Tasklist, Toolslist
 
 
@@ -76,7 +76,7 @@ def rev_com():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/rev_com.html', form=form)
 
 
@@ -95,7 +95,7 @@ def pooling():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/pooling.html', form=form)
 
 
@@ -113,7 +113,7 @@ def splitlane():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/splitlane.html', form=form)
 
 
@@ -135,7 +135,7 @@ def deg_filter():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/deg_filter.html', form=form)
 
 
@@ -154,7 +154,7 @@ def volcano():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/volcano.html', form=form)
 
 
@@ -173,7 +173,7 @@ def ma_plot():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/ma_plot.html', form=form)
 
 
@@ -194,7 +194,8 @@ def ezcollinear():
         form.fai1.data.save(in1)
         form.fai2.data.save(in2)
         form.links.data.save(in3)
-        if os.path.getsize(in1) > 10 * 1024 * 1024 or os.path.getsize(in2) > 10 * 1024 * 1024 or os.path.getsize(in3) > 10 * 1024 * 1024:
+        if os.path.getsize(in1) > 10 * 1024 * 1024 or os.path.getsize(in2) > 10 * 1024 * 1024 or os.path.getsize(
+                in3) > 10 * 1024 * 1024:
             shutil.rmtree(taskdir)
             abort(413)
 
@@ -221,7 +222,7 @@ def ezcollinear():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/ezcollinear.html', form=form)
 
 
@@ -237,13 +238,13 @@ def venn():
         filelist = []
         for i in files:
             filename = secure_filename(i.filename)
-            pfile = taskdir+'/'+filename
+            pfile = taskdir + '/' + filename
             filelist.append(pfile)
             i.save(pfile)
             if os.path.getsize(pfile) > 10 * 1024 * 1024:
                 shutil.rmtree(taskdir)
                 abort(413)
-        
+
         task = Tasklist(
             title="Venn图",
             taskid=uuid,
@@ -268,7 +269,7 @@ def venn():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/venn.html', form=form)
 
 
@@ -287,7 +288,7 @@ def edger():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/edger.html', form=form)
 
 
@@ -306,7 +307,7 @@ def deseq2():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/deseq2.html', form=form)
 
 
@@ -325,5 +326,24 @@ def keggbublle():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
 
-        return redirect(url_for("admin.index", page=1))
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/keggbublle.html', form=form)
+
+
+@tools.route('/pca.html', methods=["GET", "POST"])
+@login_required
+def pca():
+    form = PCAForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("PCA图", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.pathcol.data} {form.genecol.data} {form.bgcol.data} {form.pqcol.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/pca/PCA.pl -i {inputfile} -expcol {form.pathcol.data} -genecol {form.genecol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/pca.html', form=form)

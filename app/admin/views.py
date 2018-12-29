@@ -65,7 +65,7 @@ def login():
             flash("登录成功", "success")
             db.session.add(userlog)
             db.session.commit()
-            return redirect(url_for('admin.index', page=1))
+            return redirect(url_for('admin.index'))
         flash("密码错误", "warning")
     return render_template('user/login.html', form=form)
 
