@@ -339,8 +339,8 @@ def pca():
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
-                f"Options: {form.pathcol.data} {form.genecol.data} {form.bgcol.data} {form.pqcol.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/pca/PCA.pl -i {inputfile} -expcol {form.pathcol.data} -genecol {form.genecol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+                f"Options: {form.expcol.data} {form.genecol.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/pca/PCA.pl -i {inputfile} -expcol {form.expcol.data} -genecol {form.genecol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
