@@ -14,3 +14,4 @@
 --error-logfile FILE, --log-file FILE 确认要写入Error log的文件FILE. '-' 表示输出到标准错误输出.
 
  
+视频图片大小1904*1003
