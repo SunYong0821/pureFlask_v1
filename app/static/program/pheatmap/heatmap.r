@@ -1,6 +1,6 @@
 args <- commandArgs(TRUE)
 library(pheatmap)
-data = read.table("format.txt", header = TRUE, sep = "\t", check.name = FALSE)
+data = read.table(ARGV[10], header = TRUE, sep = "\t", check.name = FALSE)
 rownames(data) = data[,1]
 data = data[,2:length(data[1,])]
 data = as.matrix(data)

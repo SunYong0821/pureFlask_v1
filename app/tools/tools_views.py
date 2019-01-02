@@ -380,6 +380,7 @@ def pheatmap():
                 {form.width.data} {form.height.data} {form.scale.data} {form.cluster_cols.data} {form.cluster_rows.data} \
                 {form.show_colnames.data} {form.show_rownames.data}\n")
         script = f"perl ./app/static/program/pheatmap/heatmap.pl -in {inputfile} -namecol {form.namecol.data} -datacol {form.datacol.data} -prefix {form.outpre.data} -scale {form.scale.data} -width {form.width.data} -height {form.height.data} -cluster_rows {form.cluster_rows.data} -cluster_cols {form.cluster_cols.data}  -show_rownames {form.show_colnames.data} -show_colnames {form.show_rownames.data} -display_numbers {form.display_numbers.data} 2>>{taskdir}/run.log"
+        print(script)
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
