@@ -39,7 +39,11 @@
                                 </a>
                                 <p> {{ video.title }}</p>
                             </div>
-                            <img src="{{ url_for('static',filename='3rd/1.png') }}">
+                            {% if video.img %}
+                                <img src="{{ url_for('static',filename=video.img) }}">
+                            {% else %}
+                                <img src="{{ url_for('static',filename='3rd/1.png') }}">
+                            {% endif %}
                         </div>
                         {#  <h3 class="vid-name">
                             <a href="#">Video's Name</a>
@@ -107,10 +111,10 @@
 {% endblock %}
 
 
-{% block js%}
-<script>
-    $(document).ready(function(){
-        $("#a-2").addClass("m-menu__item--active");
-    });
-</script>
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $("#a-2").addClass("m-menu__item--active");
+        });
+    </script>
 {% endblock %}
