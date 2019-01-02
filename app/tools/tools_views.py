@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 from app import db
 from . import tools
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
-    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm
+    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm
 from app.models import Tasklist, Toolslist
 
 
@@ -347,3 +347,22 @@ def pca():
 
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/pca.html', form=form)
+
+
+@tools.route('/clustertree.html', methods=["GET", "POST"])
+@login_required
+def clustertree():
+    form = ClusterTreeForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("进化树图", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.expcol.data} {form.method.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/clustertree/ClusterTree.pl -i {inputfile} -expcol {form.expcol.data} -method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/clustertree.html', form=form)

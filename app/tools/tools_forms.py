@@ -432,3 +432,32 @@ class PCAForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class ClusterTreeForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    expcol = StringField(
+        label="输入数据所在列",
+        validators=[Nonevalidators("输入表达量所在列"), Regexp(
+            r"^\d+-\d+$", message="必须是正整数和-的组合")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "3-8", "aria-describedby": "basic-addon1"}
+    )
+    method = SelectField(
+        label="输入聚类所用方法",
+        choices=[('complete', "complete"), ('average', "average"), ('median', "median"), ('centroid', "centroid")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="输入输出结果前缀",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})

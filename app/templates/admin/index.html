@@ -44,9 +44,9 @@
                                 <thead>
                                     <tr>
                                         <!-- <th data-field="id">#</th> -->
+                                        <th data-field="starttime">提交时间</th>
                                         <th data-field="uuid">任务编号</th>
                                         <th data-field="title">工具名称</th>
-                                        <th data-field="starttime">提交时间</th>
                                         <th data-field="status">任务状态</th>
                                         <th data-field="result">查看结果</th>
                                     </tr>
@@ -55,9 +55,9 @@
                                     {% for v in page_data %}
                                     <tr>
                                         <!-- <td data-field="id">{{ v.id }}</td> -->
+                                        <td data-field="starttime">{{ v.addtime }}</td>
                                         <td data-field="uuid">{{ v.taskid }}</td>
                                         <td data-field="title">{{ v.title}}</td>
-                                        <td data-field="starttime">{{ v.addtime }}</td>
                                         {% if v.status == "任务完成" %}
                                         <td data-field="status">
                                             <span class="m-badge  m-badge--success m-badge--wide m-badge--rounded">{{
@@ -105,10 +105,11 @@
         $('#mdatatable').DataTable({
             columnDefs: [
                 {
-                    targets: [0, 1, 2],
+                    targets: [0, 1, 2, 3],
                     className: 'mdl-data-table__cell--non-numeric'
                 }
-            ]
+            ],
+            "order": [[ 0, "desc" ]]
         });
 
         $("#a-1").addClass("m-menu__item--active");
