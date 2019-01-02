@@ -94,5 +94,5 @@ my $inlast = "format.txt";
 system("Rscript $Bin/heatmap.r $scale $cluster_rows $cluster_cols $show_rownames $show_colnames $display_numbers $width $height $outpre.pdf $inlast");
 
 my $obj=Archive::Zip->new();
-$obj->addfile("out/$outpre.pdf");
+$obj->addFile("out/$outpre.pdf");
 $obj->writeToFileNamed("out.zip");
