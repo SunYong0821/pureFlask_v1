@@ -45,7 +45,7 @@ my $outdir = "$filedir/out";
 
 my @group = split /,/, $datacol;
 my @cols;
-push @cols, $namecol;
+push @cols, $namecol - 1;
 foreach(@group)
 {
     if($_ =~ /-/)
@@ -53,10 +53,10 @@ foreach(@group)
         my ($s, $e) = split /-/, $_;
         foreach my $i($s..$e)
         {
-            push @cols, $i;
+            push @cols, $i - 1;
         }
     }else{
-        push @cols, $_;
+        push @cols, $_ - 1;
     }
 }
 
