@@ -70,7 +70,7 @@ while(<FA>)
     my $os;
     foreach my $i(@cols)
     {
-        $os += "$tmp[$i]\t";
+        $os .= "$tmp[$i]\t";
     }
     $os =~ s/\t$/\n/;
     print OUT $os;
