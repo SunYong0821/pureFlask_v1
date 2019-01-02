@@ -448,8 +448,88 @@ class ClusterTreeForm(FlaskForm):
                    "placeholder": "3-8", "aria-describedby": "basic-addon1"}
     )
     method = SelectField(
-        label="输入聚类所用方法",
+        label="选择聚类所用方法",
         choices=[('complete', "complete"), ('average', "average"), ('median', "median"), ('centroid', "centroid")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="输入输出结果前缀",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
+
+
+class HeatMapForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    namecol = StringField(
+        label="输入行名所在列",
+        validators=[Nonevalidators("输入行名所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "1", "aria-describedby": "basic-addon1"}
+    )
+    datacol = StringField(
+        label="输入数据所在列",
+        validators=[Nonevalidators("输入数据所在列"), Regexp(
+            r"^[\d\-,]+$", message="必须是正整数、逗号和-的组合")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "2-7[2,5-7]", "aria-describedby": "basic-addon1"}
+    )
+    width = StringField(
+        label="输入输出图像宽度",
+        validators=[Nonevalidators("输入数据所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "6", "aria-describedby": "basic-addon1"}
+    )
+    height = StringField(
+        label="输入输出图像高度",
+        validators=[Nonevalidators("输入数据所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "8", "aria-describedby": "basic-addon1"}
+    )
+    scale = SelectField(
+        label="选择均一化方法",
+        choices=[('row', "行"), ('column', "列"), ('none', "都不做")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    cluster_rows = SelectField(
+        label="选择是否行聚类",
+        choices=[('TRUE', "是"), ('FALSE', "否")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    cluster_cols = SelectField(
+        label="选择是否列聚类",
+        choices=[('TRUE', "是"), ('FALSE', "否")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    show_rownames = SelectField(
+        label="选择是否显示行名",
+        choices=[('TRUE', "是"), ('FALSE', "否")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    show_colnames = SelectField(
+        label="选择是否显示列名",
+        choices=[('TRUE', "是"), ('FALSE', "否")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    display_numbers = SelectField(
+        label="选择是否显示数字",
+        choices=[('TRUE', "是"), ('FALSE', "否")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "", "aria-describedby": "basic-addon1"}
     )

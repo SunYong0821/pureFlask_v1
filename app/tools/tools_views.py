@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 from app import db
 from . import tools
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
-    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm
+    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm
 from app.models import Tasklist, Toolslist
 
 
@@ -366,3 +366,23 @@ def clustertree():
 
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/clustertree.html', form=form)
+
+
+@tools.route('/pheatmap.html', methods=["GET", "POST"])
+@login_required
+def pheatmap():
+    form = HeatMapForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("热图", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(f"Options: {form.namecol.data} {form.datacol.data} {form.outpre.data} {form.display_numbers.data} \
+                {form.width.data} {form.height.data} {form.scale.data} {form.cluster_cols.data} {form.cluster_rows.data} \
+                {form.show_colnames.data} {form.show_rownames.data}\n")
+        script = f"perl ./app/static/program/pheatmap/heatmap.pl -in {inputfile} -namecol {form.namecol.data} -datacol {form.datacol.data} -prefix {form.outpre.data} -scale {form.scale.data} -width {form.width.data} -height {form.height.data} -cluster_rows {form.cluster_rows.data} -cluster_cols {form.cluster_cols.data}  -show_rownames {form.show_colnames.data} -show_colnames {form.show_rownames.data} -display_numbers {form.display_numbers.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/pheatmap.html', form=form)
