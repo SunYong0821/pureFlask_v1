@@ -62,6 +62,15 @@ foreach(@group)
 open FA, $infile;
 chdir $filedir;
 open OUT, "> format.txt";
+my $head = <FA>;
+chomp($head);
+my @line = split /\t/, $head;
+my $oh = $line[$namecol - 1];
+foreach my $i(@cols)
+{
+    $oh .= "\t$line[$i]";
+}
+print OUT "$oh\n";
 while(<FA>)
 {
     chomp;
@@ -77,7 +86,7 @@ while(<FA>)
     {
         next;
     }
-    print OUT $os;
+    print OUT $os."\n";
 }
 
 my $inlast = "format.txt";
