@@ -45,7 +45,6 @@ my $outdir = "$filedir/out";
 
 my @group = split /,/, $datacol;
 my @cols;
-push @cols, $namecol - 1;
 foreach(@group)
 {
     if($_ =~ /-/)
@@ -67,12 +66,17 @@ while(<FA>)
 {
     chomp;
     my @tmp = split;
-    my $os;
+    my $os = $tmp[$namecol - 1];
+    my $zero = 0;
     foreach my $i(@cols)
     {
-        $os .= "$tmp[$i]\t";
+        $os .= "\t$tmp[$i]";
+        $zero += $tmp[$i];
     }
-    $os =~ s/\t$/\n/;
+    if($zero == 0)
+    {
+        next;
+    }
     print OUT $os;
 }
 
