@@ -70,13 +70,15 @@ while(<FA>)
     my $os;
     foreach my $i(@cols)
     {
-        $os += "$tmp[$i]\t";
+        $os .= "$tmp[$i]\t";
     }
     $os =~ s/\t$/\n/;
     print OUT $os;
 }
 
-system("Rscript $Bin/heatmap.r $scale $cluster_rows $cluster_cols $show_rownames $show_colnames $display_numbers $width $height $outpre.pdf");
+my $inlast = "format.txt";
+
+system("Rscript $Bin/heatmap.r $scale $cluster_rows $cluster_cols $show_rownames $show_colnames $display_numbers $width $height $outpre.pdf $inlast");
 
 my $obj=Archive::Zip->new();
 $obj->addfile("out/$outpre.pdf");
