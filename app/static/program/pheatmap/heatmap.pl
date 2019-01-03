@@ -45,7 +45,6 @@ my $outdir = "$filedir/out";
 
 my @group = split /,/, $datacol;
 my @cols;
-push @cols, $namecol;
 foreach(@group)
 {
     if($_ =~ /-/)
@@ -53,27 +52,41 @@ foreach(@group)
         my ($s, $e) = split /-/, $_;
         foreach my $i($s..$e)
         {
-            push @cols, $i;
+            push @cols, $i - 1;
         }
     }else{
-        push @cols, $_;
+        push @cols, $_ - 1;
     }
 }
 
 open FA, $infile;
 chdir $filedir;
 open OUT, "> format.txt";
+my $head = <FA>;
+chomp($head);
+my @line = split /\t/, $head;
+my $oh = $line[$namecol - 1];
+foreach my $i(@cols)
+{
+    $oh .= "\t$line[$i]";
+}
+print OUT "$oh\n";
 while(<FA>)
 {
     chomp;
     my @tmp = split;
-    my $os;
+    my $os = $tmp[$namecol - 1];
+    my $zero = 0;
     foreach my $i(@cols)
     {
-        $os .= "$tmp[$i]\t";
+        $os .= "\t$tmp[$i]";
+        $zero += $tmp[$i];
     }
-    $os =~ s/\t$/\n/;
-    print OUT $os;
+    if($zero == 0)
+    {
+        next;
+    }
+    print OUT $os."\n";
 }
 
 my $inlast = "format.txt";
@@ -81,5 +94,5 @@ my $inlast = "format.txt";
 system("Rscript $Bin/heatmap.r $scale $cluster_rows $cluster_cols $show_rownames $show_colnames $display_numbers $width $height $outpre.pdf $inlast");
 
 my $obj=Archive::Zip->new();
-$obj->addfile("out/$outpre.pdf");
+$obj->addFile("out/$outpre.pdf");
 $obj->writeToFileNamed("out.zip");
