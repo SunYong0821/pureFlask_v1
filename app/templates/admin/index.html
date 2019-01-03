@@ -1,47 +1,49 @@
 {% extends 'admin/base.html' %}
 
 {% block css %}
-<link href="{{ url_for('static', filename='3rd/base/material.min.css') }}" rel="stylesheet" type="text/css" />
-<link href="{{ url_for('static', filename='3rd/base/dataTables.material.min.css') }}" rel="stylesheet" type="text/css" />
+    {{ super() }}
+    <link href="{{ url_for('static', filename='3rd/base/material.min.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ url_for('static', filename='3rd/base/dataTables.material.min.css') }}" rel="stylesheet"
+          type="text/css"/>
 {% endblock %}
 
 {% block content %}
-<!-- BEGIN: Subheader -->
-<div class="m-subheader ">
-    <div class="d-flex align-items-center">
-        <div class="mr-auto">
-            <h3 class="m-subheader__title m-subheader__title--separator">
-                主页
-            </h3>
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title m-subheader__title--separator">
+                    主页
+                </h3>
+            </div>
+
         </div>
-
     </div>
-</div>
-<!-- END: Subheader -->
-<div class="m-content">
+    <!-- END: Subheader -->
+    <div class="m-content">
 
-    <!--Begin::Section-->
-    <div class="row">
-        <div class="col-lg-12">
-            <!--Begin::Portlet-->
-            <div class="m-portlet m-portlet--mobile m-portlet--sortable">
-                <div class="m-portlet__head ui-sortable-handle">
-                    <div class="m-portlet__head-caption">
-                        <div class="m-portlet__head-title">
+        <!--Begin::Section-->
+        <div class="row">
+            <div class="col-lg-12">
+                <!--Begin::Portlet-->
+                <div class="m-portlet m-portlet--mobile m-portlet--sortable">
+                    <div class="m-portlet__head ui-sortable-handle">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
                             <span class="m-portlet__head-icon">
                                 <i class="la la-files-o"></i>
                             </span>
-                            <h3 class="m-portlet__head-text">
-                                我的任务
-                            </h3>
+                                <h3 class="m-portlet__head-text">
+                                    我的任务
+                                </h3>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="m-portlet__body">
-                    <div class="m_datatable m-datatable m-datatable--default m-datatable--error m-datatable--loaded">
-                        <div class="table-responsive">
-                            <table id="mdatatable" class="mdl-data-table" style="width:100%">
-                                <thead>
+                    <div class="m-portlet__body">
+                        <div class="m_datatable m-datatable m-datatable--default m-datatable--error m-datatable--loaded">
+                            <div class="table-responsive">
+                                <table id="mdatatable" class="mdl-data-table" style="width:100%">
+                                    <thead>
                                     <tr>
                                         <!-- <th data-field="id">#</th> -->
                                         <th data-field="starttime">提交时间</th>
@@ -50,72 +52,73 @@
                                         <th data-field="status">任务状态</th>
                                         <th data-field="result">查看结果</th>
                                     </tr>
-                                </thead>
-                                <tbody>
+                                    </thead>
+                                    <tbody>
                                     {% for v in page_data %}
-                                    <tr>
-                                        <!-- <td data-field="id">{{ v.id }}</td> -->
-                                        <td data-field="starttime">{{ v.addtime }}</td>
-                                        <td data-field="uuid">{{ v.taskid }}</td>
-                                        <td data-field="title">{{ v.title}}</td>
-                                        {% if v.status == "任务完成" %}
-                                        <td data-field="status">
-                                            <span class="m-badge  m-badge--success m-badge--wide m-badge--rounded">{{
-                                                v.status }}</span>
-                                        </td>
-                                        <td data-field="result">
-                                            <a href="{{ url_for('admin.download', dirname=v.resulturl) }}" target="_blank"
-                                                class="btn btn-success m-btn m-btn--icon m-btn--icon-only">
-                                                <i class="fa fa-download"></i></a></td>
-                                        {% elif v.status == "进行中" %}
-                                        <td data-field="status">
-                                            <span class="m-badge  m-badge--primary m-badge--wide m-badge--rounded">{{
-                                                v.status }}</span>
-                                        </td>
-                                        <td data-field="result">
-                                            <a href="#" class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only disabled">
-                                                <i class="fa fa-download"></i></a></td>
-                                        {% else %}
-                                        <td data-field="status">
-                                            <span class="m-badge  m-badge--danger m-badge--wide m-badge--rounded">{{
-                                                v.status }}</span>
-                                        </td>
-                                        <td data-field="result">
-                                            <a href="#" class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only disabled">
-                                                <i class="fa fa-download"></i></a></td>
-                                        {% endif %}
-                                    </tr>
+                                        <tr>
+                                            <!-- <td data-field="id">{{ v.id }}</td> -->
+                                            <td data-field="starttime">{{ v.addtime }}</td>
+                                            <td data-field="uuid">{{ v.taskid }}</td>
+                                            <td data-field="title">{{ v.title }}</td>
+                                            {% if v.status == "任务完成" %}
+                                                <td data-field="status">
+                                                    <span class="m-badge  m-badge--success m-badge--wide m-badge--rounded">{{ v.status }}</span>
+                                                </td>
+                                                <td data-field="result">
+                                                    <a href="{{ url_for('admin.download', dirname=v.resulturl) }}"
+                                                       target="_blank"
+                                                       class="btn btn-success m-btn m-btn--icon m-btn--icon-only">
+                                                        <i class="fa fa-download"></i></a></td>
+                                            {% elif v.status == "进行中" %}
+                                                <td data-field="status">
+                                                    <span class="m-badge  m-badge--primary m-badge--wide m-badge--rounded">{{ v.status }}</span>
+                                                </td>
+                                                <td data-field="result">
+                                                    <a href="#"
+                                                       class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only disabled">
+                                                        <i class="fa fa-download"></i></a></td>
+                                            {% else %}
+                                                <td data-field="status">
+                                                    <span class="m-badge  m-badge--danger m-badge--wide m-badge--rounded">{{ v.status }}</span>
+                                                </td>
+                                                <td data-field="result">
+                                                    <a href="#"
+                                                       class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only disabled">
+                                                        <i class="fa fa-download"></i></a></td>
+                                            {% endif %}
+                                        </tr>
                                     {% endfor %}
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
+                    <!--End::Portlet-->
                 </div>
-                <!--End::Portlet-->
             </div>
+            <!--End::Section-->
         </div>
-        <!--End::Section-->
     </div>
-</div>
 {% endblock %}
 
-{% block js%}
-<script>
-    $(document).ready(function () {
-        $('#mdatatable').DataTable({
-            columnDefs: [
-                {
-                    targets: [0, 1, 2, 3],
-                    className: 'mdl-data-table__cell--non-numeric'
-                }
-            ],
-            "order": [[ 0, "desc" ]]
-        });
+{% block js %}
+    {{ super() }}
+    <script>
+        $(document).ready(function () {
+            $('#mdatatable').DataTable({
+                columnDefs: [
+                    {
+                        targets: [0, 1, 2, 3],
+                        className: 'mdl-data-table__cell--non-numeric'
+                    }
+                ],
+                "order": [[0, "desc"]]
+            });
 
-        $("#a-1").addClass("m-menu__item--active");
-    });
-</script>
-<script src="{{ url_for('static', filename='3rd/js/jquery-3.3.1.js') }}" type="text/javascript"></script>
-<script src="{{ url_for('static', filename='3rd/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
-<script src="{{ url_for('static', filename='3rd/js/dataTables.material.min.js') }}" type="text/javascript"></script>
+            $("#a-1").addClass("m-menu__item--active");
+        });
+    </script>
+    <script src="{{ url_for('static', filename='3rd/js/jquery-3.3.1.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='3rd/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='3rd/js/dataTables.material.min.js') }}" type="text/javascript"></script>
 {% endblock %}

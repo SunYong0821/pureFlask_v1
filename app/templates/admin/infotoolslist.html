@@ -71,6 +71,7 @@
 {% endblock %}
 
 {% block js%}
+    {{ super() }}
 <script>
     $(document).ready(function(){
         $("#a-3-2").addClass("m-menu__item--active");

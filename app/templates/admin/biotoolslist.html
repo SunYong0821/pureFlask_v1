@@ -1,5 +1,4 @@
 {% extends 'admin/base.html' %}
-
 {% block content %}
 
     <!-- BEGIN: Subheader -->
@@ -69,10 +68,11 @@
 
 {% endblock %}
 
-{% block js%}
-<script>
-    $(document).ready(function(){
-        $("#a-3-1").addClass("m-menu__item--active");
-    });
-</script>
+{% block js %}
+    {{ super() }}
+    <script>
+        $(document).ready(function () {
+            $("#a-3-1").addClass("m-menu__item--active");
+        });
+    </script>
 {% endblock %}

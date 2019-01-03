@@ -1,4 +1,8 @@
 {% extends 'admin/base.html' %}
+{% block css %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='3rd/video.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
 
 {% block content %}
 
@@ -112,6 +116,7 @@
 
 
 {% block js %}
+    {{ super() }}
     <script>
         $(document).ready(function () {
             $("#a-2").addClass("m-menu__item--active");
