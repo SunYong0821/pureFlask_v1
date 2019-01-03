@@ -1,5 +1,10 @@
 {% extends 'admin/base.html' %}
-
+{% block css %}
+    <link href="{{ url_for('static',filename= '3rd/vendors/base/vendors.bundle.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link href="{{ url_for('static',filename='3rd/demo/default/base/style.bundle.css') }}" rel="stylesheet"
+          type="text/css"/>
+{% endblock %}
 {% block content %}
     <div class="m-subheader ">
         <div class="d-flex align-items-center">
@@ -61,31 +66,20 @@
                                     <div class="m-scrollable m-scroller ps ps--active-y" data-scrollable="true"
                                          data-height="400"
                                          style="height: 320px; overflow: hidden;">
+
                                         <div class="m-list-timeline ">
-                                            {# <div class="m-list-timeline__items">
-                                            <div class="m-list-timeline__item">
-                                                <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                <span class="m-list-timeline__text"><a href="{{ url_for('static', filename='video/pythonbasic/0._漫谈生物信息分析.mp4') }}"
-                                                        style="text-decoration: none;color:#575962 ">0._漫谈生物信息分析</a></span>
-                                            </div>
-                                        </div>#}
-                                            {% for video_list in play_video %}
-                                                <div class="m-list-timeline__items">
+                                            <div class="m-list-timeline__items">
+                                                {% for video_list in play_video %}
                                                     <div class="m-list-timeline__item">
-
-
                                                         <span class="m-list-timeline__badge m-list-timeline__badge--success"></span>
-
-                                                        <span class="m-list-timeline__text"><a
-                                                                href="{{ url_for('admin.play_video_list',video_list_id=video_list.videolist_id, id = video_list.id) }}
-
-                                                                    "
-                                                                style="text-decoration: none">{{ video_list.title }}</a></span>
+                                                        <span class="m-list-timeline__text">
+                                                            <a href="{{ url_for('admin.play_video_list',video_list_id=video_list.videolist_id, id = video_list.id) }}"
+                                                               style="text-decoration: none">{{ video_list.title }}</a>
+                                                        </span>
                                                     </div>
                                                     <span></span>
-                                                </div>
-                                            {% endfor %}
+                                                {% endfor %}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -99,4 +93,9 @@
         <!--End::Section-->
     </div>
 
+{% endblock %}
+{% block js %}
+    <script src="{{ url_for('static',filename='3rd/vendors/base/vendors.bundle.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static',filename='3rd/demo/default/base/scripts.bundle.js') }}"
+            type="text/javascript"></script>
 {% endblock %}
