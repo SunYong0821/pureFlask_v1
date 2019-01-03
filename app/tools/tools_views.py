@@ -12,7 +12,7 @@ from werkzeug.utils import secure_filename
 from app import db
 from . import tools
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
-    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm
+    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm
 from app.models import Tasklist, Toolslist
 
 
@@ -386,3 +386,22 @@ def pheatmap():
 
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/pheatmap.html', form=form)
+
+
+@tools.route('/correlation.html', methods=["GET", "POST"])
+@login_required
+def correlation():
+    form = CorrForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("相关性图", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.exp1.data} {form.exp2.data} {form.name1.data} {form.name2.data} {form.gene.data} {form.method.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/correlation/Correlation.pl -i {inputfile} -exp1col {form.exp1.data} -exp2col {form.exp2.data} -name1 {form.name1.data} -name2 {form.name2.data} -genecol {form.gene.data} -method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/correlation.html', form=form)

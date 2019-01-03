@@ -541,3 +541,60 @@ class HeatMapForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class CorrForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    exp1 = StringField(
+        label="输入A单样本或样本组所在列",
+        validators=[Nonevalidators("输入样本组1所在列"), Regexp(
+            r"[\d\-]+", message="必须是正整数或-的组合")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "2[3-5]", "aria-describedby": "basic-addon1"}
+    )
+    name1 = StringField(
+        label="输入A单样本或样本组名称",
+        validators=[Nonevalidators("输入A单样本或样本组名称"), Regexp(
+            r"\w+", message="必须是字母加数字的组合")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A[A1,A2,A3]", "aria-describedby": "basic-addon1"}
+    )
+    exp2 = StringField(
+        label="输入B单样本或样本组所在列",
+        validators=[Nonevalidators("输入样本组2所在列"), Regexp(
+            r"[\d\-]+", message="必须是正整数或-的组合")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "6[7-9]", "aria-describedby": "basic-addon1"}
+    )
+    name2 = StringField(
+        label="输入B单样本或样本组名称",
+        validators=[Nonevalidators("输入B单样本或样本组名称"), Regexp(
+            r"\w+", message="必须是字母加数字的组合")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "B[B1,B2,B3]", "aria-describedby": "basic-addon1"}
+    )
+    gene = StringField(
+        label="输入gene名称所在列",
+        validators=[Nonevalidators("输入gene名称所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "1", "aria-describedby": "basic-addon1"}
+    )
+    method = SelectField(
+        label="选择相关性方法",
+        choices=[('pearson', "pearson"), ('spearman', "spearman")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="输入输出结果前缀",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
