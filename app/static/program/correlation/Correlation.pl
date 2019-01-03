@@ -50,7 +50,7 @@ unless(-d $check){
         mkdir($check);
 }
 open LOG,">$odir/run.log";
-my $Rscript="$Bin/Rscript";
+my $Rscript="Rscript";
 my $mode=&check_parameters($count1Col,$count2Col,$geneCol,$name1,$name2);
 our %exp;
 if($mode eq "Single"){
@@ -81,7 +81,7 @@ if($mode eq "Single"){
 	}
 	close IN;
 	close OUT;
-	system("$Bin/Rscript $Bin/single.R $vs.matrix out/$vs.correlation $name1 $name2 $Algorithm");
+	system("Rscript $Bin/single.R $vs.matrix out/$vs.correlation $name1 $name2 $Algorithm");
 	my $obj=Archive::Zip->new();
 	my $fff="out/$vs.correlation.pdf";
 	$obj->addFile($fff);
@@ -168,7 +168,7 @@ data<-as.matrix(data[,2:len])
 mycolors <- colorRampPalette(c("white","blue"))(1001)
 pheatmap(data,show_rownames=TRUE,show_colnames=TRUE,col=mycolors,cluster_rows=FALSE,cluster_cols=FALSE,legend=TRUE,fontsize=$fontsize,main="Correlation between Samples(method=$Algorithm)",display_numbers=TRUE,number_format = "\%.2f",cellwidth = $cellsize,cellheight = $cellsize,breaks=seq($min_value,1,(1-$min_value)/1000),border_color="black",filename ="out/$vs.correlation.pdf")
 CODE
-	system("$Bin/Rscript correlation-heatmap.R");
+	system("Rscript correlation-heatmap.R");
 	my $obj=Archive::Zip->new();
         my $fff="out/$vs.correlation.pdf";
         $obj->addFile($fff);
