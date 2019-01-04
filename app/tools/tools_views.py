@@ -12,7 +12,8 @@ from werkzeug.utils import secure_filename
 from app import db
 from . import tools
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
-    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm
+    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm
+
 from app.models import Tasklist, Toolslist
 
 
@@ -405,3 +406,22 @@ def correlation():
 
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/correlation.html', form=form)
+
+
+@tools.route('/fisher.html', methods=["GET", "POST"])
+@login_required
+def fisher():
+    form = FisherForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("Fisher检验", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.n11.data} {form.n12.data} {form.n21.data} {form.n22.data} {form.method.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/fisher/Fisher.pl -i {inputfile} -n11 {form.n11.data} -n12 {form.n12.data} -n21 {form.n21.data} -n22 {form.n22.data} -method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/fisher.html', form=form)

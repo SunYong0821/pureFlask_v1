@@ -598,3 +598,53 @@ class CorrForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class FisherForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    n11 = StringField(
+        label="输入n11所在列",
+        validators=[Nonevalidators("输入n11所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "2", "aria-describedby": "basic-addon1"}
+    )
+    n12 = StringField(
+        label="输入n12所在列",
+        validators=[Nonevalidators("输入n12所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "3", "aria-describedby": "basic-addon1"}
+    )
+    n21 = StringField(
+        label="输入n21所在列",
+        validators=[Nonevalidators("输入n21所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "4", "aria-describedby": "basic-addon1"}
+    )
+    n22 = StringField(
+        label="输入n22所在列",
+        validators=[Nonevalidators("输入n22所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "5", "aria-describedby": "basic-addon1"}
+    )
+    method = SelectField(
+        label="选择检验方法",
+        choices=[('twotailed', "twotailed"), ('left', "left"), ('right', "right")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="输入输出结果前缀",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
