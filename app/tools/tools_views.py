@@ -443,7 +443,7 @@ def cds2pep():
         elif form.method.data == "-1":
             method = "-rev"
         else:
-            method = "-for -rev"
+            method = ""
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {best} {stop} {N} {method} {form.outpre.data}\n")
