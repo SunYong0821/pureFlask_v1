@@ -435,9 +435,6 @@ def cds2pep():
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("CDS翻译蛋白", form)
 
-        with open(f"{taskdir}/run.log", "w") as optfile:
-            optfile.write(
-                f"Options: {form.best.data} {form.stop.data} {form.N.data} {form.method.data} {form.outpre.data}\n")
         best = "-best" if form.best.data else ""
         stop = "-stop" if form.stop.data else ""
         N = "-n" if form.N.data else ""
@@ -447,6 +444,9 @@ def cds2pep():
             method = "-rev"
         else:
             method = "-for -rev"
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {best} {stop} {N} {method} {form.outpre.data}\n")
         script = f"perl ./app/static/program/cds2pep/CDS2Protein.pl -i {inputfile} {best} {stop} {N} {method} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         print(script)
         app = current_app._get_current_object()
