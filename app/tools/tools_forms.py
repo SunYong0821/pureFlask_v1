@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask_wtf import FlaskForm
-from wtforms import FileField, RadioField, SubmitField, SelectField, StringField
-from wtforms.validators import DataRequired, Regexp
+from wtforms import FileField, RadioField, SubmitField, SelectField, StringField, BooleanField
+from wtforms.validators import Regexp
 from app.admin.forms import Nonevalidators
 
 
@@ -637,6 +637,41 @@ class FisherForm(FlaskForm):
     method = SelectField(
         label="选择检验方法",
         choices=[('twotailed', "twotailed"), ('left', "left"), ('right', "right")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="输入输出结果前缀",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
+
+
+class CDS2PEPForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    best = BooleanField(
+        label="选择最长的序列输出"
+    )
+    stop = BooleanField(
+        label="出现终止密码子是否终止",
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    N = BooleanField(
+        label="出现N碱基是否终止",
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    method = SelectField(
+        label="选择方向翻译",
+        choices=[('1', "正向"), ('-1', "反向"), ('0', "双向")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "", "aria-describedby": "basic-addon1"}
     )

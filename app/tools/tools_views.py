@@ -12,7 +12,8 @@ from werkzeug.utils import secure_filename
 from app import db
 from . import tools
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
-    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm
+    VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
+    CDS2PEPForm
 
 from app.models import Tasklist, Toolslist
 
@@ -425,3 +426,31 @@ def fisher():
 
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/fisher.html', form=form)
+
+
+@tools.route('/cds2pep.html', methods=["GET", "POST"])
+@login_required
+def cds2pep():
+    form = CDS2PEPForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("CDS翻译蛋白", form)
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.best.data} {form.stop.data} {form.N.data} {form.method.data} {form.outpre.data}\n")
+        best = "-best" if form.best.data else ""
+        stop = "-stop" if form.stop.data else ""
+        N = "-n" if form.N.data else ""
+        if form.method.data == "1":
+            method = "-for"
+        elif form.method.data == "-1":
+            method = "-rev"
+        else:
+            method = "-for -rev"
+        script = f"perl ./app/static/program/cds2pep/CDS2Protein.pl -i {inputfile} {best} {stop} {N} {method} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/cds2pep.html', form=form)
