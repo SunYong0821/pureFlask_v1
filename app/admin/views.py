@@ -39,7 +39,10 @@ def download(dirname):
 def login():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
-        user = User.query.filter_by(email=form.email.data).first()
+        if form.login.data.count('@'):
+            user = User.query.filter_by(email=form.login.data).first()
+        else:
+            user = User.query.filter_by(name=form.login.data).first()
         if not user:
             flash("用户不存在，请注册", 'info')
             return redirect(url_for('admin.register'))

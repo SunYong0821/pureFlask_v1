@@ -19,13 +19,13 @@ class Nonevalidators(object):
 
 
 class LoginForm(FlaskForm):
-    email = StringField(
+    login = StringField(
         label='账号',
-        validators=[Nonevalidators(message="请输入邮箱")],
+        validators=[Nonevalidators(message="请输入邮箱或用户名")],
         description='账号',
         render_kw={
             'class': 'form-control m-input',
-            'placeholder': '请输入账号'
+            'placeholder': '请输入邮箱或用户名'
         }
     )
     pwd = PasswordField(
