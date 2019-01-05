@@ -41,7 +41,7 @@ USAGE
 }
 $infile=abs_path($infile);
 my $odir=dirname($infile);
-open LOG,">$odir/run.log";
+open LOG,">$odir/run2.log";
 my $check="$odir/out";
 unless(-d $check){
 	mkdir($check);

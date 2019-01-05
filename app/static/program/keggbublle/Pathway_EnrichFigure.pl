@@ -41,7 +41,7 @@ my $check="$odir/out";
 unless(-d $check){
         mkdir($check);
 }
-open LOG,">$odir/run.log";
+open LOG,">$odir/run2.log";
 my $Rscript="Rscript";
 &check_parameters($pathcol,$genecol,$backgroundcol,$pvaluecol);
 

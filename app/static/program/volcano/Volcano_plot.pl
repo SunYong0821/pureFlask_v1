@@ -43,7 +43,7 @@ my $check="$odir/out";
 unless(-d $check){
         mkdir($check);
 }
-open LOG,">$odir/run.log";
+open LOG,">$odir/run2.log";
 my $Xlab="log2(fold change)";
 my $Ylab="-log10(Pvalue)";
 my $Rscript="Rscript";

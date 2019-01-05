@@ -56,7 +56,7 @@ my $check="$odir/out";
 unless(-d $check){
         mkdir($check);
 }
-open LOG,">$odir/run.log";
+open LOG,">$odir/run2.log";
 
 &check_parameters($n11,$n12,$n21,$n22);
 

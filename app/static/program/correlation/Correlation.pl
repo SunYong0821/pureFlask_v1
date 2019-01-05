@@ -49,7 +49,7 @@ my $check="$odir/out";
 unless(-d $check){
         mkdir($check);
 }
-open LOG,">$odir/run.log";
+open LOG,">$odir/run2.log";
 my $Rscript="Rscript";
 my $mode=&check_parameters($count1Col,$count2Col,$geneCol,$name1,$name2);
 our %exp;

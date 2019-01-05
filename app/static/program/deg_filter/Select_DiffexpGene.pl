@@ -60,7 +60,7 @@ unless(-d $check){
 	mkdir($check);
 }
 open OUT,">$odir/out/$prefix.Diffexp.xls";
-open LOG,">$odir/run.log";
+open LOG,">$odir/run2.log";
 my @files;
 #push @files,"out/run.log";
 push @files,"out/$prefix.Diffexp.xls";

@@ -52,7 +52,7 @@ my $check="$odir/out";
 unless(-d $check){
         mkdir($check);
 }
-open LOG,">$odir/run.log";
+open LOG,">$odir/run2.log";
 my $Xlab="A";
 my $Ylab="M";
 my $Rscript="Rscript";
