@@ -1,7 +1,7 @@
 # coding:utf-8
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, BooleanField
-from wtforms.validators import ValidationError, Length, EqualTo, Regexp
+from wtforms.validators import ValidationError, Length, EqualTo, Regexp, Email
 
 from app.models import User
 
@@ -66,7 +66,7 @@ class RegisterForm(FlaskForm):
     email = StringField(label="邮箱",
                         validators=[
                             Nonevalidators(message="请输入邮箱"),
-                            Regexp(r"\w+@+\w+\.com", message="电子邮箱不符合规范")
+                            Email(message="电子邮箱不符合规范")
                         ],
                         description="账号",
                         render_kw={
@@ -108,7 +108,7 @@ class ForgetPasswordRequestForm(FlaskForm):
     email = StringField(label="邮箱",
                         validators=[
                             Nonevalidators(message="请输入邮箱"),
-                            Regexp(r"\w+@microanaly\.com", message="电子邮箱不符合规范")
+                            Email(message="电子邮箱不符合规范")
                         ],
                         description="账号",
                         render_kw={
