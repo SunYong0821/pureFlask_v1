@@ -59,6 +59,8 @@ def login():
             	userlog.ip = request.headers['Remote_Addr']
             except:
                 userlog.ip = request.remote_addr
+                # request.user_agent  IE: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
+
             userlog.user_id = user.id
             login_user(user, remember=form.remember_me.data,
                        duration=timedelta(seconds=3600))  # duration 是设置remember_token的过期时间
