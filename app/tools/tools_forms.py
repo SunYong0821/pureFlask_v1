@@ -411,8 +411,8 @@ class PCAForm(FlaskForm):
         render_kw={"class": "custom-file-input", "id": "customFile"}
     )
     expcol = StringField(
-        label="输入表达量所在列",
-        validators=[Nonevalidators("输入表达量所在列"), Regexp(
+        label="输入数据所在列",
+        validators=[Nonevalidators("输入数据所在列"), Regexp(
             r"^\d+-\d+$", message="必须是正整数和-的组合")],
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "3-8", "aria-describedby": "basic-addon1"}

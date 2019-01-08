@@ -215,3 +215,9 @@ def loginlog(page=None):
         Userlog.addtime.desc()
     ).paginate(page=page, per_page=10)
     return render_template('admin/loginlog.html', page_data=page_data)
+
+
+@admin.route('/contact.html', methods=['GET'])
+@login_required
+def contact():
+    return render_template('admin/contact.html')

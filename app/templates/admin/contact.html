@@ -1,0 +1,78 @@
+{% extends 'admin/base.html' %}
+{% block css %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+    <!-- END: Subheader -->
+    <div class="m-content">
+
+        <!--Begin::Section-->
+        <div class="m-portlet">
+            <div class="m-portlet__body m-portlet__body--no-padding">
+                <div class="m-invoice-1">
+                    <div class="m-invoice__wrapper">
+                        <div class="m-invoice__head"
+                             style="background-image: url( {{ url_for('static', filename='default/assets/app/media/img//bg/bg-6.jpg') }});">
+                            <div class="m-invoice__container m-invoice__container--centered">
+                                <div class="m-invoice__logo">
+                                    <a href="http://www.microanaly.com" target="_blank">
+                                        <h1>
+                                            联系我们
+                                        </h1>
+                                    </a>
+                                </div>
+                                <span class="m-invoice__desc">
+                                    <span>
+                                        tmagweb@microanaly.com
+                                        <br>
+                                        安徽巢湖经济开发区龙泉路6号未名生物医药产业园一期南区C楼2-3层
+                                    </span>
+                                </span>
+                                <div class="m-invoice__items">
+                                    <div class="m-invoice__item">
+                                        <span class="m-invoice__subtitle">
+                                            微分科技
+                                        </span>
+                                        <span class="m-invoice__text">
+                                            <img src="{{ url_for('static', filename='img/tech.png') }}" style="width:50%;">
+                                        </span>
+                                    </div>
+                                    <div class="m-invoice__item">
+                                        <span class="m-invoice__subtitle">
+                                            微分健康
+                                        </span>
+                                        <span class="m-invoice__text">
+                                            <img src="{{ url_for('static', filename='img/health.png') }}" style="width:50%;">
+                                        </span>
+                                    </div>
+                                    <div class="m-invoice__item">
+                                        <span class="m-invoice__subtitle">
+                                            客服
+                                        </span>
+                                        <span class="m-invoice__text">
+                                            <img src="{{ url_for('static', filename='img/kefu.png') }}" style="width:50%;">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End::Section-->
+
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    {{ super() }}
+    <script>
+        $(document).ready(function () {
+            $("#a-3").addClass("m-menu__item--active");
+        });
+    </script>
+{% endblock %}

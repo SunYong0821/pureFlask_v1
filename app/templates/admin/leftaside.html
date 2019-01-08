@@ -35,7 +35,7 @@
         <a href="javascript:;" class="m-menu__link m-menu__toggle">
             <i class="m-menu__link-icon flaticon-tool-1"></i>
             <span class="m-menu__link-text">
-                分析工具
+                基础分析工具
             </span>
             <i class="m-menu__ver-arrow la la-angle-right"></i>
         </a>
@@ -45,7 +45,7 @@
                 <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
                     <span class="m-menu__link">
                         <span class="m-menu__link-text">
-                            分析工具
+                            基础分析工具
                         </span>
                     </span>
                 </li>
@@ -71,5 +71,14 @@
                 </li>
             </ul>
         </div>
+    </li>
+    <li id="a-3" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+        <a href="{{ url_for('admin.contact') }}" class="m-menu__link m-menu__toggle">
+            <i class="m-menu__link-icon flaticon-chat"></i>
+            <span class="m-menu__link-text">
+                联系我们
+            </span>
+            <!-- <i class="m-menu__ver-arrow la la-angle-right"></i> -->
+        </a>
     </li>
 </ul>
