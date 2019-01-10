@@ -150,7 +150,7 @@ $obj->writeToFileNamed("out.zip");
 sub checknum{
 	my ($num)=@_;
 	$num=~s/\.//g;
-	$num=~s/-//g;
+	$num=~s/-//g;$num=~s/e//i;
 	if($num=~/^\d+$/){
 		return(1);
 	}
