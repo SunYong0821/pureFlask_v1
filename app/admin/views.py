@@ -177,7 +177,7 @@ def play_video_list(video_list_id, id):
     return render_template('admin/playvideo.html', play_video=play_video, video=video, video_list=video_list)
 
 
-@admin.route('/<int:video_list_id>/<int:id>/playvideo_list.html', methods=['GET', 'POST'])
+@admin.route('/<int:video_list_id>/<int:id>/playvideo_out.html', methods=['GET', 'POST'])
 @login_required
 def play_video_out(video_list_id, id):
     play_video = Playvideo.query.filter_by(
