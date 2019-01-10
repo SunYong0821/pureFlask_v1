@@ -147,6 +147,13 @@ def videolist():
     return render_template('admin/videolist.html', video_list=video_list)
 
 
+@admin.route('/videoout.html')
+@login_required
+def videoout():
+    video_list = Videolist.query.filter_by(type="outside").order_by(Videolist.addtime).distinct().all()
+    return render_template('admin/videoout.html', video_list=video_list)
+
+
 @admin.route('/<int:video_list_id>/<int:id>/playvideo_list.html', methods=['GET', 'POST'])
 @login_required
 @permission_required(Permission.OURS)

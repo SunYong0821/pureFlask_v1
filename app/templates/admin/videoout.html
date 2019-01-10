@@ -1,0 +1,72 @@
+{% extends 'admin/base.html' %}
+{% block css %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='3rd/video.css') }}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title ">
+                    工具使用教程
+                </h3>
+            </div>
+            <!-- <div>
+                    <span class="m-subheader__daterange" id="m_dashboard_daterangepicker">
+                        <span class="m-subheader__daterange-label">
+                            <span class="m-subheader__daterange-title"></span>
+                            <span class="m-subheader__daterange-date m--font-brand"></span>
+                        </span>
+                        <a href="#" class="btn btn-sm btn-brand m-btn m-btn--icon m-btn--icon-only m-btn--custom m-btn--pill">
+                            <i class="la la-angle-down"></i>
+                        </a>
+                    </span>
+                </div> -->
+        </div>
+    </div>
+    <!-- END: Subheader -->
+    <div class="m-content">
+
+        <!--Begin::Section-->
+        <div class="row">
+            {% for video in video_list %}
+                <div class="col-xl-4" style="padding-left: 2px;padding-right: 2px;">
+                    <div style="margin:12px">
+                        <!--begin:: Widgets/Stats2-1 -->
+                        <div class="zoom-container">
+                            <div class="zoom-caption">
+                                {# <span></span>#}
+                                <a href="{{ url_for('admin.play_video_list',video_list_id=video.id,id=0) }}">
+                                    <i class="fa fa-play-circle-o fa-5x" style="color: #fff"></i>
+                                </a>
+                                <p> {{ video.title }}</p>
+                            </div>
+                            {% if video.img %}
+                                <img src="{{ url_for('static',filename=video.img) }}">
+                            {% else %}
+                                <img src="{{ url_for('static',filename='3rd/1.png') }}">
+                            {% endif %}
+                        </div>
+                        <div class="info">
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <!--End::Section-->
+
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    {{ super() }}
+    <script>
+        $(document).ready(function () {
+            $("#a-3-3").addClass("m-menu__item--active");
+        });
+    </script>
+{% endblock %}

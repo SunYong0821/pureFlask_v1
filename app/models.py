@@ -164,13 +164,14 @@ class Videolist(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), unique=True)
     img = db.Column(db.String(255))
+    type = db.Column(db.String(255))
     addtime = db.Column(db.DateTime, index=True, default=datetime.now)
 
     playvideo = db.relationship('Playvideo', backref='videolist')
 
     @classmethod
     def find_all_video_by_page(cls):
-        videolist = Videolist.query.order_by(Videolist.addtime).distinct().all()
+        videolist = Videolist.query.filter_by(type="inside").order_by(Videolist.addtime).distinct().all()
         return videolist
 
     def __repr__(self):
