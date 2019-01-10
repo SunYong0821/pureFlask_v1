@@ -177,6 +177,28 @@ def play_video_list(video_list_id, id):
     return render_template('admin/playvideo.html', play_video=play_video, video=video, video_list=video_list)
 
 
+@admin.route('/<int:video_list_id>/<int:id>/playvideo_list.html', methods=['GET', 'POST'])
+@login_required
+def play_video_out(video_list_id, id):
+    play_video = Playvideo.query.filter_by(
+        videolist_id=video_list_id).order_by(Playvideo.id).all()
+
+    video_list = Videolist.query.filter_by(id=video_list_id).first()
+    if play_video:
+        if id == 0:
+            video = play_video[0]
+        else:
+            video = Playvideo.query.filter_by(id=id).first()
+        video.playnum = video.playnum + 1
+        db.session.add(video)
+        db.session.commit()
+    else:
+        flash("没有可播放视频", "danger")
+        return redirect(url_for('admin.videoout'))
+
+    return render_template('admin/playvideo.html', play_video=play_video, video=video, video_list=video_list)
+
+
 @admin.route('/biotoolslist.html', methods=["GET"])
 @login_required
 def biotoolslist():
