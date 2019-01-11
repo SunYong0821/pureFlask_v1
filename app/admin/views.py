@@ -196,7 +196,7 @@ def play_video_out(video_list_id, id):
         flash("没有可播放视频", "danger")
         return redirect(url_for('admin.videoout'))
 
-    return render_template('admin/playvideo.html', play_video=play_video, video=video, video_list=video_list)
+    return render_template('admin/playvideoout.html', play_video=play_video, video=video, video_list=video_list)
 
 
 @admin.route('/biotoolslist.html', methods=["GET"])
