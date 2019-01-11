@@ -163,10 +163,7 @@ def play_video_list(video_list_id, id):
 
     video_list = Videolist.query.filter_by(id=video_list_id).first()
     if play_video:
-        if id == 0:
-            video = play_video[0]
-        else:
-            video = Playvideo.query.filter_by(id=id).first()
+        video = play_video[id]
         video.playnum = video.playnum + 1
         db.session.add(video)
         db.session.commit()
@@ -185,10 +182,7 @@ def play_video_out(video_list_id, id):
 
     video_list = Videolist.query.filter_by(id=video_list_id).first()
     if play_video:
-        if id == 0:
-            video = play_video[0]
-        else:
-            video = Playvideo.query.filter_by(id=id).first()
+        video = play_video[id]
         video.playnum = video.playnum + 1
         db.session.add(video)
         db.session.commit()
