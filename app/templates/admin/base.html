@@ -656,6 +656,20 @@
             type="text/javascript"></script>
     <!--end::Page Snippets -->
     <!--end::Base Scripts -->
+    <script>
+        var isCommitted = false;
+
+        function dosubmit() {
+            if (isCommitted == false) {
+                var btnSubmit = document.getElementById("submit");
+                btnSubmit.disabled = "disabled"
+                isCommitted = true;
+                return true
+            } else {
+                return false;
+            }
+        }
+    </script>
 {% endblock %}
 </body>
 <!-- end::Body -->
