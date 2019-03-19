@@ -448,7 +448,6 @@ def cds2pep():
             optfile.write(
                 f"Options: {best} {stop} {N} {method} {form.outpre.data}\n")
         script = f"perl ./app/static/program/cds2pep/CDS2Protein.pl -i {inputfile} {best} {stop} {N} {method} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
-        print(script)
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
