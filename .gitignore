@@ -5,3 +5,6 @@ out
 .idea/
 test/
 *.pyc
+static/user/
+app/__pycache__/
+app/admin/__pycache__/
