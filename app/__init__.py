@@ -1,12 +1,6 @@
 # coding:utf-8
 from flask import Flask, render_template
-from flask_login import LoginManager
-from flask_mail import Mail
-from flask_sqlalchemy import SQLAlchemy
-
-mail = Mail()
-login_manager = LoginManager()
-db = SQLAlchemy()
+from app.extensions import db, login_manager, mail, scheduler
 
 
 def create_app():
@@ -24,9 +18,12 @@ def create_app():
 
 def register_extensions(app):
     """注册扩展"""
+    db.app = app
     db.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
+    scheduler.init_app(app)
+    scheduler.start()
 
 
 def register_errorhandlers(app):
@@ -51,6 +48,7 @@ def register_blueprint(app):
     from app.tools import tools
     app.register_blueprint(admin)
     app.register_blueprint(tools, url_prefix="/tools")
+
 
 def register_logging(app):
     """注册日志"""
