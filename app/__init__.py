@@ -23,12 +23,15 @@ def create_app():
 
 
 def register_extensions(app):
+    """注册扩展"""
     db.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
 
 
 def register_errorhandlers(app):
+    """注册 errorhandler """
+
     @app.errorhandler(404)
     def page_not_found(error):
         return render_template('404.html'), 404
@@ -43,7 +46,12 @@ def register_errorhandlers(app):
 
 
 def register_blueprint(app):
+    """注册蓝图"""
     from app.admin import admin
     from app.tools import tools
     app.register_blueprint(admin)
     app.register_blueprint(tools, url_prefix="/tools")
+
+def register_logging(app):
+    """注册日志"""
+    pass
