@@ -106,7 +106,7 @@
 
 {% block js %}
     {{ super() }}
-    <script>
+    {#<script>
         function formatDate(date) {
             var year = date.getFullYear();
             var month = date.getMonth() + 1;
@@ -132,16 +132,16 @@
             }
             return (year + "-" + month + "-" + weekday + ' ' + hour + '.' + min + '.' + sec);
         }
-    </script>
+    </script>#}
     <script>
         $(document).ready(function () {
-            var date = new Date();
+            {#var date = new Date();#}
 
-            var mydate = formatDate(date);
+            {#var mydate = formatDate(date);#}
 
             $('#mdatatable').DataTable({
-                dom: 'Bfrtip',
-                buttons: [{extend: 'excel', text: '导出excel', filename: mydate}, 'print'],
+                {#dom: 'Bfrtip',
+                buttons: [{extend: 'excel', text: '导出excel', filename: mydate}, 'print'],#}
                 columnDefs: [
                     {
                         targets: [0, 1, 2, 3],
