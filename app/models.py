@@ -9,7 +9,7 @@ from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer as Seralize
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app import login_manager, db
+from app.extensions import login_manager, db
 
 
 class Permission:
@@ -56,6 +56,7 @@ class User(UserMixin, db.Model):
     img = db.Column(db.String(255))
     addtime = db.Column(db.DateTime, index=True, default=datetime.now)
     confirm = db.Column(db.Boolean, default=False)
+    scores = db.Column(db.Integer, default=100, comment="积分")
     userlogs = db.relationship('Userlog', backref='user')
     task_id = db.relationship('Tasklist', backref='user')
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
