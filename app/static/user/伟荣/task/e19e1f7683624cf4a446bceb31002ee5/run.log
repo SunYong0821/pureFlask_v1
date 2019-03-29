@@ -1,0 +1,21 @@
+Options: 2
+Traceback (most recent call last):
+  File "./app/static/program/splitlane/splitlane.py", line 10, in <module>
+    re = pd.read_excel(sys.argv[1])
+  File "/usr/local/python3/lib/python3.6/site-packages/pandas/util/_decorators.py", line 178, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/python3/lib/python3.6/site-packages/pandas/util/_decorators.py", line 178, in wrapper
+    return func(*args, **kwargs)
+  File "/usr/local/python3/lib/python3.6/site-packages/pandas/io/excel.py", line 307, in read_excel
+    io = ExcelFile(io, engine=engine)
+  File "/usr/local/python3/lib/python3.6/site-packages/pandas/io/excel.py", line 394, in __init__
+    self.book = xlrd.open_workbook(self._io)
+  File "/usr/local/python3/lib/python3.6/site-packages/xlrd/__init__.py", line 157, in open_workbook
+    ragged_rows=ragged_rows,
+  File "/usr/local/python3/lib/python3.6/site-packages/xlrd/book.py", line 92, in open_workbook_xls
+    biff_version = bk.getbof(XL_WORKBOOK_GLOBALS)
+  File "/usr/local/python3/lib/python3.6/site-packages/xlrd/book.py", line 1278, in getbof
+    bof_error('Expected BOF record; found %r' % self.mem[savpos:savpos+8])
+  File "/usr/local/python3/lib/python3.6/site-packages/xlrd/book.py", line 1272, in bof_error
+    raise XLRDError('Unsupported format, or corrupt file: ' + msg)
+xlrd.biffh.XLRDError: Unsupported format, or corrupt file: Expected BOF record; found b'id\tCase1'

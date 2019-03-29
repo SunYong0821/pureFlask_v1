@@ -1,0 +1,7 @@
+Options: 2 5 600，400
+Traceback (most recent call last):
+  File "./app/static/program/pooling/libraryPooling.py", line 12, in <module>
+    bsint = [int(i) for i in bs]
+  File "./app/static/program/pooling/libraryPooling.py", line 12, in <listcomp>
+    bsint = [int(i) for i in bs]
+ValueError: invalid literal for int() with base 10: '600，400'

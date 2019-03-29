@@ -5,6 +5,8 @@
     <link href="{{ url_for('static', filename='3rd/base/material.min.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ url_for('static', filename='3rd/base/dataTables.material.min.css') }}" rel="stylesheet"
           type="text/css"/>
+    <link href="{{ url_for('static', filename='3rd/base/buttons.dataTables.min.css') }}" rel="stylesheet"
+          type="text/css"/>
     {{ super() }}
 {% endblock %}
 
@@ -104,9 +106,42 @@
 
 {% block js %}
     {{ super() }}
+    {#<script>
+        function formatDate(date) {
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var weekday = date.getDate();
+            var hour = date.getHours();
+            var min = date.getMinutes();
+            var sec = date.getSeconds();
+
+            if (month < 10) {
+                month = "0" + month;
+            }
+            if (weekday < 10) {
+                weekday = "0" + weekday;
+            }
+            if (hour < 10) {
+                hour = "0" + hour;
+            }
+            if (min < 10) {
+                min = "0" + min;
+            }
+            if (sec < 10) {
+                sec = "0" + sec;
+            }
+            return (year + "-" + month + "-" + weekday + ' ' + hour + '.' + min + '.' + sec);
+        }
+    </script>#}
     <script>
         $(document).ready(function () {
+            {#var date = new Date();#}
+
+            {#var mydate = formatDate(date);#}
+
             $('#mdatatable').DataTable({
+                {#dom: 'Bfrtip',
+                buttons: [{extend: 'excel', text: '导出excel', filename: mydate}, 'print'],#}
                 columnDefs: [
                     {
                         targets: [0, 1, 2, 3],
@@ -119,7 +154,11 @@
             $("#a-1").addClass("m-menu__item--active");
         });
     </script>
-{#    <script src="{{ url_for('static', filename='3rd/js/jquery-3.3.1.js') }}" type="text/javascript"></script>#}
+    {#    <script src="{{ url_for('static', filename='3rd/js/jquery-3.3.1.js') }}" type="text/javascript"></script>#}
     <script src="{{ url_for('static', filename='3rd/js/jquery.dataTables.min.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static', filename='3rd/js/dataTables.material.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='3rd/js/dataTables.buttons.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='3rd/js/jszip.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='3rd/js/buttons.html5.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='3rd/js/buttons.print.min.js') }}" type="text/javascript"></script>
 {% endblock %}

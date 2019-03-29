@@ -1,0 +1,3 @@
+Options: 2 3 0.05 7 infection
+Error in Math.factor(no_degs_y) : ‘log10’ not meaningful for factors
+Execution halted

@@ -1,0 +1,53 @@
+Options: 2-4 5-7 A[A1,A2,A3] B[B1,B2,B3] 1 pearson A-VS-B
+Error: unexpected input in " y <- c(0.021946013"
+Execution halted
+Use of uninitialized value $value in scalar chomp at ./app/static/program/correlation/Correlation.pl line 276.
+Use of uninitialized value $cor in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Error: unexpected input in " y <- c(0.021946013"
+Execution halted
+Use of uninitialized value $value in scalar chomp at ./app/static/program/correlation/Correlation.pl line 276.
+Use of uninitialized value $cor in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Error: unexpected input in " y <- c(0.021946013"
+Execution halted
+Use of uninitialized value $value in scalar chomp at ./app/static/program/correlation/Correlation.pl line 276.
+Use of uninitialized value $cor in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Error: unexpected input in " y <- c(0.021946013"
+Execution halted
+Use of uninitialized value $value in scalar chomp at ./app/static/program/correlation/Correlation.pl line 276.
+Use of uninitialized value $cor in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Error: unexpected input in " y <- c(0.021946013"
+Execution halted
+Use of uninitialized value $value in scalar chomp at ./app/static/program/correlation/Correlation.pl line 276.
+Use of uninitialized value $cor in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value $min_value in numeric gt (>) at ./app/static/program/correlation/Correlation.pl line 138.
+Use of uninitialized value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 148.
+Use of uninitialized value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 148.
+Use of uninitialized value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 148.
+Use of uninitialized value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 148.
+Use of uninitialized value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 148.
+Use of uninitialized value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 151.
+Use of uninitialized value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 151.
+Use of uninitialized value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 151.
+Use of uninitialized value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 151.
+Use of uninitialized value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 151.
+Use of uninitialized value $min_value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 161.
+Use of uninitialized value $min_value in concatenation (.) or string at ./app/static/program/correlation/Correlation.pl line 161.
+Error in scan(file = file, what = what, sep = sep, quote = quote, dec = dec,  : 
+  line 1 did not have 7 elements
+Calls: read.table -> scan
+Execution halted
+Can't call method "desiredCompressionLevel" on an undefined value at /usr/local/share/perl5/Archive/Zip/Archive.pm line 261.

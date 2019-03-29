@@ -1,0 +1,4 @@
+Options: 2 3 2 3 twotailed 121
+Can't locate Text/NSP/Measures/2D/Fisher/twotailed.pm in @INC (@INC contains: /opt/tmagweb/app/static/program/fisher/perl5 /usr/local/lib64/perl5 /usr/local/share/perl5 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5 .) at /opt/tmagweb/app/static/program/fisher/twotailed.pm line 1.
+BEGIN failed--compilation aborted at /opt/tmagweb/app/static/program/fisher/twotailed.pm line 1.
+Compilation failed in require at ./app/static/program/fisher/Fisher.pl line 51.
