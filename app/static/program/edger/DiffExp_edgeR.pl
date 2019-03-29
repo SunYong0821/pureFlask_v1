@@ -110,6 +110,7 @@ chomp($head);
 print OUT "$head\tlogFC\tPValue\tFDR\n";
 while(<IN>){
 	chomp;
+	s/\s+$//g;
 	my $gene=(split /\t/,$_)[$geneCol-1];
 	if($result{$gene}){
 		print OUT "$_\t$result{$gene}\n";

@@ -72,6 +72,7 @@ if(defined $split){
 }
 if (defined $head){
 	my $header=<IN>;
+	$header=~s/,/\t/g;
 	chomp($header);
 	print OUT "$header\n";
 	if(defined $split){
@@ -83,7 +84,7 @@ if (defined $head){
 while(<IN>){
 	chomp;
 	my $l=$_;
-	my @a=split /\t/,$_;
+	my @a=split /[\t,]/,$_;
 	if($fccolumn>$#a+1){
 		print LOG "Fold change column out of range!\n";
 		die;

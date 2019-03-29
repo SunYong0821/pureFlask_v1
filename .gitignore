@@ -5,3 +5,4 @@ out
 .idea/
 test/
 *.pyc
+app/static/user/

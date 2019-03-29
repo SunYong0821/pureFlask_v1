@@ -60,7 +60,10 @@ my $downnum=0;
 my $nodeg=0;
 while(<IN>){
 	chomp;
-	my @a=split /\t/,$_;
+	my @a=split /[\t,]/,$_;
+	for(my $i=0;$i<=$#a;$i++){
+		$a[$i]=~s/\s+$//g;
+	}
 	my $a=\@a;
 	my $type=&gettype($a,$Log2Col,$pCol);
 	if($type eq "Up"){
