@@ -13,7 +13,7 @@ from app import db
 from . import tools
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
-    CDS2PEPForm
+    CDS2PEPForm, LefseForm
 
 from app.models import Tasklist, Toolslist
 
@@ -454,3 +454,11 @@ def cds2pep():
 
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/cds2pep.html', form=form)
+
+
+@tools.route('/lefse.html', methods=['GET', 'POST'])
+def lefse():
+    form = LefseForm()
+    if form.validate_on_submit():
+        pass
+    return render_template('admin/tools/lefse.html', form=form)

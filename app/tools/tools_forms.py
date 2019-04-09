@@ -683,3 +683,19 @@ class CDS2PEPForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class LefseForm(FlaskForm):
+    file1 = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "file1"}
+    )
+    file2 = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "file2"}
+    )
+
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
