@@ -42,7 +42,13 @@
                                     {% endfor %}
                                 </div>
                             </div>
-
+                            <div class="m-form__group form-group row">
+                                <label class="col-form-label col-lg-6">请选择文件类型：</label>
+                                <div class="col-lg-3">{{ form.method }}</div>
+                                {% for error in form.method.errors %}
+                                    <span style="color: red">{{ error }}</span>
+                                {% endfor %}
+                            </div>
 
                         </div>
                         <div class="m-portlet__foot m-portlet__foot--fit" style="text-align: center">

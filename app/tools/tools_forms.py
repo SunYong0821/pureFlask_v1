@@ -691,6 +691,12 @@ class KronaForm(FlaskForm):
         validators=[Nonevalidators("上传一个文件")],
         render_kw={"class": "custom-file-input", "id": "otu_table"}
     )
+    method = SelectField(
+        label="选择文件类型",
+        choices=[('1', "biom"), ('0', "text")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
 
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})

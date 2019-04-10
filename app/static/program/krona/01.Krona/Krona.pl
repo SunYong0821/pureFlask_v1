@@ -4,6 +4,7 @@ use Getopt::Long;
 use FindBin '$Bin';
 use Cwd qw(abs_path);
 use File::Basename qw(basename dirname);
+use Archive::Zip;
 my ($input_file,$type,$outdir);
 GetOptions(
  "i:s" =>\$input_file,
@@ -66,3 +67,9 @@ EOF
 	close OUT;
 }
 system("sh $outdir/krona.sh");
+
+#my $obj=Archive::Zip->new();
+#my $fff="$outdir/out/*";
+#$obj->addFile($fff);
+#$obj->writeToFileNamed("out.zip");
+system("zip -r $outdir/out.zip out");
