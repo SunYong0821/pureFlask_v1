@@ -2,12 +2,14 @@
 use strict;
 use FindBin '$Bin';
 use Getopt::Long;
-my($in,$outdir,$prefix,$type);
+use Cwd qw(abs_path);
+use File::Basename qw(basename dirname);
+use Archive::Zip;
+my($in,$outdir);
 GetOptions(
- "i:s" =>\$in,
- "outdir:s" =>\$outdir
+ "i:s" =>\$in
 );
-if( !$in || !$outdir  ){
+if( !$in  ){
 	print STDERR <<USAGE;
 =============================================================================
 Descriptions: plot spearman_heatmap
@@ -22,6 +24,8 @@ E.g.:
 USAGE
 	die;
 }
+$in=abs_path($in);
+$outdir=dirname($in);
 open LOG,">$outdir/run.log";
 system("mkdir -p $outdir/out");
 open IN,"$in" or die $!;
@@ -57,3 +61,8 @@ EOF
 	print OUT $cmd;
 	close OUT;
 system("sh $outdir/spearman.sh");
+#my $obj=Archive::Zip->new();
+#my $fff="out/diff_spearman.pdf";
+#$obj->addFile($fff);
+#$obj->writeToFileNamed("$outdir/out.zip");
+system("cd $outdir/ && zip -r $outdir/out.zip out");
