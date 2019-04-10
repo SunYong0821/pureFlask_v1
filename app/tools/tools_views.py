@@ -13,7 +13,7 @@ from app import db
 from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
-    CDS2PEPForm, KronaForm, BarForm, SpearmanForm
+    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm
 from . import tools
 
 
@@ -506,7 +506,7 @@ def spearman():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} \n")
-        script = f"perl ./app/static/program/spearman/spearman.pl -i {inputfile} -outdir {taskdir} -n root" \
+        script = f"perl ./app/static/program/spearman/spearman_plot.pl -i {inputfile} -outdir {taskdir} -n root" \
                  f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
@@ -531,3 +531,22 @@ def lefse():
         crun.start()
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/lefse.html', form=form)
+
+
+@tools.route('/bar.html', methods=['GET', 'POST'])
+def bar_tree():
+    form = Bar_TreeForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("Bar_tree", form)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} \n")
+        script = f"perl ./app/static/program/bar_tree/bar_plot.pl -i {inputfile} -pre Family " \
+                 f"  2>>{taskdir}/run.log"
+        print(script)
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/bar_tree.html', form=form)
