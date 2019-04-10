@@ -489,7 +489,6 @@ def bar():
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/bar/bar_plot.pl -i {inputfile} -pre Family " \
                  f"  2>>{taskdir}/run.log"
-        print(script)
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -533,7 +532,7 @@ def lefse():
     return render_template('admin/tools/lefse.html', form=form)
 
 
-@tools.route('/bar.html', methods=['GET', 'POST'])
+@tools.route('/bar_tree.html', methods=['GET', 'POST'])
 def bar_tree():
     form = Bar_TreeForm()
     if form.validate_on_submit():
