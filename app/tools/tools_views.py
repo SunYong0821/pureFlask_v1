@@ -10,12 +10,11 @@ from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
 from app import db
-from . import tools
+from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
-    CDS2PEPForm, LefseForm
-
-from app.models import Tasklist, Toolslist
+    CDS2PEPForm, KronaForm, BarForm, SpearmanForm
+from . import tools
 
 
 def runtools(app, script, uuid):
@@ -456,9 +455,73 @@ def cds2pep():
     return render_template('admin/tools/cds2pep.html', form=form)
 
 
+@tools.route('/krona.html', methods=['GET', 'POST'])
+def krona():
+    form = KronaForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("Krona", form)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} \n")
+        script = f"perl ./app/static/program/krona/Krona.pl -i {inputfile} -outdir {taskdir} -n root" \
+                 f"  2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/krona.html', form=form)
+
+
+@tools.route('/bar.html', methods=['GET', 'POST'])
+def bar():
+    form = BarForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("Bar", form)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} \n")
+        script = f"perl ./app/static/program/bar/bar.pl -i {inputfile} -outdir {taskdir} -n root" \
+                 f"  2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/bar.html', form=form)
+
+
+@tools.route('/spearman.html', methods=['GET', 'POST'])
+def spearman():
+    form = SpearmanForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("Bar", form)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} \n")
+        script = f"perl ./app/static/program/spearman/spearman.pl -i {inputfile} -outdir {taskdir} -n root" \
+                 f"  2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/spearman.html', form=form)
+
+
 @tools.route('/lefse.html', methods=['GET', 'POST'])
 def lefse():
-    form = LefseForm()
+    form = SpearmanForm()
     if form.validate_on_submit():
-        pass
+        taskdir, uuid, inputfile = taskprepare("Lefse", form)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} \n")
+        script = f"perl ./app/static/program/lefse/lefse.pl -i {inputfile} -outdir {taskdir} -n root" \
+                 f"  2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/lefse.html', form=form)

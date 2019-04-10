@@ -685,16 +685,33 @@ class CDS2PEPForm(FlaskForm):
         "class": "btn btn-primary"})
 
 
-class LefseForm(FlaskForm):
-    file1 = FileField(
+class KronaForm(FlaskForm):
+    url = FileField(
         label='txt',
         validators=[Nonevalidators("上传一个文件")],
-        render_kw={"class": "custom-file-input", "id": "file1"}
+        render_kw={"class": "custom-file-input", "id": "otu_table"}
     )
-    file2 = FileField(
+
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
+
+
+class BarForm(FlaskForm):
+    url = FileField(
         label='txt',
         validators=[Nonevalidators("上传一个文件")],
-        render_kw={"class": "custom-file-input", "id": "file2"}
+        render_kw={"class": "custom-file-input", "id": "bar_table"}
+    )
+
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
+
+
+class SpearmanForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "spearman_table"}
     )
 
     submit = SubmitField("确认", render_kw={

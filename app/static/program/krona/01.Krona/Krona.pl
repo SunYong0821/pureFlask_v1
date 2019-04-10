@@ -7,10 +7,10 @@ use File::Basename qw(basename dirname);
 my ($input_file,$type,$outdir);
 GetOptions(
  "i:s" =>\$input_file,
- "t:s" =>\$type,
+ "type:s" =>\$type,
  "outdir:s" =>\$outdir
 );
-if(!$input_file) {
+if(!$input_file || !$outdir) {
 	print STDERR <<USAGE;
 =============================================================================
 Descriptions: Krona analysis
@@ -24,18 +24,20 @@ E.G.:
 	perl $0 -i otu_table.biom -type biom -outdir /path/to/output
 =============================================================================
 USAGE
+	die;
 }
-if(defined $type){
+system("mkdir -p $outdir/out");
+if(!$type){
 	$type="txt";
 }
 open LOG,">$outdir/run.log";
-system("mkdir -p $outdir");
 my $column_num=0;
 my$time=0;
 if($type eq "txt"){
 	open IN,"$input_file" or die $!;
 	while(<IN>){
 		chomp;
+		my@line=split/\t/,$_;
 		$time++;
 		if($column_num == 0){
 			$column_num=$#line;
@@ -48,19 +50,19 @@ if($type eq "txt"){
 	}close IN;
 	open OUT,">$outdir/krona.sh";
 	my$cmd=<<EOF;
-perl $Bin/ImportRDP.pl $input_file -o $outdir/krona.html -n root
+perl $Bin/ImportRDP.pl $input_file -o $outdir/out/krona.html -n root
 EOF
 	print OUT $cmd;
 	close OUT;
 }elsif($type eq "biom"){
 	open OUT,">$outdir/krona.sh";
 	my$cmd=<<EOF;
-source $Bin/otu.env
-biom convert -i $input_file -o $outdir/otu_table.txt --to-tsv --header-key taxonomy
+/usr/bin/biom convert -i $input_file -o $outdir/otu_table.txt --to-tsv --header-key taxonomy
 sed -i '1d' $outdir/otu_table.txt
 cat $outdir/otu_table.txt|sed 's/; /;/g'|sed 's/taxonomy/Taxonomy/' > $outdir/Krona.txt
-perl $Bin/ImportRDP.pl $outdir/Krona.txt -o $outdir/krona.html -n root
+perl $Bin/ImportRDP.pl $outdir/Krona.txt -o $outdir/out/krona.html -n root
 EOF
 	print OUT $cmd;
 	close OUT;
 }
+system("sh $outdir/krona.sh");
