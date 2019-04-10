@@ -224,6 +224,16 @@ class Tasklist(db.Model):
         return f'<Tasklist {self.title}>'
 
 
+class SCIhub(db.Model):
+    __tablename__ = 'sci_hub'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    time = db.Column(db.String(100))
+    addtime = db.Column(db.DateTime, index=True, default=datetime.now)
+
+    def __repr__(self):
+        return f'<sci_hub {self.name}>'
+
 if __name__ == '__main__':
     db.create_all()
 
