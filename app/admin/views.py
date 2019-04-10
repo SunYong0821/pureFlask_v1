@@ -12,7 +12,7 @@ from app.admin.forms import LoginForm, RegisterForm, ForgetPasswordForm, ForgetP
     EditProfileForm
 from app.lib.decorators import permission_required
 from app.lib.email import send_mail
-from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvideo, Permission
+from app.models import User, db, Userlog, Toolslist, Tasklist, Videolist, Playvideo, Permission, SCIhub
 
 
 @admin.route('/index.html', methods=["GET", "POST"])
@@ -51,12 +51,12 @@ def login():
         elif user.check_password(form.pwd.data):
             userlog = Userlog()
             try:
-                #real_ip = request.headers['X-Forwarded-For']
-                #if len(real_ip.split(',')) > 1:
-                    #userlog.ip = real_ip.split(",")[1]
-                #else:
-                    #userlog.ip = real_ip
-            	userlog.ip = request.headers['Remote_Addr']
+                # real_ip = request.headers['X-Forwarded-For']
+                # if len(real_ip.split(',')) > 1:
+                # userlog.ip = real_ip.split(",")[1]
+                # else:
+                # userlog.ip = real_ip
+                userlog.ip = request.headers['Remote_Addr']
             except:
                 userlog.ip = request.remote_addr
                 # request.user_agent  IE: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
@@ -240,6 +240,13 @@ def loginlog(page=None):
         Userlog.addtime.desc()
     ).paginate(page=page, per_page=10)
     return render_template('admin/loginlog.html', page_data=page_data)
+
+
+@admin.route('/scihub.html', methods=["GET"])
+@login_required
+def scihub():
+    scihub = SCIhub.query.all()
+    return render_template('admin/scihub.html', scihub=scihub)
 
 
 @admin.route('/contact.html', methods=['GET'])
