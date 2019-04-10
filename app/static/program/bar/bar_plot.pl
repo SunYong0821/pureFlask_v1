@@ -3,15 +3,18 @@ use strict;
 use FindBin '$Bin';
 use Getopt::Long;
 use Cwd qw(abs_path);
+use File::Basename qw(basename dirname);
 use Archive::Zip;
-my($in,$outdir,$prefix,$type);
+#my($in,$outdir,$prefix,$type);
+my($in,$prefix,$type);
 GetOptions(
  "i:s" =>\$in,
  "pre:s" =>\$prefix,
- "outdir:s" =>\$outdir,
+# "outdir:s" =>\$outdir,
  "type:s" =>\$type
 );
-if( !$in || !$outdir  ){
+#if( !$in || !$outdir  ){
+if( !$in){
 	print STDERR <<USAGE;
 =============================================================================
 Descriptions: plot bar_plot
@@ -28,7 +31,8 @@ E.g.:
 USAGE
 	die;
 }
-$outdir=abs_path($outdir);
+$in=abs_path($in);
+my$outdir=dirname($in);
 open LOG,">$outdir/run.log";
 system("mkdir -p $outdir/out");
 open IN,"$in" or die $!;
@@ -77,10 +81,10 @@ EOF
 }
 
 system("sh $outdir/bar_plot.sh");
-my $obj=Archive::Zip->new();
-my $fff="out/$prefix\_bar.pdf";
+#my $obj=Archive::Zip->new();
+#my $fff="out/$prefix\_bar.pdf";
 #my $fff="out";
-$obj->addFile($fff);
-$obj->writeToFileNamed("out.zip");
-
-#system("zip -r $outdir/out.zip out");
+#$obj->addFile($fff);
+#$obj->writeToFileNamed("out.zip");
+print "$outdir";
+system("cd $outdir/ && zip -r $outdir/out.zip out");

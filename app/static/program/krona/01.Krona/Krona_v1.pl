@@ -8,10 +8,10 @@ use Archive::Zip;
 my ($input_file,$type,$outdir);
 GetOptions(
  "i:s" =>\$input_file,
- "type:s" =>\$type
-# "outdir:s" =>\$outdir
+ "type:s" =>\$type,
+ "outdir:s" =>\$outdir
 );
-if(!$input_file) {
+if(!$input_file || !$outdir) {
 	print STDERR <<USAGE;
 =============================================================================
 Descriptions: Krona analysis
@@ -27,8 +27,6 @@ E.G.:
 USAGE
 	die;
 }
-$input_file=abs_path($input_file);
-$outdir=dirname($input_file);
 system("mkdir -p $outdir/out");
 if(!$type){
 	$type="txt";
@@ -70,8 +68,8 @@ EOF
 }
 system("sh $outdir/krona.sh");
 
-#my $obj=Archive::Zip->new();
-#my $fff="out/krona.html";
-#$obj->addFile($fff);
-#$obj->writeToFileNamed("out.zip");
-system("cd $outdir/ && zip -r $outdir/out.zip out");
+my $obj=Archive::Zip->new();
+my $fff="out/krona.html";
+$obj->addFile($fff);
+$obj->writeToFileNamed("out.zip");
+#system("zip -r $outdir/out.zip out");
