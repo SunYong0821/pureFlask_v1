@@ -2,6 +2,8 @@
 use strict;
 use FindBin '$Bin';
 use Getopt::Long;
+use Cwd qw(abs_path);
+use Archive::Zip;
 my($in,$outdir,$prefix,$type);
 GetOptions(
  "i:s" =>\$in,
@@ -26,6 +28,7 @@ E.g.:
 USAGE
 	die;
 }
+$outdir=abs_path($outdir);
 open LOG,">$outdir/run.log";
 system("mkdir -p $outdir/out");
 open IN,"$in" or die $!;
@@ -74,3 +77,10 @@ EOF
 }
 
 system("sh $outdir/bar_plot.sh");
+my $obj=Archive::Zip->new();
+my $fff="out/$prefix\_bar.pdf";
+#my $fff="out";
+$obj->addFile($fff);
+$obj->writeToFileNamed("out.zip");
+
+#system("zip -r $outdir/out.zip out");
