@@ -465,10 +465,10 @@ def krona():
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = ""
-        if form.method.data == 0:
+        if form.method.data == "0":
             script = f"perl ./app/static/program/krona/01.Krona/Krona.pl -i {inputfile} -outdir {taskdir} -n root" \
                      f"  2>>{taskdir}/run.log"
-        elif form.method.data == 1:
+        elif form.method.data == "1":
             script = f"perl ./app/static/program/krona/01.Krona/downsize_otu.biom -i {inputfile} -type {biom} " \
                      f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
@@ -487,8 +487,9 @@ def bar():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} \n")
-        script = f"perl ./app/static/program/bar/bar_plot.pl -i {inputfile} -pre Family -outdir {taskdir}" \
+        script = f"perl ./app/static/program/bar/bar_plot.pl -i {inputfile} -pre Family " \
                  f"  2>>{taskdir}/run.log"
+        print(script)
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
