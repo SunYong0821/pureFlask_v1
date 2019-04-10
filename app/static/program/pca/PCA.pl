@@ -45,7 +45,7 @@ my $Rscript="Rscript";
 open IN,$infile;
 my $head=<IN>;
 chomp($head);
-my @head=split /\t/,$head;
+my @head=split /[\t,]/,$head;
 my $phead=\@head;
 my @names=&getexp($phead,$count1Col);
 chdir"$odir";
@@ -60,7 +60,7 @@ my $rnames=join(",",@names);
 $rnames="c($rnames)";
 while(<IN>){
 	chomp;
-	my @a=split /\t/,$_;
+	my @a=split /[\t,]/,$_;
 	my $a=\@a;
 	my (@exp)=&getexp($a,$count1Col);
 	if($geneCol>$#a+1){

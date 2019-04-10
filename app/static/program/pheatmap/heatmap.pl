@@ -64,7 +64,7 @@ chdir $filedir;
 open OUT, "> format.txt";
 my $head = <FA>;
 chomp($head);
-my @line = split /\t/, $head;
+my @line = split /[\t,]/, $head;
 my $oh = $line[$namecol - 1];
 foreach my $i(@cols)
 {
@@ -74,7 +74,7 @@ print OUT "$oh\n";
 while(<FA>)
 {
     chomp;
-    my @tmp = split;
+    my @tmp = split /[\t,]/;
     my $os = $tmp[$namecol - 1];
     my $zero = 0;
     foreach my $i(@cols)

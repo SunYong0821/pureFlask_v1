@@ -1,0 +1,16 @@
+library(ggplot2)
+dat <- read.delim("./aaa.matrix", row.names = 1, header=TRUE,check.names=F,sep="\t")
+pca <- prcomp(t(dat))
+result <- as.data.frame(pca$x)
+result$rep <- c("GSM800742","GSM800743","GSM800744","GSM800745","GSM800746","GSM800747","GSM800748","GSM800749","GSM800750","GSM800751","GSM800752","GSM800753","GSM800754","GSM800755","GSM800756","GSM800757","GSM800758","GSM800759","GSM800760","GSM800761","GSM800762","GSM800763","GSM800764","GSM800765","GSM800766","GSM800767","GSM800768","GSM800769","GSM800770","GSM800771","GSM800772","GSM800773","GSM800774","GSM800775")
+xmax=max(result$PC1)*1.4
+xmin=min(result$PC1)
+##p <- ggplot(result) + geom_point(aes(x=result$PC1,y=result$PC2,color=result$rep)) + geom_text(aes(x=result$PC1, y=result$PC2, label=rownames(result),hjust=-0.65, color=result$rep,size=.5))
+p <- ggplot(result) + geom_point(aes(x=result$PC1,y=result$PC2,color=result$rep)) + geom_text(aes(x=result$PC1, y=result$PC2, label=rownames(result),hjust=-0.05, color=result$rep),size=4)+xlim(xmin,xmax)
+p <- p + theme_bw()
+p <- p + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
+p <- p + theme(legend.title=element_blank()) + xlab("PC1") + ylab("PC2")
+p <- p + theme(legend.position = "none")
+pdf(file="out/aaa.pca.pdf")
+print(p)
+dev.off()

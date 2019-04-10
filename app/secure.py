@@ -1,7 +1,7 @@
 # db
 from app.jobs import modify_score
 
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@10.10.100.2:7821/magweb?charset=utf8'
+SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@10.10.15.70:3306/magweb?charset=utf8'
 # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:root@127.0.0.1:3306/microanaly?charset=utf8'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
 

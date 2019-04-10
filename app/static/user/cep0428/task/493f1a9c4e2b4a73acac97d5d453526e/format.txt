@@ -1,0 +1,1 @@
+sample,Rh_RN1,Rh_RN2,Rh_RN3,Rh_RP1,Rh_RP2,Rh_RK1,Rh_RK2,Rh_RCK,Bk_RN1,Bk_RN2,Bk_RN3,Bk_RP1,Bk_RP2,Bk_RK1,Bk_RK2,Bk_RCK																																																																																																																																																															
