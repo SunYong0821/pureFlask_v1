@@ -464,7 +464,7 @@ def krona():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} \n")
-        script = f"perl ./app/static/program/krona/01.Krona.pl -i {inputfile} -outdir {taskdir} -n root" \
+        script = f"perl ./app/static/program/krona/01.Krona/Krona.pl -i {inputfile} -outdir {taskdir} -n root" \
                  f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
