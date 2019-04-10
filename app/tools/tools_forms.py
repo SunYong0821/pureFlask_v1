@@ -725,10 +725,15 @@ class SpearmanForm(FlaskForm):
 
 
 class Bar_TreeForm(FlaskForm):
-    url = FileField(
+    fail1 = FileField(
         label='txt',
         validators=[Nonevalidators("上传一个文件")],
-        render_kw={"class": "custom-file-input", "id": "bar_tree_table"}
+        render_kw={"class": "custom-file-input", "id": "fail1"}
+    )
+    fail2 = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "fail2"}
     )
 
     submit = SubmitField("确认", render_kw={

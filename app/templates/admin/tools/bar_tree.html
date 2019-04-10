@@ -33,17 +33,27 @@
                         <div class="m-portlet__body">
                             <div class="m-form__group form-group">
                                 <div class="custom-file">
-                                    {{ form.url }}
+                                    {{ form.fail1 }}
                                     <label class="custom-file-label" for="customFile">
                                         选择一个文件
                                     </label>
-                                    {% for error in form.url.errors %}
+                                    {% for error in form.fail1.errors %}
                                         <span style="color: red">{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             </div>
 
-
+                            <div class="m-form__group form-group">
+                                <div class="custom-file">
+                                    {{ form.fail2 }}
+                                    <label class="custom-file-label" for="customFile">
+                                        选择一个文件
+                                    </label>
+                                    {% for error in form.fail2.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                         <div class="m-portlet__foot m-portlet__foot--fit" style="text-align: center">
                             <div class="m-form__actions m-form__actions">

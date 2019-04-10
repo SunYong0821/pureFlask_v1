@@ -536,12 +536,39 @@ def lefse():
 def bar_tree():
     form = Bar_TreeForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("Bar_tree", form)
+        f1 = secure_filename(form.fai1.data.filename)
+        f2 = secure_filename(form.fai2.data.filename)
+
+        uuid = uuid4().hex
+        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
+        os.makedirs(taskdir + "/out")
+        in1 = taskdir + "/" + f1
+        in2 = taskdir + "/" + f2
+        form.fai1.data.save(in1)
+        form.fai2.data.save(in2)
+        if os.path.getsize(in1) > 10 * 1024 * 1024 or os.path.getsize(in2) > 10 * 1024 * 1024:
+            shutil.rmtree(taskdir)
+            abort(413)
+
+        task = Tasklist(
+            title="简单共线性图",
+            taskid=uuid,
+            status="进行中",
+            resulturl=taskdir,
+            user_id=int(current_user.id)
+        )
+        db.session.add(task)
+        db.session.commit()
+
+        tool = Toolslist.query.filter_by(title="简单共线性图").first()
+        tool.usenum += 1
+        db.session.add(tool)
+        db.session.commit()
 
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
-                f"Options: {form.url.data} \n")
-        script = f"perl ./app/static/program/bar_tree/bar_plot.pl -i {inputfile} -pre Family " \
+                f"Options: {form.fai1.data}  {form.fai2.data}\n")
+        script = f"perl .app/static/program/bar_tree/bar_tree.pl -i {form.fai1.data} -map {form.fai2.data} -pre genus " \
                  f"  2>>{taskdir}/run.log"
         print(script)
         app = current_app._get_current_object()
