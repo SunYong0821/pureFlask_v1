@@ -1,0 +1,1 @@
+perl /opt/magewb_test/magweb/app/static/program/bar_tree/bar_tree.pl -i /opt/magewb_test/magweb/app/static/program/bar_tree/g_top20.txt -map /opt/magewb_test/magweb/app/static/program/bar_tree/group.txt -pre genus
