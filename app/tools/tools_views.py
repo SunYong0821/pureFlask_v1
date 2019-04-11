@@ -567,8 +567,8 @@ def bar_tree():
 
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
-                f"Options: {form.fai1.data}  {form.fai2.data}\n")
-        script = f"perl .app/static/program/bar_tree/bar_tree.pl -i {form.fai1.data} -map {form.fai2.data} -pre genus " \
+                f"Options: {form.fai1.data.filename}  {form.fai2.data.filename}\n")
+        script = f"perl ./app/static/program/bar_tree/bar_tree.pl -i {taskdir}/{form.fai1.data.filename} -map {taskdir}/{form.fai2.data.filename} -pre genus " \
                  f"  2>>{taskdir}/run.log"
         print(script)
         app = current_app._get_current_object()
