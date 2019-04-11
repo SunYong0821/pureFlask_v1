@@ -551,7 +551,7 @@ def bar_tree():
             abort(413)
 
         task = Tasklist(
-            title="简单共线性图",
+            title="群落组成柱状图",
             taskid=uuid,
             status="进行中",
             resulturl=taskdir,
@@ -560,7 +560,7 @@ def bar_tree():
         db.session.add(task)
         db.session.commit()
 
-        tool = Toolslist.query.filter_by(title="简单共线性图").first()
+        tool = Toolslist.query.filter_by(title="群落组成柱状图").first()
         tool.usenum += 1
         db.session.add(tool)
         db.session.commit()
