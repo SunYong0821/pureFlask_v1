@@ -728,12 +728,12 @@ class Bar_TreeForm(FlaskForm):
     fai1 = FileField(
         label='txt',
         validators=[Nonevalidators("上传一个文件")],
-        render_kw={"class": "custom-file-input", "id": "fail1"}
+        render_kw={"class": "custom-file-input", "id": "fai1"}
     )
     fai2 = FileField(
         label='txt',
         validators=[Nonevalidators("上传一个文件")],
-        render_kw={"class": "custom-file-input", "id": "fail2"}
+        render_kw={"class": "custom-file-input", "id": "fai2"}
     )
 
     submit = SubmitField("确认", render_kw={
