@@ -1,0 +1,1 @@
+Rscript /opt/magewb_test/magweb/app/static/program/bar_tree/bar_tree.R /opt/magewb_test/magweb/app/static/program/bar_tree/g_top20.txt /opt/magewb_test/magweb/app/static/program/bar_tree/group.txt genus /opt/magewb_test/magweb/app/static/program/bar_tree/out

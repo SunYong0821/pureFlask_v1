@@ -10,12 +10,11 @@ from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
 
 from app import db
-from . import tools
+from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
-    CDS2PEPForm
-
-from app.models import Tasklist, Toolslist
+    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm
+from . import tools
 
 
 def runtools(app, script, uuid):
@@ -454,3 +453,126 @@ def cds2pep():
 
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/cds2pep.html', form=form)
+
+
+@tools.route('/krona.html', methods=['GET', 'POST'])
+def krona():
+    form = KronaForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("Krona", form)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} \n")
+        script = ""
+        if form.method.data == "0":
+            script = f"perl ./app/static/program/krona/01.Krona/Krona.pl -i {inputfile} -outdir {taskdir} -n root" \
+                     f"  2>>{taskdir}/run.log"
+        elif form.method.data == "1":
+            script = f"perl ./app/static/program/krona/01.Krona/downsize_otu.biom -i {inputfile} -type {biom} " \
+                     f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/krona.html', form=form)
+
+
+@tools.route('/bar.html', methods=['GET', 'POST'])
+def bar():
+    form = BarForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("Bar", form)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} \n")
+        script = f"perl ./app/static/program/bar/bar_plot.pl -i {inputfile} -pre Family " \
+                 f"  2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/bar.html', form=form)
+
+
+@tools.route('/spearman.html', methods=['GET', 'POST'])
+def spearman():
+    form = SpearmanForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("Bar", form)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} \n")
+        script = f"perl ./app/static/program/spearman/spearman_plot.pl -i {inputfile} -outdir {taskdir} -n root" \
+                 f"  2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/spearman.html', form=form)
+
+
+@tools.route('/lefse.html', methods=['GET', 'POST'])
+def lefse():
+    form = SpearmanForm()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("Lefse", form)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} \n")
+        script = f"perl ./app/static/program/lefse/lefse.pl -i {inputfile} -outdir {taskdir} -n root" \
+                 f"  2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/lefse.html', form=form)
+
+
+@tools.route('/bar_tree.html', methods=['GET', 'POST'])
+def bar_tree():
+    form = Bar_TreeForm()
+    tool = Toolslist.query.filter_by(url="tools.bar_tree").first()
+    if form.validate_on_submit():
+        f1 = secure_filename(form.fai1.data.filename)
+        f2 = secure_filename(form.fai2.data.filename)
+
+        uuid = uuid4().hex
+        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
+        os.makedirs(taskdir + "/out")
+        in1 = taskdir + "/" + f1
+        in2 = taskdir + "/" + f2
+        form.fai1.data.save(in1)
+        form.fai2.data.save(in2)
+        if os.path.getsize(in1) > 10 * 1024 * 1024 or os.path.getsize(in2) > 10 * 1024 * 1024:
+            shutil.rmtree(taskdir)
+            abort(413)
+
+        task = Tasklist(
+            title="群落组成柱状图",
+            taskid=uuid,
+            status="进行中",
+            resulturl=taskdir,
+            user_id=int(current_user.id)
+        )
+        db.session.add(task)
+        db.session.commit()
+
+        tool.usenum += 1
+        db.session.add(tool)
+        db.session.commit()
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.fai1.data.filename}  {form.fai2.data.filename}\n")
+        script = f"perl ./app/static/program/bar_tree/bar_tree.pl -i {taskdir}/{form.fai1.data.filename} -map {taskdir}/{form.fai2.data.filename} -pre genus " \
+                 f"  2>>{taskdir}/run.log"
+        print(script)
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/bar_tree.html', form=form, tool=tool)

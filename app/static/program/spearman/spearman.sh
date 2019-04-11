@@ -1,0 +1,1 @@
+Rscript /opt/magewb_test/magweb/app/static/program/spearman/diff_spearman.R /opt/magewb_test/magweb/app/static/program/spearman/genus_diff_top30.txt /opt/magewb_test/magweb/app/static/program/spearman/out

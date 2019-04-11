@@ -1,0 +1,132 @@
+source('/opt/magewb_test/magweb/app/static/program/bar_tree/labels2colors.R')
+treeplot <- function(dist, grp, grpcol,group_names, ...)
+{
+  tree <- hclust(dist)
+  treeline <- function(pos1, pos2, height, col1, col2)
+  {
+    meanpos = (pos1[1] + pos2[1]) / 2
+    segments(y0 = pos1[1] - 0.4, x0 = -pos1[2], y1 = pos1[1] - 0.4, x1 = -height,  col = col1,lwd=2)
+    segments(y0 = pos1[1] - 0.4, x0 = -height,  y1 = meanpos - 0.4, x1 = -height,  col = col1,lwd=2)
+    segments(y0 = meanpos - 0.4, x0 = -height,  y1 = pos2[1] - 0.4, x1 = -height,  col = col2,lwd=2)
+    segments(y0 = pos2[1] - 0.4, x0 = -height,  y1 = pos2[1] - 0.4, x1 = -pos2[2], col = col2,lwd=2)
+  }
+  plot(0, type = "n", xaxt = "n", yaxt = "n", frame.plot = F, xlab = "", ylab = "",
+       ylim = c(0, length(tree$order)),
+       xlim = c(-max(tree$height), 0))
+  legend("topleft",legend =group_names,pch = 15, col = grpcol, bty = "n", cex = 1.5)
+  meanpos = matrix(rep(0, 2 * length(tree$order)), ncol = 2)
+  meancol = rep(0, length(tree$order))
+  for (step in 1:nrow(tree$merge))
+  {
+    if(tree$merge[step, 1] < 0){
+      pos1 <- c(which(tree$order == -tree$merge[step, 1]), 0)
+      col1 <- grpcol[as.character(grp[tree$labels[-tree$merge[step, 1]],1])]
+    }else {
+      pos1 <- meanpos[tree$merge[step, 1], ]
+      col1 <- meancol[tree$merge[step, 1]]
+    }
+    if(tree$merge[step, 2] < 0){
+      pos2 <- c(which(tree$order == -tree$merge[step, 2]), 0)
+      col2 <- grpcol[as.character(grp[tree$labels[-tree$merge[step, 2]],1])]
+    }else {
+      pos2 <- meanpos[tree$merge[step, 2], ]
+      col2 <- meancol[tree$merge[step, 2]]
+    }
+    height <- tree$height[step]
+    treeline(pos1, pos2, height, col1, col2)
+    meanpos[step, ] <- c((pos1[1] + pos2[1]) / 2, height)
+    if (col1 == col2){
+      meancol[step] <- col1
+    }else {
+      meancol[step] <- "grey"
+    }
+  }
+  tree$order
+}
+topbarplot <- function(profile, number = NULL, palette = NULL,samplecolor=samplecolor)
+{
+	get_number <- function(){
+		options(warn=-1)
+		if(!is.null(number) && !is.na(as.numeric(number))){
+			number = as.numeric(number)
+		}else{
+			number = nrow(profile)
+		}
+		if(number > nrow(profile)){
+			number = nrow(profile)
+		}
+		return(number)
+	}
+	number = get_number()
+	if(is.null(palette)){
+		palette = cols_brewer
+		if(length(palette) < number){
+			times = ceiling(length(labels) / number)
+			palette = rep(palette, times)
+		}
+		palette = palette[1:number-1]
+		palette[number] = 'grey'
+	}
+	color <- colorRampPalette(palette, interpolate = "spline", space = "Lab");
+	col <- color(number + 1)
+	rowsums <- rowSums(profile)
+	profile <- as.matrix(profile[order(-rowsums)[1:number], ])
+	Others  <- 1 - apply(profile, 2, sum)
+	profile <- rbind(profile, Others)
+	tt = barplot(profile, col = col, space = 0.25, width = 0.8, cex.axis=1.5, horiz = T,cex.lab=2,xlab = "Relative Abundance", yaxt="n", las = 1, ylim = c(0, ncol(profile)),
+			family="mono")
+	text(x=-0.06,y=tt,labels=colnames(profile),col=samplecolor,xpd=TRUE)
+	mtext(paste(number, "Main genus in Samples"), side = 3, line = 1, cex = 2)
+	specol <- col
+	names(specol) <- rownames(profile)
+	specol
+}
+args<-commandArgs(trailingOnly=TRUE)
+inFile<-args[1]
+mapFile<-args[2]
+prefix<- args[3]
+outFile<-paste(args[4],"/",args[3],"_bar_tree.pdf",sep="")
+data <- read.table(inFile, head = T, check.names = F, row.names=1, quote="", sep='\t')
+group <- read.table(mapFile, head = F, check.names = F, row.names = 1,quote="", sep='\t')
+if((ncol(data)>70) && (ncol(data)<150)){
+	pdf(outFile, width = 15,height=20)
+}else if((ncol(data)>=150) && (ncol(data)<250)){
+	pdf(outFile, width = 15,height=30)
+}else if(ncol(data)>=250){
+	pdf(outFile, width = 15,height=40)
+}else{
+	pdf(outFile, width = 15)
+}
+
+data = data[,rownames(group)]
+color_list = group2corlor(group)
+sample_colors=color_list[[1]]
+group_colors= color_list[[2]]
+group_names = color_list[[3]]
+group = color_list[[4]]
+
+
+
+#group <- as.vector(pregroup[,1])
+#names(group) <- rownames(pregroup)
+#grpcol <- cols_brewer
+#names(grpcol) <- levels(pregroup[, 1])
+names(group_colors) <-group_names
+dist = dist(t(data))
+#print(dist)
+layout(t(c(1,2,2,2,3)))
+max_sample_name_length = max(mapply(nchar,colnames(data)))
+if(max_sample_name_length>6){
+    mar_left = (max_sample_name_length - 3) * 1.1
+}else{
+    mar_left = max_sample_name_length*1.1
+}
+par(mar = c(5,5,5,0))
+data.order <- treeplot(dist, group, group_colors,group_names)
+data <- data[, data.order]
+par(mar = c(5,mar_left,5,0))
+specol <- topbarplot(data, number="20",samplecolor=sample_colors[data.order])
+par(mar = c(5,0,5,0))
+plot(0, type = "n", xaxt = "n", yaxt = "n", bty ="n", xlab = "", ylab = "")
+legend("left", pch = 15, col = specol, legend = names(specol), bty = "n", cex = 1.5)
+dev.off();
