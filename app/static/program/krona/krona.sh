@@ -1,0 +1,1 @@
+perl /opt/magewb_test/magweb/app/static/program/krona/01.Krona/ImportRDP.pl /opt/magewb_test/magweb/app/static/program/krona/Krona.txt -o /opt/magewb_test/magweb/app/static/program/krona/out/krona.html -n root

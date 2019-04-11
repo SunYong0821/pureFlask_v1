@@ -1,0 +1,148 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title">
+                    {{ tool.title }}
+                </h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="m-content">
+        <div class="row">
+            <div class="col-lg-6">
+                <!--begin::Portlet-->
+                <div class="m-portlet">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                                <h3 class="m-portlet__head-text">
+                                    {{ tool.title }}
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <!--begin::Form-->
+                    <form class="m-form" method="post" onsubmit="return dosubmit()" enctype="multipart/form-data">
+                        <div class="m-portlet__body">
+                            <div class="m-form__group form-group">
+                                <div class="custom-file">
+                                    {{ form.url }}
+                                    <label class="custom-file-label" for="customFile">
+                                        选择一个文件
+                                    </label>
+                                    {% for error in form.url.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="m-form__group form-group row">
+                                <label class="col-form-label col-lg-6">请选择文件类型：</label>
+                                <div class="col-lg-3">{{ form.method }}</div>
+                                {% for error in form.method.errors %}
+                                    <span style="color: red">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                        <div class="m-portlet__foot m-portlet__foot--fit" style="text-align: center">
+                            <div class="m-form__actions m-form__actions">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#m_modal_6">
+                                    提交
+                                </button>
+                                <div class="modal fade" id="m_modal_6" tabindex="-1" role="dialog"
+                                     aria-labelledby="exampleModalCenterTitle"
+                                     aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">
+                                                    任务即将加入执行队列
+                                                </h5>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                    取消
+                                                </button>
+                                                {{ form.submit }}
+                                                {{ form.csrf_token }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Portlet-->
+            </div>
+
+
+            <div class="col-lg-6">
+                <!--begin::Portlet-->
+                <div class="m-portlet">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                                <h3 class="m-portlet__head-text">
+                                    说明：
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet__body">
+                        <div class="m-list-timeline">
+                            <div class="m-list-timeline__items">
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                    <a href="{{ url_for('admin.play_video_out',video_list_id=3, id=0) }}"
+                                       target="_blank">一般输入输出说明</a>
+                                </span>
+                                </div>
+{#                                <div class="m-list-timeline__item">#}
+{#                                    <span class="m-list-timeline__badge"></span>#}
+{#                                    <span class="m-list-timeline__text">#}
+{#                                    <a href="{{ url_for('admin.play_video_out',video_list_id=3, id=5) }}"#}
+{#                                       target="_blank">当前工具使用说明</a>#}
+{#                                </span>#}
+{#                                </div>#}
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                    输入文件名命名最好是字母、数字加下划线的组合，必须以tab键进行分隔列
+                                </span>
+                                </div>
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                    输入文件输入格式为文本格式，后缀名可能为txt,xls(非excel格式)等
+                                </span>
+                                </div>
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                    输入文件第一行默认必须有行头，单个输入文件大小限制在10M以内
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Portlet-->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
