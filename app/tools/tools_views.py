@@ -458,6 +458,7 @@ def cds2pep():
 @tools.route('/krona.html', methods=['GET', 'POST'])
 def krona():
     form = KronaForm()
+    tool = Toolslist.query.filter_by(url="tools.krona").first()
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("Krona", form)
 
@@ -475,12 +476,13 @@ def krona():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
         return redirect(url_for("admin.index"))
-    return render_template('admin/tools/krona.html', form=form)
+    return render_template('admin/tools/krona.html', form=form, tool=tool)
 
 
 @tools.route('/bar.html', methods=['GET', 'POST'])
 def bar():
     form = BarForm()
+    tool = Toolslist.query.filter_by(url="tools.bar").first()
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("Bar", form)
 
@@ -493,12 +495,13 @@ def bar():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
         return redirect(url_for("admin.index"))
-    return render_template('admin/tools/bar.html', form=form)
+    return render_template('admin/tools/bar.html', form=form, tool=tool)
 
 
 @tools.route('/spearman.html', methods=['GET', 'POST'])
 def spearman():
     form = SpearmanForm()
+    tool = Toolslist.query.filter_by(url="tools.spearman").first()
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("Bar", form)
 
@@ -511,7 +514,7 @@ def spearman():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
         return redirect(url_for("admin.index"))
-    return render_template('admin/tools/spearman.html', form=form)
+    return render_template('admin/tools/spearman.html', form=form, tool=tool)
 
 
 @tools.route('/lefse.html', methods=['GET', 'POST'])
