@@ -535,6 +535,7 @@ def lefse():
 @tools.route('/bar_tree.html', methods=['GET', 'POST'])
 def bar_tree():
     form = Bar_TreeForm()
+    tool = Toolslist.query.filter_by(url="tools.bar_tree").first()
     if form.validate_on_submit():
         f1 = secure_filename(form.fai1.data.filename)
         f2 = secure_filename(form.fai2.data.filename)
@@ -560,7 +561,6 @@ def bar_tree():
         db.session.add(task)
         db.session.commit()
 
-        tool = Toolslist.query.filter_by(title="群落组成柱状图").first()
         tool.usenum += 1
         db.session.add(tool)
         db.session.commit()
@@ -575,4 +575,4 @@ def bar_tree():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
         return redirect(url_for("admin.index"))
-    return render_template('admin/tools/bar_tree.html', form=form)
+    return render_template('admin/tools/bar_tree.html', form=form, tool=tool)
