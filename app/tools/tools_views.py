@@ -30,17 +30,23 @@ def runtools(app, script, uuid):
         db.session.commit()
 
 
-def taskprepare(toolname, form):
-    filename = secure_filename(form.url.data.filename)
+def verify_file(taskdir, *args):
+    for v in args:
+        filename = secure_filename(v.filename)
+        inputfile = taskdir + "/" + filename
+        v.save(inputfile)
+        if os.path.getsize(inputfile) > 10 * 1024 * 1024:
+            shutil.rmtree(taskdir)
+            abort(413)
+    return [str(taskdir + "/" + secure_filename(v.filename)) for v in args]
+
+
+def taskprepare(toolname, *args):
     uuid = uuid4().hex
     # 不能使用pathlib，与flask存储文件用法冲突
     taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
     os.makedirs(taskdir + "/out")
-    inputfile = taskdir + "/" + filename
-    form.url.data.save(inputfile)
-    if os.path.getsize(inputfile) > 10 * 1024 * 1024:
-        shutil.rmtree(taskdir)
-        abort(413)
+    inputfiles = verify_file(taskdir, *args)
 
     # 导入任务数据库
     task = Tasklist(
@@ -54,12 +60,12 @@ def taskprepare(toolname, form):
     db.session.commit()
 
     # 导入使用次数
-    tool = Toolslist.query.filter_by(title=toolname).first()
+    tool = Toolslist.query.filter_by(url=toolname).first()
     tool.usenum += 1
     db.session.add(tool)
     db.session.commit()
 
-    return taskdir, uuid, inputfile
+    return taskdir, uuid, inputfiles
 
 
 @tools.route('/rev_com.html', methods=["GET", "POST"])
@@ -67,7 +73,7 @@ def taskprepare(toolname, form):
 def rev_com():
     form = RevComForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("DNA反向互补", form)
+        taskdir, uuid, inputfile = taskprepare("tools.rev_com", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(f"Options: {form.func.data}\n")
@@ -86,7 +92,7 @@ def rev_com():
 def pooling():
     form = PoolingForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("文库Pooling", form)
+        taskdir, uuid, inputfile = taskprepare("tools.pooling", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -105,7 +111,7 @@ def pooling():
 def splitlane():
     form = SplitLaneForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("文库分Lane", form)
+        taskdir, uuid, inputfile = taskprepare("tools.splitlane", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(f"Options: {form.lane.data}\n")
@@ -123,7 +129,7 @@ def splitlane():
 def deg_filter():
     form = DEGForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("差异表达筛选", form)
+        taskdir, uuid, inputfile = taskprepare("tools.deg_filter", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -145,7 +151,7 @@ def deg_filter():
 def volcano():
     form = VolcanoForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("火山图", form)
+        taskdir, uuid, inputfile = taskprepare("tools.volcano", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -164,7 +170,7 @@ def volcano():
 def ma_plot():
     form = MAplotForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("MA图", form)
+        taskdir, uuid, inputfile = taskprepare("tools.ma_plot", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -279,7 +285,7 @@ def venn():
 def edger():
     form = EdgeRForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("edgeR差异分析", form)
+        taskdir, uuid, inputfile = taskprepare("tools.edger", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -298,7 +304,7 @@ def edger():
 def deseq2():
     form = DESeq2Form()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("DESeq2差异分析", form)
+        taskdir, uuid, inputfile = taskprepare("tools.deseq2", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -317,7 +323,7 @@ def deseq2():
 def keggbublle():
     form = KEGGbublleForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("KEGG气泡图", form)
+        taskdir, uuid, inputfile = taskprepare("tools.keggbublle", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -336,7 +342,7 @@ def keggbublle():
 def pca():
     form = PCAForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("PCA图", form)
+        taskdir, uuid, inputfile = taskprepare("tools.pca", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -355,7 +361,7 @@ def pca():
 def clustertree():
     form = ClusterTreeForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("进化树图", form)
+        taskdir, uuid, inputfile = taskprepare("tools.clustertree", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -374,7 +380,7 @@ def clustertree():
 def pheatmap():
     form = HeatMapForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("热图", form)
+        taskdir, uuid, inputfile = taskprepare("tools.pheatmap", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -395,7 +401,7 @@ def pheatmap():
 def correlation():
     form = CorrForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("相关性图", form)
+        taskdir, uuid, inputfile = taskprepare("tools.correlation", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -414,7 +420,7 @@ def correlation():
 def fisher():
     form = FisherForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("Fisher检验", form)
+        taskdir, uuid, inputfile = taskprepare("tools.fisher", form.url.data)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
@@ -433,7 +439,7 @@ def fisher():
 def cds2pep():
     form = CDS2PEPForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("CDS翻译蛋白", form)
+        taskdir, uuid, inputfile = taskprepare("tools.cds2pep", form.url.data)
 
         best = "-best" if form.best.data else ""
         stop = "-stop" if form.stop.data else ""
@@ -461,7 +467,7 @@ def krona():
     form = KronaForm()
     tool = Toolslist.query.filter_by(url="tools.krona").first()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("Krona", form)
+        taskdir, uuid, inputfile = taskprepare("tools.krona", form.url.data)
 
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
@@ -469,10 +475,10 @@ def krona():
         script = ""
         if form.method.data == "0":
             script = f"perl ./app/static/program/krona/01.Krona/Krona.pl -i {inputfile} -outdir {taskdir} -n root" \
-                f"  2>>{taskdir}/run.log"
+                     f"  2>>{taskdir}/run.log"
         elif form.method.data == "1":
             script = f"perl ./app/static/program/krona/01.Krona/downsize_otu.biom -i {inputfile} -type {biom} " \
-                f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
+                     f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -485,13 +491,13 @@ def bar():
     form = BarForm()
     tool = Toolslist.query.filter_by(url="tools.bar").first()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("Bar", form)
+        taskdir, uuid, inputfile = taskprepare("tools.bar", form.url.data)
 
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/bar/bar_plot.pl -i {inputfile} -pre Family " \
-            f"  2>>{taskdir}/run.log"
+                 f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -504,13 +510,13 @@ def spearman():
     form = SpearmanForm()
     tool = Toolslist.query.filter_by(url="tools.spearman").first()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("Bar", form)
+        taskdir, uuid, inputfile = taskprepare("tools.spearman", form.url.data)
 
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/spearman/spearman_plot.pl -i {inputfile} -outdir {taskdir} -n root" \
-            f"  2>>{taskdir}/run.log"
+                 f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -522,13 +528,13 @@ def spearman():
 def lefse():
     form = SpearmanForm()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("Lefse", form)
+        taskdir, uuid, inputfile = taskprepare("tools.lefse", form.url.data)
 
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/lefse/lefse.pl -i {inputfile} -outdir {taskdir} -n root" \
-            f"  2>>{taskdir}/run.log"
+                 f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -541,39 +547,13 @@ def bar_tree():
     form = Bar_TreeForm()
     tool = Toolslist.query.filter_by(url="tools.bar_tree").first()
     if form.validate_on_submit():
-        f1 = secure_filename(form.fai1.data.filename)
-        f2 = secure_filename(form.fai2.data.filename)
-
-        uuid = uuid4().hex
-        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
-        os.makedirs(taskdir + "/out")
-        in1 = taskdir + "/" + f1
-        in2 = taskdir + "/" + f2
-        form.fai1.data.save(in1)
-        form.fai2.data.save(in2)
-        if os.path.getsize(in1) > 10 * 1024 * 1024 or os.path.getsize(in2) > 10 * 1024 * 1024:
-            shutil.rmtree(taskdir)
-            abort(413)
-
-        task = Tasklist(
-            title="群落组成柱状图",
-            taskid=uuid,
-            status="进行中",
-            resulturl=taskdir,
-            user_id=int(current_user.id)
-        )
-        db.session.add(task)
-        db.session.commit()
-
-        tool.usenum += 1
-        db.session.add(tool)
-        db.session.commit()
-
+        taskdir, uuid, fs = taskprepare("tools.bar_tree", form.fai1.data, form.fai2.data)
+        f1, f2 = fs
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
-                f"Options: {form.fai1.data.filename}  {form.fai2.data.filename}\n")
+                f"Options: {f1}  {f2}\n")
         script = f"perl ./app/static/program/bar_tree/bar_tree.pl -i {taskdir}/{form.fai1.data.filename} -map {taskdir}/{form.fai2.data.filename} -pre genus " \
-            f"  2>>{taskdir}/run.log"
+                 f"  2>>{taskdir}/run.log"
         print(script)
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
@@ -587,7 +567,7 @@ def seqlogo():
     form = SeqlogoForm()
     tool = Toolslist.query.filter_by(url="tools.seqlogo").first()
     if form.validate_on_submit():
-        taskdir, uuid, inputfile = taskprepare("Seqlogo图", form)
+        taskdir, uuid, inputfile = taskprepare("tools.seqlogo", form.url.data)
 
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
