@@ -738,3 +738,47 @@ class Bar_TreeForm(FlaskForm):
 
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class SeqlogoForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    method = SelectField(
+        label="选择统计方法",
+        choices=[('bits', "bits"), ('prob', "probability")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    color = SelectField(
+        label="选择绘制颜色体系",
+        choices=[('nucleotide', "自动"), ('nucleotide', "nucleotide"), ('base_pairing', "base_pairing"),
+                 ('chemistry', "chemistry"), ('hydrophobicity', "hydrophobicity"), ('clustalx', "clustalx")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "", "aria-describedby": "basic-addon1"}
+    )
+    col = StringField(
+        label="输入序列所在列",
+        validators=[Nonevalidators("输入序列所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "1", "aria-describedby": "basic-addon1"}
+    )
+    h = StringField(
+        label="输入图像高度",
+        validators=[Nonevalidators("输入图像高度"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "4", "aria-describedby": "basic-addon1"}
+    )
+    w = StringField(
+        label="输入图像宽度",
+        validators=[Nonevalidators("输入图像高度"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "7", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})

@@ -13,7 +13,7 @@ from app import db
 from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
-    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm
+    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm
 from . import tools
 
 
@@ -377,7 +377,8 @@ def pheatmap():
         taskdir, uuid, inputfile = taskprepare("热图", form)
 
         with open(f"{taskdir}/run.log", "w") as optfile:
-            optfile.write(f"Options: {form.namecol.data} {form.datacol.data} {form.outpre.data} {form.display_numbers.data} \
+            optfile.write(
+                f"Options: {form.namecol.data} {form.datacol.data} {form.outpre.data} {form.display_numbers.data} \
                 {form.width.data} {form.height.data} {form.scale.data} {form.cluster_cols.data} {form.cluster_rows.data} \
                 {form.show_colnames.data} {form.show_rownames.data}\n")
         script = f"perl ./app/static/program/pheatmap/heatmap.pl -in {inputfile} -namecol {form.namecol.data} -datacol {form.datacol.data} -prefix {form.outpre.data} -scale {form.scale.data} -width {form.width.data} -height {form.height.data} -cluster_rows {form.cluster_rows.data} -cluster_cols {form.cluster_cols.data}  -show_rownames {form.show_rownames.data} -show_colnames {form.show_colnames.data} -display_numbers {form.display_numbers.data} 2>>{taskdir}/run.log"
@@ -468,10 +469,10 @@ def krona():
         script = ""
         if form.method.data == "0":
             script = f"perl ./app/static/program/krona/01.Krona/Krona.pl -i {inputfile} -outdir {taskdir} -n root" \
-                     f"  2>>{taskdir}/run.log"
+                f"  2>>{taskdir}/run.log"
         elif form.method.data == "1":
             script = f"perl ./app/static/program/krona/01.Krona/downsize_otu.biom -i {inputfile} -type {biom} " \
-                     f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
+                f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -490,7 +491,7 @@ def bar():
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/bar/bar_plot.pl -i {inputfile} -pre Family " \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -509,7 +510,7 @@ def spearman():
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/spearman/spearman_plot.pl -i {inputfile} -outdir {taskdir} -n root" \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -527,7 +528,7 @@ def lefse():
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/lefse/lefse.pl -i {inputfile} -outdir {taskdir} -n root" \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -572,10 +573,28 @@ def bar_tree():
             optfile.write(
                 f"Options: {form.fai1.data.filename}  {form.fai2.data.filename}\n")
         script = f"perl ./app/static/program/bar_tree/bar_tree.pl -i {taskdir}/{form.fai1.data.filename} -map {taskdir}/{form.fai2.data.filename} -pre genus " \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         print(script)
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/bar_tree.html', form=form, tool=tool)
+
+
+@tools.route('/seqlogo.html', methods=['GET', 'POST'])
+def seqlogo():
+    form = SeqlogoForm()
+    tool = Toolslist.query.filter_by(url="tools.seqlogo").first()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("Seqlogo图", form)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} {form.method.data} {form.color.data} {form.col.data} {form.h.data} {form.w.data}\n")
+        script = f"python ./app/static/program/seqlogo/seqlogo.py {inputfile} {form.method.data} {form.color.data} {form.col.data} {form.h.data} {form.w.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/seqlogo.html', form=form, tool=tool)
