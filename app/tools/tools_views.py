@@ -13,7 +13,7 @@ from app import db
 from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
-    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm
+    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm
 from . import tools
 
 
@@ -463,6 +463,7 @@ def cds2pep():
 
 
 @tools.route('/krona.html', methods=['GET', 'POST'])
+@login_required
 def krona():
     form = KronaForm()
     tool = Toolslist.query.filter_by(url="tools.krona").first()
@@ -487,6 +488,7 @@ def krona():
 
 
 @tools.route('/bar.html', methods=['GET', 'POST'])
+@login_required
 def bar():
     form = BarForm()
     tool = Toolslist.query.filter_by(url="tools.bar").first()
@@ -506,6 +508,7 @@ def bar():
 
 
 @tools.route('/spearman.html', methods=['GET', 'POST'])
+@login_required
 def spearman():
     form = SpearmanForm()
     tool = Toolslist.query.filter_by(url="tools.spearman").first()
@@ -525,6 +528,7 @@ def spearman():
 
 
 @tools.route('/lefse.html', methods=['GET', 'POST'])
+@login_required
 def lefse():
     form = SpearmanForm()
     if form.validate_on_submit():
@@ -543,6 +547,7 @@ def lefse():
 
 
 @tools.route('/bar_tree.html', methods=['GET', 'POST'])
+@login_required
 def bar_tree():
     form = Bar_TreeForm()
     tool = Toolslist.query.filter_by(url="tools.bar_tree").first()
@@ -563,6 +568,7 @@ def bar_tree():
 
 
 @tools.route('/seqlogo.html', methods=['GET', 'POST'])
+@login_required
 def seqlogo():
     form = SeqlogoForm()
     tool = Toolslist.query.filter_by(url="tools.seqlogo").first()
@@ -578,3 +584,22 @@ def seqlogo():
         crun.start()
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/seqlogo.html', form=form, tool=tool)
+
+
+@tools.route('/convertp.html', methods=['GET', 'POST'])
+@login_required
+def convertp():
+    form = ConvertPForm()
+    tool = Toolslist.query.filter_by(url="tools.convertp").first()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("tools.convertp", form.url.data)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} {form.method.data} {form.density.data} \n")
+        script = f"python ./app/static/program/convertp/convertpics.py {inputfile} {form.method.data} {form.density.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/convertp.html', form=form, tool=tool)
