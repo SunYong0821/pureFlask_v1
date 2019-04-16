@@ -7,12 +7,12 @@ SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 SECRET_KEY = "64ebe6f0ee0411e8a8b56c92bf4f31c4"
 
-MAIL_SERVER = 'smtp-n.global-mail.cn'
+MAIL_SERVER = 'smtphm.qiye.163.com'
 MAIL_PORT = 465
 MAIL_USE_SSL = True
 MAIL_USER_TSL = False
 MAIL_USERNAME = 'tmagweb@microanaly.com'
-MAIL_PASSWORD = 'Tmagweb1212@'
+MAIL_PASSWORD = 'WeiFen2019'
 MAIL_SUBJECT_PREFIX = '[微分]'
 MAIL_SENDER = '微分交付中心<tmagweb@microanaly.com>'
 
