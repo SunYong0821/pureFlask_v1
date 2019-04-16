@@ -13,7 +13,7 @@ from app import db
 from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
-    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm
+    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm, ViolinForm
 from . import tools
 
 
@@ -603,3 +603,22 @@ def convertp():
         crun.start()
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/convertp.html', form=form, tool=tool)
+
+
+@tools.route('/violin.html', methods=['GET', 'POST'])
+@login_required
+def violin():
+    form = ViolinForm()
+    tool = Toolslist.query.filter_by(url="tools.violin").first()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("tools.violin", form.url.data)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} {form.tcol.data} {form.dcol.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/violin/violin.pl -in {inputfile} -tcol {form.tcol.data} -dcol {form.dcol.data} -out {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/violin.html', form=form, tool=tool)

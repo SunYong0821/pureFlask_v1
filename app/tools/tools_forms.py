@@ -805,3 +805,33 @@ class ConvertPForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class ViolinForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    tcol = StringField(
+        label="输入样品名称所在列",
+        validators=[Nonevalidators("输入样品名称所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "1", "aria-describedby": "basic-addon1"}
+    )
+    dcol = StringField(
+        label="输入数据所在列",
+        validators=[Nonevalidators("输入数据所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "2", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="输入输出结果前缀",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
