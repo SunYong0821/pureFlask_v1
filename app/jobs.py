@@ -17,7 +17,8 @@ def modify_score():
 
 def query_scihub_ck():
     html = requests.get("https://wadauk.github.io/scihub_ck/index.html",
-                        headers={'user-agent':"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:16.0) Gecko/20100101 Firefox/16.0"})
+                        headers={
+                            'user-agent': "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:16.0) Gecko/20100101 Firefox/16.0"})
     if html.status_code != 200:
         return 0
     select = etree.HTML(html.text)
@@ -26,7 +27,5 @@ def query_scihub_ck():
 
     with db.app.app_context():
         for i in range(1, 4):
-            SCIhub.query.filter_by(id=i).update({'name': url[i-1]})
-            SCIhub.query.filter_by(id=i).update({'time': time[i-1]})
-            SCIhub.query.filter_by(id=i).update({'addtime': datetime.now()})
+            SCIhub.query.filter_by(id=i).update({'name': url[i - 1], 'time': time[i - 1], 'addtime': datetime.now()})
         db.session.commit()
