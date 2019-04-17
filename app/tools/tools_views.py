@@ -476,10 +476,10 @@ def krona():
         script = ""
         if form.method.data == "0":
             script = f"perl ./app/static/program/krona/01.Krona/Krona.pl -i {inputfile} -outdir {taskdir} -n root" \
-                     f"  2>>{taskdir}/run.log"
+                f"  2>>{taskdir}/run.log"
         elif form.method.data == "1":
             script = f"perl ./app/static/program/krona/01.Krona/downsize_otu.biom -i {inputfile} -type {biom} " \
-                     f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
+                f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -499,7 +499,7 @@ def bar():
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/bar/bar_plot.pl -i {inputfile} -pre Family " \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -519,7 +519,7 @@ def spearman():
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/spearman/spearman_plot.pl -i {inputfile} -outdir {taskdir} -n root" \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -538,7 +538,7 @@ def lefse():
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/lefse/lefse.pl -i {inputfile} -outdir {taskdir} -n root" \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -558,7 +558,7 @@ def bar_tree():
             optfile.write(
                 f"Options: {f1}  {f2}\n")
         script = f"perl ./app/static/program/bar_tree/bar_tree.pl -i {taskdir}/{form.fai1.data.filename} -map {taskdir}/{form.fai2.data.filename} -pre genus " \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         print(script)
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
@@ -623,6 +623,7 @@ def violin():
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/violin.html', form=form, tool=tool)
 
+
 @tools.route('/barbox.html', methods=["GET", "POST"])
 @login_required
 def barbox():
@@ -634,11 +635,14 @@ def barbox():
         taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
         os.makedirs(taskdir + "/out")
         in1 = taskdir + "/" + f1
-        in2 = taskdir + "/" + f2
         form.durl.data.save(in1)
         if f2:
+            in2 = taskdir + "/" + f2
             form.gurl.data.save(in2)
-        if os.path.getsize(in1) > 10 * 1024 * 1024 or os.path.getsize(in2) > 10 * 1024 * 1024:
+            if os.path.getsize(in2) > 10 * 1024 * 1024:
+                shutil.rmtree(taskdir)
+                abort(413)
+        if os.path.getsize(in1) > 10 * 1024 * 1024:
             shutil.rmtree(taskdir)
             abort(413)
 
