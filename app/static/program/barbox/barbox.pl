@@ -62,9 +62,10 @@ if($dcol ne "all"){
 	my @cols = split /,/,$dcol;
 	$measure_str = "measure = c(";
 	foreach my $col (@cols){
-		$measure_str .= "\"$col\"";
+		$measure_str .= "\"$col\",";
 	}
-	$measure_str .= "),";
+	chop($measure_str);
+	$measure_str .= '),';
 }
 
 open OUT, ">$out.barbox.R";
