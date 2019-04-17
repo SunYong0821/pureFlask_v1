@@ -85,7 +85,7 @@ if($group){
 print OUT "pdf(paste(\"out/\",\"$out.pdf\",sep=\"\"),height=6,width=10)\n";
 my $ystr;
 if($log){$ystr="log(data_merge\$melt_value)";} else {$ystr="melt_value";}
-print OUT "p <- ggplot(data=data_merge,aes(x=melt_sample,y=melt_value,$fill_str),alpha=0.5) +\n";
+print OUT "p <- ggplot(data=data_merge,aes(x=melt_sample,y=$ystr,$fill_str),alpha=0.5) +\n";
 print OUT "geom_boxplot() +\n";
 print OUT "theme(axis.line = element_line(size=0.5,color=\"black\")) +\n";
 print OUT "theme(axis.text.x = element_text(angle = 30, hjust = 0.5, vjust = 0.5,size=rel(1))) +\n";

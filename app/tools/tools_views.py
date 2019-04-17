@@ -636,6 +636,7 @@ def barbox():
         os.makedirs(taskdir + "/out")
         in1 = taskdir + "/" + f1
         form.durl.data.save(in1)
+        in2 = ""
         if f2:
             in2 = taskdir + "/" + f2
             form.gurl.data.save(in2)
