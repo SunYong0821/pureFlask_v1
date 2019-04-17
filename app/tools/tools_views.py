@@ -13,7 +13,7 @@ from app import db
 from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
-    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm, ViolinForm
+    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm, ViolinForm, BarboxForm
 from . import tools
 
 
@@ -622,3 +622,48 @@ def violin():
         crun.start()
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/violin.html', form=form, tool=tool)
+
+@tools.route('/barbox.html', methods=["GET", "POST"])
+@login_required
+def barbox():
+    form = BarboxForm()
+    if form.validate_on_submit():
+        f1 = secure_filename(form.durl.data.filename)
+        f2 = secure_filename(form.gurl.data.filename)
+        uuid = uuid4().hex
+        taskdir = f"./app/static/user/{current_user.name}/task/{uuid}"
+        os.makedirs(taskdir + "/out")
+        in1 = taskdir + "/" + f1
+        in2 = taskdir + "/" + f2
+        form.durl.data.save(in1)
+        if f2:
+            form.gurl.data.save(in2)
+        if os.path.getsize(in1) > 10 * 1024 * 1024 or os.path.getsize(in2) > 10 * 1024 * 1024:
+            shutil.rmtree(taskdir)
+            abort(413)
+
+        task = Tasklist(
+            title="箱线图",
+            taskid=uuid,
+            status="进行中",
+            resulturl=taskdir,
+            user_id=int(current_user.id)
+        )
+        db.session.add(task)
+        db.session.commit()
+
+        tool = Toolslist.query.filter_by(title="箱线图").first()
+        tool.usenum += 1
+        db.session.add(tool)
+        db.session.commit()
+
+        with open(f"{taskdir}/run.log", "w") as optfile:
+            optfile.write(
+                f"Options: {form.log.data} {form.dcol.data} {form.title.data} {form.xlab.data} {form.ylab.data} {form.outpre.data}\n")
+        script = f"perl ./app/static/program/barbox/barbox.pl -in {in1} -group {in2} -dcol {form.dcol.data} -log {form.log.data} -title {form.title.data} -xlab {form.xlab.data} -ylab {form.ylab.data} -out {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/barbox.html', form=form)

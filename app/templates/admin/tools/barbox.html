@@ -5,7 +5,7 @@
         <div class="d-flex align-items-center">
             <div class="mr-auto">
                 <h3 class="m-subheader__title">
-                    小提琴图
+                    箱线图
                 </h3>
             </div>
         </div>
@@ -23,7 +23,7 @@
                                 <i class="la la-gear"></i>
                             </span>
                                 <h3 class="m-portlet__head-text">
-                                    小提琴图
+                                    箱线图
                                 </h3>
                             </div>
                         </div>
@@ -33,31 +33,66 @@
                         <div class="m-portlet__body">
                             <div class="m-form__group form-group">
                                 <div class="custom-file">
-                                    {{ form.url }}
+                                    {{ form.durl }}
                                     <label class="custom-file-label" for="customFile">
-                                        选择一个文件
+                                        选择需要绘图的数据文件
                                     </label>
-                                    {% for error in form.url.errors %}
+                                    {% for error in form.durl.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="m-form__group form-group">
+                                <div class="custom-file">
+                                    {{ form.gurl }}
+                                    <label class="custom-file-label" for="customFile">
+                                        选择样本分组信息文件
+                                    </label>
+                                    {% for error in form.gurl.errors %}
                                         <span style="color: red">{{ error }}</span>
                                     {% endfor %}
                                 </div>
                             </div>
                             <div class="m-form__group form-group row">
-                                <label class="col-form-label col-lg-6">{{ form.tcol.label }}：</label>
-                                <div class="col-lg-3">{{ form.tcol }}</div>
-                                {% for error in form.tcol.errors %}
-                                    <span style="color: red">{{ error }}</span>
-                                {% endfor %}
-                            </div>
-                            <div class="m-form__group form-group row">
-                                <label class="col-form-label col-lg-6">{{ form.dcol.label }}：</label>
-                                <div class="col-lg-3">{{ form.dcol }}</div>
+                                <label class="col-form-label col-lg-6">输入需要作图的数据列名称：</label>
+                                <div class="col-lg-6">{{ form.dcol }}</div>
                                 {% for error in form.dcol.errors %}
                                     <span style="color: red">{{ error }}</span>
                                 {% endfor %}
                             </div>
+                            <div class="m-form__group form-group">
+                                <div class="m-checkbox-list col-lg-8">
+                                    <label class="control-form-label">{{ form.log.label }}：</label>
+                                    <label class="m-checkbox m-checkbox--air" style="display: inline-block">
+                                        {{ form.log }}
+                                        &nbsp;
+                                        <span></span>
+                                    </label>
+                                </div>
+                            </div>
                             <div class="m-form__group form-group row">
-                                <label class="col-form-label col-lg-6">{{ form.outpre.label }}：</label>
+                                <label class="col-form-label col-lg-6">输出图片标题：</label>
+                                <div class="col-lg-6">{{ form.title }}</div>
+                                {% for error in form.title.errors %}
+                                    <span style="color: red">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="m-form__group form-group row">
+                                <label class="col-form-label col-lg-6">输出图片横轴标签：</label>
+                                <div class="col-lg-6">{{ form.xlab }}</div>
+                                {% for error in form.xlab.errors %}
+                                    <span style="color: red">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="m-form__group form-group row">
+                                <label class="col-form-label col-lg-6">输出图片纵轴标签：</label>
+                                <div class="col-lg-6">{{ form.ylab }}</div>
+                                {% for error in form.ylab.errors %}
+                                    <span style="color: red">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="m-form__group form-group row">
+                                <label class="col-form-label col-lg-6">输入输出结果前缀：</label>
                                 <div class="col-lg-6">{{ form.outpre }}</div>
                                 {% for error in form.outpre.errors %}
                                     <span style="color: red">{{ error }}</span>
@@ -139,10 +174,104 @@
  <!--                               <div class="m-list-timeline__item">
                                     <span class="m-list-timeline__badge"></span>
                                     <span class="m-list-timeline__text">
-                                    <a href="{{ url_for('admin.play_video_out',video_list_id=3, id=8) }}"
+                                    <a href="{{ url_for('admin.play_video_out',video_list_id=3, id=4) }}"
                                        target="_blank">当前工具使用说明</a>
                                 </span>
                                 </div> -->
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                    绘图数据文件是以制表符分割的文本文件，必须有表头，每一列是一个样本
+                                </span>
+                                </div>
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                    数据文件格式如下
+                                </span>
+                                </div>
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>A1</th>
+                                                <th>A2</th>
+                                                <th>B1</th>
+                                                <th>B2</th>
+                                                <th>C1</th>
+                                                <th>C2</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>699</td>
+                                                <td>624</td>
+                                                <td>1187</td>
+                                                <td>1243</td>
+                                                <td>679</td>
+                                                <td>799</td>
+                                            </tr>
+                                            <tr>
+                                                <td>700</td>
+                                                <td>617</td>
+                                                <td>1182</td>
+                                                <td>1286</td>
+                                                <td>770</td>
+                                                <td>800</td>
+                                            </tr>
+                                            <tr>
+                                                <td>660</td>
+                                                <td>566</td>
+                                                <td>1217</td>
+                                                <td>1286</td>
+                                                <td>680</td>
+                                                <td>760</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                    分组信息文件以制表符分割的文本文件，必须有表头，共有两列，第一列是分组信息，第二列是样本信息
+                                </span>
+                                </div>
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                    分组信息文件格式如下：
+                                </span>
+                                </div>
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>group</th>
+                                                <th>sample</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>A</td>
+                                                <td>A1</td>
+                                            </tr>
+                                            <tr>
+                                                <td>A</td>
+                                                <td>A2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>B</td>
+                                                <td>B1</td>
+                                            </tr>
+                                            <tr>
+                                                <td>B</td>
+                                                <td>B2</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                                 <div class="m-list-timeline__item">
                                     <span class="m-list-timeline__badge"></span>
                                     <span class="m-list-timeline__text">
@@ -152,48 +281,7 @@
                                 <div class="m-list-timeline__item">
                                     <span class="m-list-timeline__badge"></span>
                                     <span class="m-list-timeline__text">
-                                    输入文件输入格式为文本格式，后缀名可能为txt,xls(非excel格式)等
-                                </span>
-                                </div>
-                                <div class="m-list-timeline__item">
-                                    <span class="m-list-timeline__badge"></span>
-                                    <span class="m-list-timeline__text">
-                                        输入文件格式如下：
-                                    </span>
-                                </div>
-                                <div class="m-list-timeline__item">
-                                    <span class="m-list-timeline__badge"></span>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>type</th>
-                                                <th>value</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>mh01zha012</td>
-                                                <td>3.66</td>
-                                            </tr>
-                                            <tr>
-                                                <td>mh01zha012</td>
-                                                <td>3.50</td>
-                                            </tr>
-                                            <tr>
-                                                <td>mh19zha006</td>
-                                                <td>4.03</td>
-                                            </tr>
-                                            <tr>
-                                                <td>mh19zha009</td>
-                                                <td>3.66</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="m-list-timeline__item">
-                                    <span class="m-list-timeline__badge"></span>
-                                    <span class="m-list-timeline__text">
-                                    输入文件第一行默认必须有行头，单个输入文件大小限制在10M以内
+                                    输入文件输入格式为文本格式，后缀名可能为txt,xls(非excel格式)等，单个输入文件大小限制在10M以内
                                 </span>
                                 </div>
                             </div>
