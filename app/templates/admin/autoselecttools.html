@@ -1,0 +1,70 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <h3 class="m-subheader__title ">
+                    自动选参工具
+                </h3>
+            </div>
+        </div>
+    </div>
+    <!-- END: Subheader -->
+    <div class="m-content">
+
+        <!--Begin::Section-->
+        <div class="row">
+            {% for v in tools_list %}
+                <div class="col-xl-4">
+                    <div class="m-portlet m-portlet--full-height">
+                        <div class="m-portlet__body">
+                            <!--begin::Total Profit-->
+                            <div class="m-widget3">
+                                <div class="m-widget3__item">
+                                    <div class="m-widget3__header">
+                                        <div class="m-widget3__user-img">
+                                            <a href="{{ url_for(v.url) }}"><img
+                                                    src="{{ url_for('static', filename=v.img) }}"
+                                                    alt></a>
+                                        </div>
+                                        <div class="m-widget3__info">
+                                    <span class="m-widget3__username">
+                                        <a href="{{ url_for(v.url) }}" style="text-decoration: none">
+                                            <h5>{{ v.title }}</h5>
+                                        </a>
+                                        <br>
+                                        <span class="m-widget3__text">使用次数：{{ v.usenum }}</span>
+                                    </span>
+                                        </div>
+                                    </div>
+                                    <div class="m-widget3__body">
+                                        <p class="m-widget3__text">
+                                            {{ v.info }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end::Total Profit-->
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <!--End::Section-->
+
+    </div>
+{% endblock %}
+
+{% block js%}
+    {{ super() }}
+<script>
+    $(document).ready(function(){
+        $("#a-4-1").addClass("m-menu__item--active ");
+        $("#a-4").addClass("m-menu__item--open m-menu__item--expanded");
+    });
+</script>
+{% endblock %}
