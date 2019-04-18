@@ -616,7 +616,7 @@ def violin():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} {form.tcol.data} {form.dcol.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/violin/violin.pl -in {inputfile} -tcol {form.tcol.data} -dcol {form.dcol.data} -out {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/violin/violin.pl -in {inputfile[0]} -tcol {form.tcol.data} -dcol {form.dcol.data} -out {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
