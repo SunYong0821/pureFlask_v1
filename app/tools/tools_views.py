@@ -628,6 +628,7 @@ def violin():
 @login_required
 def barbox():
     form = BarboxForm()
+    tool = Toolslist.query.filter_by(url="tools.barbox").first()
     if form.validate_on_submit():
         f1 = secure_filename(form.durl.data.filename)
         f2 = secure_filename(form.gurl.data.filename)
