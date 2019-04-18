@@ -805,3 +805,80 @@ class ConvertPForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class ViolinForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    tcol = StringField(
+        label="输入样品名称所在列",
+        validators=[Nonevalidators("输入样品名称所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "1", "aria-describedby": "basic-addon1"}
+    )
+    dcol = StringField(
+        label="输入数据所在列",
+        validators=[Nonevalidators("输入数据所在列"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "2", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="输入输出结果前缀",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
+
+
+class BarboxForm(FlaskForm):
+    durl = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    gurl = FileField(
+        label='txt',
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    dcol = StringField(
+        label="需要作图的数据列名",
+        validators=[Nonevalidators("需要作图的数据列名")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A1,A2,A3", "aria-describedby": "basic-addon1"}
+    )
+    log = BooleanField(
+        label="是否对数据取对数"
+    )
+    title = StringField(
+        label="输出图片标题",
+        validators=[Nonevalidators("输出图片标题")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "Distribution of Gene Expression Values", "aria-describedby": "basic-addon1"}
+    )
+    xlab = StringField(
+        label="输出图片横坐标",
+        validators=[Nonevalidators("输出图片横坐标")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "Samples", "aria-describedby": "basic-addon1"}
+    )
+    ylab = StringField(
+        label="输出图片纵坐标",
+        validators=[Nonevalidators("输出图片纵坐标")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "Gene Expression", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="输入输出结果前缀",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "A-VS-B", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})
