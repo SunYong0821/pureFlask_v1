@@ -5,7 +5,7 @@ library(Cairo)
 
 dd <- read.table(args[1],header = TRUE,sep="\t")
 #CairoPDF
-pdf(file=paste("out/","test.pdf",sep=""),width=14,height=6)
+pdf(file=paste("out/","args[4]",".pdf",sep=""),width=14,height=6)
 
 p <- ggplot(dd, aes(x=dd[,as.integer(args[2])], y=dd[,as.integer(args[3])])) +
   geom_violin(aes(fill=factor(dd[,as.integer(args[2])]))) +

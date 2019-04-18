@@ -671,4 +671,4 @@ def barbox():
         crun.start()
 
         return redirect(url_for("admin.index"))
-    return render_template('admin/tools/barbox.html', form=form)
+    return render_template('admin/tools/barbox.html', form=form, tool=tool)
