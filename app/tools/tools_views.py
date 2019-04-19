@@ -14,7 +14,7 @@ from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
     CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm, ViolinForm, BarboxForm, \
-    GCcountForm
+    GCcountForm, Vcf2phylipForm
 from . import tools
 
 
@@ -693,3 +693,22 @@ def gccount():
         crun.start()
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/gccount.html', form=form, tool=tool)
+
+
+@tools.route('/vcf2phylip.html', methods=['GET', 'POST'])
+@login_required
+def vcf2phylip():
+    form = Vcf2phylipForm()
+    tool = Toolslist.query.filter_by(url="tools.vcf2phylip").first()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("tools.vcf2phylip", form.url.data)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} {form.outpre.data}\n")
+        script = f"python ./app/static/program/vcf2phylip/vcf2phylip.py {inputfile[0]} {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/vcf2phylip.html', form=form, tool=tool)
