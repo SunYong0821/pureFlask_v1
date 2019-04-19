@@ -882,3 +882,26 @@ class BarboxForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class GCcountForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    bin = StringField(
+        label="输入滑窗大小",
+        validators=[Nonevalidators("输入滑窗大小"), Regexp(
+            r"^\d+$", message="必须是>30的正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "30", "aria-describedby": "basic-addon1"}
+    )
+    outpre = StringField(
+        label="输入输出结果前缀",
+        validators=[Nonevalidators("输入输出结果前缀")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "Test", "aria-describedby": "basic-addon1"}
+    )
+    submit = SubmitField("确认", render_kw={
+        "class": "btn btn-primary"})

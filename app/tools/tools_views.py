@@ -13,7 +13,8 @@ from app import db
 from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
-    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm, ViolinForm, BarboxForm
+    CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm, ViolinForm, BarboxForm, \
+    GCcountForm
 from . import tools
 
 
@@ -673,3 +674,22 @@ def barbox():
 
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/barbox.html', form=form, tool=tool)
+
+
+@tools.route('/gccount.html', methods=['GET', 'POST'])
+@login_required
+def gccount():
+    form = GCcountForm()
+    tool = Toolslist.query.filter_by(url="tools.gccount").first()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("tools.gccount", form.url.data)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} {form.bin.data} {form.outpre.data}\n")
+        script = f"python ./app/static/program/gccount/GCcontent.py {inputfile[0]} {form.bin.data} {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/gccount.html', form=form, tool=tool)
