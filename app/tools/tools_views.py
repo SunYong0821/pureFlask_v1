@@ -14,7 +14,7 @@ from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
     CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm, ViolinForm, BarboxForm, \
-    GCcountForm, Vcf2phylipForm
+    GCcountForm, Vcf2phylipForm, AutoselecttoolsForm, FastalengthForm
 from . import tools
 
 
@@ -98,7 +98,8 @@ def pooling():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.lane.data} {form.vol.data} {form.sizes.data}\n")
-        script = f"python ./app/static/program/pooling/libraryPooling.py {inputfile[0]} {form.lane.data} {form.vol.data} {form.sizes.data} 2>>{taskdir}/run.log"
+        script = f"python ./app/static/program/pooling/libraryPooling.py {inputfile[0]} {form.lane.data} " \
+            f"{form.vol.data} {form.sizes.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -136,9 +137,11 @@ def deg_filter():
             optfile.write(
                 f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.yuzhi.data} {form.pqcol.data} {form.outpre.data}\n")
         if form.pq.data == "1":
-            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile[0]} -fc {form.fc.data} -fccolumn {form.fccol.data} -pvalue {form.yuzhi.data} -pcolumn {form.pqcol.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile[0]} -fc {form.fc.data} " \
+                f"-fccolumn {form.fccol.data} -pvalue {form.yuzhi.data} -pcolumn {form.pqcol.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         else:
-            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile[0]} -fc {form.fc.data} -fccolumn {form.fccol.data} -fdr {form.yuzhi.data} -fdrcolumn {form.pqcol.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+            script = f"perl ./app/static/program/deg_filter/Select_DiffexpGene.pl -i {inputfile[0]} -fc {form.fc.data} " \
+                f"-fccolumn {form.fccol.data} -fdr {form.yuzhi.data} -fdrcolumn {form.pqcol.data} -head -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -157,7 +160,8 @@ def volcano():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.pqcol.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/volcano/Volcano_plot.pl -i {inputfile[0]} -f {form.fc.data} -log2col {form.fccol.data} -pvalue {form.pq.data} -pCol {form.pqcol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/volcano/Volcano_plot.pl -i {inputfile[0]} -f {form.fc.data} " \
+            f"-log2col {form.fccol.data} -pvalue {form.pq.data} -pCol {form.pqcol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -176,7 +180,9 @@ def ma_plot():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.fc.data} {form.fccol.data} {form.pq.data} {form.pqcol.data} {form.exp1.data} {form.exp2.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/ma_plot/MA_plot.pl -i {inputfile[0]} -log2col {form.fccol.data} -exp1col {form.exp1.data} -exp2col {form.exp2.data} -pvalue {form.pq.data} -pCol {form.pqcol.data} -prefix {form.outpre.data} -f {form.fc.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/ma_plot/MA_plot.pl -i {inputfile[0]} -log2col {form.fccol.data} " \
+            f"-exp1col {form.exp1.data} -exp2col {form.exp2.data} -pvalue {form.pq.data} -pCol {form.pqcol.data} " \
+            f"-prefix {form.outpre.data} -f {form.fc.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -225,7 +231,8 @@ def ezcollinear():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.name.data} {form.opacity.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/ezcollinear/collinearity.pl {in1},{in2} {form.name.data} {in3} {form.outpre.data} {form.opacity.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/ezcollinear/collinearity.pl {in1},{in2} {form.name.data} {in3}" \
+            f" {form.outpre.data} {form.opacity.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -291,7 +298,8 @@ def edger():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.exp1.data} {form.exp2.data} {form.bcv.data} {form.gene.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/edger/DiffExp_edgeR.pl -i {inputfile[0]} -count1col {form.exp1.data} -count2col {form.exp2.data} -genecol {form.gene.data} -bcv {form.bcv.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/edger/DiffExp_edgeR.pl -i {inputfile[0]} -count1col {form.exp1.data} " \
+            f"-count2col {form.exp2.data} -genecol {form.gene.data} -bcv {form.bcv.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -310,7 +318,8 @@ def deseq2():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.exp1.data} {form.exp2.data} {form.gene.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/deseq2/DiffExp_DeSeq2.pl -i {inputfile[0]} -count1col {form.exp1.data} -count2col {form.exp2.data} -genecol {form.gene.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/deseq2/DiffExp_DeSeq2.pl -i {inputfile[0]} -count1col {form.exp1.data} " \
+            f"-count2col {form.exp2.data} -genecol {form.gene.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -329,7 +338,9 @@ def keggbublle():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.pathcol.data} {form.genecol.data} {form.bgcol.data} {form.pqcol.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/keggbublle/Pathway_EnrichFigure.pl -i {inputfile[0]} -pathcol {form.pathcol.data} -genecol {form.genecol.data} -background {form.bgcol.data} -pcol {form.pqcol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/keggbublle/Pathway_EnrichFigure.pl -i {inputfile[0]} " \
+            f"-pathcol {form.pathcol.data} -genecol {form.genecol.data} -background {form.bgcol.data} -pcol {form.pqcol.data} " \
+            f"-prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -348,7 +359,8 @@ def pca():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.expcol.data} {form.genecol.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/pca/PCA.pl -i {inputfile[0]} -expcol {form.expcol.data} -genecol {form.genecol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/pca/PCA.pl -i {inputfile[0]} -expcol {form.expcol.data}" \
+            f" -genecol {form.genecol.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -367,7 +379,8 @@ def clustertree():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.expcol.data} {form.method.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/clustertree/ClusterTree.pl -i {inputfile[0]} -expcol {form.expcol.data} -method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/clustertree/ClusterTree.pl -i {inputfile[0]} -expcol {form.expcol.data}" \
+            f" -method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -388,7 +401,11 @@ def pheatmap():
                 f"Options: {form.namecol.data} {form.datacol.data} {form.outpre.data} {form.display_numbers.data} \
                 {form.width.data} {form.height.data} {form.scale.data} {form.cluster_cols.data} {form.cluster_rows.data} \
                 {form.show_colnames.data} {form.show_rownames.data}\n")
-        script = f"perl ./app/static/program/pheatmap/heatmap.pl -in {inputfile[0]} -namecol {form.namecol.data} -datacol {form.datacol.data} -prefix {form.outpre.data} -scale {form.scale.data} -width {form.width.data} -height {form.height.data} -cluster_rows {form.cluster_rows.data} -cluster_cols {form.cluster_cols.data}  -show_rownames {form.show_rownames.data} -show_colnames {form.show_colnames.data} -display_numbers {form.display_numbers.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/pheatmap/heatmap.pl -in {inputfile[0]} -namecol {form.namecol.data} " \
+            f"-datacol {form.datacol.data} -prefix {form.outpre.data} -scale {form.scale.data} -width {form.width.data}" \
+            f" -height {form.height.data} -cluster_rows {form.cluster_rows.data} -cluster_cols {form.cluster_cols.data}  " \
+            f"-show_rownames {form.show_rownames.data} -show_colnames {form.show_colnames.data} " \
+            f"-display_numbers {form.display_numbers.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -407,7 +424,9 @@ def correlation():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.exp1.data} {form.exp2.data} {form.name1.data} {form.name2.data} {form.gene.data} {form.method.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/correlation/Correlation.pl -i {inputfile[0]} -exp1col {form.exp1.data} -exp2col {form.exp2.data} -name1 {form.name1.data} -name2 {form.name2.data} -genecol {form.gene.data} -method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/correlation/Correlation.pl -i {inputfile[0]} -exp1col {form.exp1.data}" \
+            f" -exp2col {form.exp2.data} -name1 {form.name1.data} -name2 {form.name2.data} -genecol {form.gene.data} " \
+            f"-method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -426,7 +445,8 @@ def fisher():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.n11.data} {form.n12.data} {form.n21.data} {form.n22.data} {form.method.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/fisher/Fisher.pl -i {inputfile[0]} -n11 {form.n11.data} -n12 {form.n12.data} -n21 {form.n21.data} -n22 {form.n22.data} -method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/fisher/Fisher.pl -i {inputfile[0]} -n11 {form.n11.data} -n12 {form.n12.data} " \
+            f"-n21 {form.n21.data} -n22 {form.n22.data} -method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -454,7 +474,8 @@ def cds2pep():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {best} {stop} {N} {method} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/cds2pep/CDS2Protein.pl -i {inputfile[0]} {best} {stop} {N} {method} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/cds2pep/CDS2Protein.pl -i {inputfile[0]} {best} {stop} {N} {method}" \
+            f" -prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -479,7 +500,7 @@ def krona():
             script = f"perl ./app/static/program/krona/01.Krona/Krona.pl -i {inputfile[0]} -outdir {taskdir} -n root" \
                      f"  2>>{taskdir}/run.log"
         elif form.method.data == "1":
-            script = f"perl ./app/static/program/krona/01.Krona/downsize_otu.biom -i {inputfile[0]} -type {biom} " \
+            script = f"perl ./app/static/program/krona/01.Krona/downsize_otu.biom -i {inputfile[0]} -type biom " \
                      f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
@@ -579,7 +600,8 @@ def seqlogo():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} {form.method.data} {form.color.data} {form.col.data} {form.h.data} {form.w.data}\n")
-        script = f"python ./app/static/program/seqlogo/seqlogo.py {inputfile[0]} {form.method.data} {form.color.data} {form.col.data} {form.h.data} {form.w.data} 2>>{taskdir}/run.log"
+        script = f"python ./app/static/program/seqlogo/seqlogo.py {inputfile[0]} {form.method.data} " \
+            f"{form.color.data} {form.col.data} {form.h.data} {form.w.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -617,7 +639,8 @@ def violin():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} {form.tcol.data} {form.dcol.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/violin/violin.pl -in {inputfile[0]} -tcol {form.tcol.data} -dcol {form.dcol.data} -out {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/violin/violin.pl -in {inputfile[0]} -tcol {form.tcol.data} -dcol {form.dcol.data}" \
+            f" -out {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -667,7 +690,8 @@ def barbox():
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
                 f"Options: {form.log.data} {form.dcol.data} {form.title.data} {form.xlab.data} {form.ylab.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/barbox/barbox.pl -in {in1} -group {in2} -dcol {form.dcol.data} -log {form.log.data} -title {form.title.data} -xlab {form.xlab.data} -ylab {form.ylab.data} -out {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/barbox/barbox.pl -in {in1} -group {in2} -dcol {form.dcol.data} -log {form.log.data} -title {form.title.data} " \
+            f"-xlab {form.xlab.data} -ylab {form.ylab.data} -out {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -712,3 +736,21 @@ def vcf2phylip():
         crun.start()
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/vcf2phylip.html', form=form, tool=tool)
+
+
+@tools.route('/autoselecttools.html', methods=['GET','POST'])
+@login_required
+def autoselecttools():
+    form=AutoselecttoolsForm()
+    tool = Toolslist.query.filter_by(url="tools.autoselecttools").first()
+
+    return render_template('admin/tools/autoselecttools.html',form=form ,tool=tool)
+
+
+@tools.route('/fastalength.html',methods=['GET','POST'])
+@login_required
+def fastalength():
+    form=FastalengthForm()
+    tool = Toolslist.query.filter_by(url="tools.autoselecttools").first()
+
+    return render_template('admin/tools/fastalength.html',form=form,tool=tool)

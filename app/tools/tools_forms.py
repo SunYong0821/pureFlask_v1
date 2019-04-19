@@ -921,3 +921,20 @@ class Vcf2phylipForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class AutoselecttoolsForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "class-file-input", "id": "customFile"}
+    )
+    submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})
+
+
+class FastalengthForm(FlaskForm):
+    url = FileField(label='txt',
+                    validators=[Nonevalidators("上传一个文件")],
+                    render_kw={"class": "class-file-input", "id": "customFile"}
+                    )
+    submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})
