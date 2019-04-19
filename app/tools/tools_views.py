@@ -686,7 +686,7 @@ def gccount():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} {form.bin.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/gccount/GCcontent.py {inputfile[0]} {form.bin.data} {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"python ./app/static/program/gccount/GCcontent.py {inputfile[0]} {form.bin.data} {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()

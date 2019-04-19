@@ -1,5 +1,8 @@
-import sys,os,matplotlib,shutil
-import numpy as np
+import matplotlib
+import os
+import shutil
+import sys
+
 matplotlib.use('AGG')
 import matplotlib.pyplot as plt
 from Bio import SeqIO
@@ -7,16 +10,18 @@ from Bio.SeqUtils import GC
 from shutil import make_archive
 
 by= int(sys.argv[2])
-inputdir = os.path.dirname(sys.argv[1])
+inputdir = os.path.dirname(os.path.abspath(sys.argv[1]))
+name = os.path.basename(os.path.abspath(sys.argv[1]))
+
 os.chdir(inputdir)
 
-outdir = inputdir + "out/"
+outdir = inputdir + "/out/"
 
 if os.path.exists(outdir):
 	shutil.rmtree(outdir)
 os.mkdir(outdir)
 
-for seq_record in SeqIO.parse(sys.argv[1],"fasta"):
+for seq_record in SeqIO.parse(name,"fasta"):
 	i=0
 	gc = GC(seq_record.seq)
 	seqlen = len(seq_record)
@@ -41,4 +46,4 @@ for seq_record in SeqIO.parse(sys.argv[1],"fasta"):
 	f.write("seq id: %s \tlen: %d \tGC: %f \n" % (seq_record.id,len(seq_record),gc))
 	f.close()
 
-make_archive("out", "zip", inputdir , outdir)
+make_archive("out", "zip", "." , "out")
