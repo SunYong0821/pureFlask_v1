@@ -14,7 +14,7 @@ from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
     CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm, ViolinForm, BarboxForm, \
-    GCcountForm, Vcf2phylipForm, AutoselecttoolsForm, FastalengthForm
+    GCcountForm, Vcf2phylipForm, AutoselecttoolsForm, FastalengthForm, FlowerForm
 from . import tools
 
 
@@ -754,3 +754,22 @@ def fastalength():
     tool = Toolslist.query.filter_by(url="tools.autoselecttools").first()
 
     return render_template('admin/tools/fastalength.html',form=form,tool=tool)
+
+
+@tools.route('/flower.html', methods=['GET', 'POST'])
+@login_required
+def flower():
+    form = FlowerForm()
+    tool = Toolslist.query.filter_by(url="tools.flower").first()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("tools.flower", form.url.data)
+
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} {form.outpre.data}\n")
+        script = f"python ./app/static/program/flower/flower.py {inputfile[0]} {form.outpre.data} 2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/flower.html', form=form, tool=tool)
