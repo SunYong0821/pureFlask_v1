@@ -49,21 +49,21 @@ def taskprepare(toolname, *args):
     os.makedirs(taskdir + "/out")
     inputfiles = verify_file(taskdir, *args)
 
+    # 导入使用次数
+    tool = Toolslist.query.filter_by(url=toolname).first()
+    tool.usenum += 1
+    db.session.add(tool)
+    db.session.commit()
+
     # 导入任务数据库
     task = Tasklist(
-        title=toolname,
+        title=tool.title,
         taskid=uuid,
         status="进行中",
         resulturl=taskdir,
         user_id=int(current_user.id)
     )
     db.session.add(task)
-    db.session.commit()
-
-    # 导入使用次数
-    tool = Toolslist.query.filter_by(url=toolname).first()
-    tool.usenum += 1
-    db.session.add(tool)
     db.session.commit()
 
     return taskdir, uuid, inputfiles
