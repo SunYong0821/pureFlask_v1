@@ -937,6 +937,14 @@ class FastalengthForm(FlaskForm):
                     validators=[Nonevalidators("上传一个文件")],
                     render_kw={"class": "class-file-input", "id": "customFile"}
                     )
+
+    length = StringField(
+        label="输入序列所在列",
+        validators=[Nonevalidators("输入序列长度"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "1", "aria-describedby": "basic-addon1"}
+    )
     submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})
 
 

@@ -35,15 +35,24 @@
                             <div class="m-form__group form-group">
                                 <div class="custom-file">
                                     {{ form.url }}
-                                    <label class="custom-file-label" for="customFile">
+                                    <label class="custom-file-label" for= "customFile">
                                         选择一个文件
                                     </label>
                                     {% for error in form.url.errors %}
                                         <span style="color: red">{{ error }}</span>
                                     {% endfor %}
                                 </div>
-                            </div>
 
+                                <div class="m-form__group form-group row">
+                                    <label class="col-form-label col-lg-6">输入序列长度：</label>
+                                    <div class="col-lg-5">
+                                        {{ form.length}}
+                                    </div>
+                                    {% for error in form.length.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </div>
                         <div class="m-portlet__foot m-portlet__foot--fit" style="text-align: center">
                             <div class="m-form__actions m-form__actions">
@@ -128,15 +137,20 @@
                                     <span class="m-list-timeline__badge"></span>
                                     <span class="m-list-timeline__text">
                                     输入文件名命名最好是字母、数字加下划线的组合,文件大小不得超过10M
-                                </span>
+                                    </span>
                                 </div>
                                 <div class="m-list-timeline__item">
                                     <span class="m-list-timeline__badge"></span>
                                     <span class="m-list-timeline__text">
-                                    输入文件为vcf格式群体SNP位点信息，且文件中各样本名不可以超过10个字符，具体如下：
+                                    输入序列文件必须是fas格式
                                     </span>
                                 </div>
-
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                    输入序列长度必须是正整数
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
