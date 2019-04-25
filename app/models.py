@@ -243,6 +243,7 @@ class Menu(db.Model):
     name = db.Column(db.String(255))
     parent_name = db.Column(db.String(255))
     icon = db.Column(db.String(255))
+    url = db.Column(db.String(255))
     add_time = db.Column(db.DateTime, default=datetime.now)
 
 
