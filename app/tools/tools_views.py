@@ -36,7 +36,7 @@ def verify_file(taskdir, *args):
         filename = secure_filename(v.filename)
         inputfile = taskdir + "/" + filename
         v.save(inputfile)
-        if os.path.getsize(inputfile) > 100 * 1024 * 1024:
+        if os.path.getsize(inputfile) > 10 * 1024 * 1024:
             shutil.rmtree(taskdir)
             abort(413)
     return [str(taskdir + "/" + secure_filename(v.filename)) for v in args]
