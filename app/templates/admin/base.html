@@ -113,7 +113,7 @@
                                             <a href="#" class="m-menu__link m-menu__toggle">
                                                 <i class="m-menu__link-icon flaticon-share"></i>
                                                 <span class="m-menu__link-text">
-                                                        实验相关
+                                                        通用工具
                                                     </span>
                                                 <i class="m-menu__hor-arrow la la-angle-right"></i>
                                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
@@ -135,6 +135,33 @@
                                                            class="m-menu__link ">
                                                                 <span class="m-menu__link-text">
                                                                     文库分lane
+                                                                </span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-menu__item " m-menu-link-redirect="1"
+                                                        aria-haspopup="true">
+                                                        <a href="{{ url_for('tools.convertp') }}"
+                                                           class="m-menu__link ">
+                                                                <span class="m-menu__link-text">
+                                                                    图像格式转换
+                                                                </span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-menu__item " m-menu-link-redirect="1"
+                                                        aria-haspopup="true">
+                                                        <a href="{{ url_for('tools.gccount') }}"
+                                                           class="m-menu__link ">
+                                                                <span class="m-menu__link-text">
+                                                                    GC含量分布
+                                                                </span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-menu__item " m-menu-link-redirect="1"
+                                                        aria-haspopup="true">
+                                                        <a href="{{ url_for('tools.vcf2phylip') }}"
+                                                           class="m-menu__link ">
+                                                                <span class="m-menu__link-text">
+                                                                    vcf转phylip格式
                                                                 </span>
                                                         </a>
                                                     </li>
@@ -279,6 +306,33 @@
                                                            class="m-menu__link ">
                                                                 <span class="m-menu__link-text">
                                                                     spearman相关性热图
+                                                                </span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-menu__item " m-menu-link-redirect="1"
+                                                        aria-haspopup="true">
+                                                        <a href="{{ url_for('tools.violin') }}"
+                                                           class="m-menu__link ">
+                                                                <span class="m-menu__link-text">
+                                                                    小提琴图
+                                                                </span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-menu__item " m-menu-link-redirect="1"
+                                                        aria-haspopup="true">
+                                                        <a href="{{ url_for('tools.barbox') }}"
+                                                           class="m-menu__link ">
+                                                                <span class="m-menu__link-text">
+                                                                    箱线图
+                                                                </span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="m-menu__item " m-menu-link-redirect="1"
+                                                        aria-haspopup="true">
+                                                        <a href="{{ url_for('tools.flower') }}"
+                                                           class="m-menu__link ">
+                                                                <span class="m-menu__link-text">
+                                                                    葵花图
                                                                 </span>
                                                         </a>
                                                     </li>
