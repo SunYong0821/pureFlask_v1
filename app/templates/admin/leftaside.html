@@ -1,37 +1,108 @@
 <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
-    <li id="a-1" class="m-menu__item" aria-haspopup="true">
-        <a href="{{ url_for('admin.index') }}" class="m-menu__link ">
-            <i class="m-menu__link-icon flaticon-shapes"></i>
-            <span class="m-menu__link-title">
+    {% if nav_menus %}
+        {% for m in nav_menus %}
+            <li id="a-4" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+
+                <a href="{{ url_for('admin.contact') }}" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon {{ m.icon }}"></i>
+                    <span class="m-menu__link-text">
+                {{ m.name }}
+            </span>
+
+                </a>
+
+            </li>
+        {% endfor %}
+
+
+        {#  <li id="a-1" class="m-menu__item" aria-haspopup="true">
+            <a href="{{ url_for('admin.index') }}" class="m-menu__link ">
+                <i class="m-menu__link-icon flaticon-shapes"></i>
+                <span class="m-menu__link-text">
                 <span class="m-menu__link-wrap">
                     <span class="m-menu__link-text">
                         主页
                     </span>
-                    <!-- <span class="m-menu__link-badge">
-                                <span class="m-badge m-badge--danger">
-                                    2
-                                </span>
-                            </span> -->
+
+                </span>
+            </span>
+            </a>
+        </li>
+        <li id="a-3" class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+            <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                <i class="m-menu__link-icon flaticon-tool-1"></i>
+                <span class="m-menu__link-text">
+                基础分析工具
+            </span>
+                <i class="m-menu__ver-arrow la la-angle-right"></i>
+            </a>
+            <div class="m-menu__submenu ">
+                <span class="m-menu__arrow"></span>
+                <ul class="m-menu__subnav">
+                    <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
+                    <span class="m-menu__link">
+                        <span class="m-menu__link-text">
+                            基础分析工具
+                        </span>
+                    </span>
+                    </li>
+
+                    <li id="a-3-1" class="m-menu__item" aria-haspopup="true">
+                        <a href="{{ url_for('admin.infotoolslist') }}" class="m-menu__link">
+                            <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                <span></span>
+                            </i>
+                            <span class="m-menu__link-text">
+                            基础分析工具
+                        </span>
+                        </a>
+                    </li>
+                    <li id="a-3-3" class="m-menu__item " aria-haspopup="true">
+                        <a href="{{ url_for('admin.videoout') }}" class="m-menu__link ">
+                            <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                <span></span>
+                            </i>
+                            <span class="m-menu__link-text">
+                            工具使用教程
+                        </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>#}
+
+
+
+    {% endif %}
+</ul>
+
+
+{#
+<ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
+    <li id="a-1" class="m-menu__item" aria-haspopup="true">
+        <a href="{{ url_for('admin.index') }}" class="m-menu__link ">
+            <i class="m-menu__link-icon flaticon-shapes"></i>
+            <span class="m-menu__link-text">
+                <span class="m-menu__link-wrap">
+                    <span class="m-menu__link-text">
+                        主页
+                    </span>
+
                 </span>
             </span>
         </a>
     </li>
-    <!-- <li class="m-menu__section">
-                <h4 class="m-menu__section-text">
-                    我是分隔符
-                </h4>
-                <i class="m-menu__section-icon flaticon-more-v3"></i>
-            </li> -->
+
     {% if current_user.role_id != 1 %}
-    <li id="a-2" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-        <a href="{{ url_for('admin.videolist') }}" class="m-menu__link m-menu__toggle">
-            <i class="m-menu__link-icon flaticon-computer"></i>
-            <span class="m-menu__link-text">
+        <li id="a-2" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
+            <a href="{{ url_for('admin.videolist') }}" class="m-menu__link m-menu__toggle">
+                <i class="m-menu__link-icon flaticon-computer"></i>
+                <span class="m-menu__link-text">
                 内部培训视频
             </span>
-            <!-- <i class="m-menu__ver-arrow la la-angle-right"></i> -->
-        </a>
-    </li>
+                <!-- <i class="m-menu__ver-arrow la la-angle-right"></i> -->
+            </a>
+        </li>
     {% endif %}
     <li id="a-3" class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
         <a href="javascript:;" class="m-menu__link m-menu__toggle">
@@ -51,26 +122,7 @@
                         </span>
                     </span>
                 </li>
-{#                <li id="a-3-1" class="m-menu__item "  aria-haspopup="true">#}
-{#                    <a href="{{ url_for('admin.biotoolslist') }}" class="m-menu__link m-menu__toggle">#}
-{#                        <i class="m-menu__link-bullet m-menu__link-bullet--dot">#}
-{#                            <span></span>#}
-{#                        </i>#}
-{#                        <span class="m-menu__link-text">#}
-{#                            实验相关#}
-{#                        </span>#}
-{#                    </a>#}
-{#                </li>#}
-{#                <li id="a-3-2" class="m-menu__item" aria-haspopup="true">#}
-{#                    <a href="{{ url_for('admin.infotoolslist') }}" class="m-menu__link">#}
-{#                        <i class="m-menu__link-bullet m-menu__link-bullet--dot">#}
-{#                            <span></span>#}
-{#                        </i>#}
-{#                        <span class="m-menu__link-text">#}
-{#                            生信相关#}
-{#                        </span>#}
-{#                    </a>#}
-{#                </li>#}
+
                 <li id="a-3-1" class="m-menu__item" aria-haspopup="true">
                     <a href="{{ url_for('admin.infotoolslist') }}" class="m-menu__link">
                         <i class="m-menu__link-bullet m-menu__link-bullet--dot">
@@ -100,7 +152,7 @@
             <span class="m-menu__link-text">
                 联系我们
             </span>
-            <!-- <i class="m-menu__ver-arrow la la-angle-right"></i> -->
+
         </a>
     </li>
-</ul>
+</ul>#}

@@ -234,6 +234,18 @@ class SCIhub(db.Model):
     def __repr__(self):
         return f'<sci_hub {self.name}>'
 
+
+class Menu(db.Model):
+    __tablename__ = 'menu'
+    id = db.Column(db.Integer, primary_key=True)
+    parent_id = db.Column(db.Integer)
+    level = db.Column(db.Integer)
+    name = db.Column(db.String(255))
+    parent_name = db.Column(db.String(255))
+    icon = db.Column(db.String(255))
+    add_time = db.Column(db.DateTime, default=datetime.now)
+
+
 if __name__ == '__main__':
     db.create_all()
 

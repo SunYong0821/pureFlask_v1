@@ -1,6 +1,7 @@
 # coding:utf-8
 from flask import Flask, render_template
 from app.extensions import db, login_manager, mail, scheduler
+from app.models import Menu
 
 
 def create_app():
@@ -11,6 +12,7 @@ def create_app():
     register_extensions(app)
     register_blueprint(app)
     register_errorhandlers(app)
+    register_template_context(app)
     with app.app_context():
         db.create_all()
     return app
@@ -53,3 +55,10 @@ def register_blueprint(app):
 def register_logging(app):
     """注册日志"""
     pass
+
+
+def register_template_context(app):
+    @app.context_processor
+    def make_template_context():
+        menus = Menu.query.all()
+        return dict(nav_menus=menus)
