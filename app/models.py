@@ -5,8 +5,8 @@ import pathlib
 from datetime import datetime
 
 from flask import current_app, flash
-from flask_login import UserMixin
-from itsdangerous import TimedJSONWebSignatureSerializer as Seralize
+from flask_login import UserMixin, current_user
+from itsdangerous import TimedJSONWebSignatureSerializer as Seralize, SignatureExpired, BadSignature
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.extensions import login_manager, db
@@ -120,7 +120,9 @@ class User(UserMixin, db.Model):
         s = Seralize(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token.encode('utf-8'))
-        except:
+        except SignatureExpired:
+            flash('token已过期', 'danger')
+        except BadSignature:
             flash("token已失效请重新发送", "danger")
             return False
         uid = data.get('id')
@@ -245,12 +247,16 @@ class Menu(db.Model):
     icon = db.Column(db.String(255), comment='图标颜色')
     url = db.Column(db.String(255), comment='链接地址')
     add_time = db.Column(db.DateTime, default=datetime.now, comment='添加时间')
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'), comment='角色id')
 
     child_menus = db.relationship('Menu')
 
     @classmethod
     def get_tree(cls):
-        all_menu = Menu.query.all()  # 查看所有menu
+        if current_user.is_authenticated and current_user.role_id == 1:
+            all_menu = Menu.query.filter_by(role_id=1)  # 查看所有menu
+        else:
+            all_menu = Menu.query.all()  # 查看所有menu
         menu_list = []
         # 查找所有一级菜单
         for root in all_menu:

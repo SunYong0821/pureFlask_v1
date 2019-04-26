@@ -1,18 +1,63 @@
-{%- set idxs = [0] -%}
-{% for meuns in nav_menus recursive %}
-    {%- set depth=idxs| length -%}
-    <h{{ 1+depth }}>{{ meuns.name }}</h{{ 1+depth }}>
+{#<ul class="sitemap">
+    {%- for item in nav_menus recursive %}
+        #}{#        <li><a href="{{ item.url|e }}">{{ item.name }}</a>#}{#
+        {%- if  item.child_menus %}
+            <ul class="submenu">{{ loop(item.name) }}{{ item.name }}</ul>
+        {%- endif %}#}{#</li>#}{#
+    {%- endfor %}
+</ul>#}
 
-    {% set table=meuns.child_menus %}
+<ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
+    {% for item in nav_menus recursive %}
+        <li id="a-1" class="m-menu__item" aria-haspopup="true">
+            {% if item.url %}
+                <a href="{{ url_for(item.url) }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon {{ item.icon }}"></i>
+                    <span class="m-menu__link-title">
+                <span class="m-menu__link-wrap">
+                    <span class="m-menu__link-text">
+                        {{ item.name }}
+                    </span>
+                </span>
+            </span>
+                </a>
+            {% else %}
+                <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-tool-1"></i>
+                    <span class="m-menu__link-text">
+                    {{ item.name }}</span>
+                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                </a>
+            {% endif %}
 
-    {% for m in table %}
-        <h6>{{ m.name }}</h6>
+            {% if item.child_menus %}
+                {% set table=item.child_menus %}
+
+                {% for t in table %}
+                    <div class="m-menu__submenu ">
+                        <span class="m-menu__arrow"></span>
+                        <ul class="m-menu__subnav">
+
+                            <li id="a-3-1" class="m-menu__item" aria-haspopup="true">
+                                {% if t.url %}
+                                    <a href="{{ url_for(t.url) }}" class="m-menu__link">
+                                {% else %}
+                                    <a href="#" class="m-menu__link">
+                                {% endif %}
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+                                {{ t.name }}
+                                </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                {% endfor %}
+
+            {% endif %}
+
+        </li>
     {% endfor %}
-
-    {% if meuns.child_menus.__len__() > 0 %}
-        {% do idxs.append(loop.index) %}
-        {{ loop(meuns.child_menus) }}
-        {% do idxs.pop() %}
-    {% endif %}
-
-{% endfor %}
+</ul>
