@@ -60,5 +60,5 @@ def register_logging(app):
 def register_template_context(app):
     @app.context_processor
     def make_template_context():
-        menus = Menu.query.all()
+        menus = Menu.get_tree()
         return dict(nav_menus=menus)

@@ -237,14 +237,47 @@ class SCIhub(db.Model):
 
 class Menu(db.Model):
     __tablename__ = 'menu'
-    id = db.Column(db.Integer, primary_key=True)
-    parent_id = db.Column(db.Integer)
-    level = db.Column(db.Integer)
-    name = db.Column(db.String(255))
-    parent_name = db.Column(db.String(255))
-    icon = db.Column(db.String(255))
-    url = db.Column(db.String(255))
-    add_time = db.Column(db.DateTime, default=datetime.now)
+    id = db.Column(db.Integer, primary_key=True, comment='编号')
+    parent_id = db.Column(db.Integer, db.ForeignKey('menu.id'), comment='父id')
+    level = db.Column(db.Integer, comment='级别')
+    name = db.Column(db.String(255), comment='菜单名称')
+    parent_name = db.Column(db.String(255), comment='父节点名称')
+    icon = db.Column(db.String(255), comment='图标颜色')
+    url = db.Column(db.String(255), comment='链接地址')
+    add_time = db.Column(db.DateTime, default=datetime.now, comment='添加时间')
+
+    child_menus = db.relationship('Menu')
+
+    @classmethod
+    def get_tree(cls):
+        all_menu = Menu.query.all()  # 查看所有menu
+        menu_list = []
+        # 查找所有一级菜单
+        for root in all_menu:
+            if root.level == 1:
+                menu_list.append(root)
+        # 为一级菜单设置子菜单
+        for menu in menu_list:
+            menu.child_menus = cls.get_child_menu(menu.id, all_menu)
+        return menu_list
+
+    @classmethod
+    def get_child_menu(cls, parent_id, all_menu):
+        """
+        :param parent_id: 父节点id
+        :param all_menu: 所有节点
+        :return child_list: 子节点
+        """
+        child_menu_list = []
+        # 遍历所有节点，将父节点id与子节点的parent_id进行比较
+        for nav in all_menu:
+            if nav.parent_id == parent_id:
+                child_menu_list.append(nav)
+        # 递归 把子菜单的子菜单在此循环
+        if len(child_menu_list) != 0:
+            for m in child_menu_list:
+                m.child_menus = (cls.get_child_menu(m.id, all_menu))
+        return child_menu_list
 
 
 if __name__ == '__main__':
