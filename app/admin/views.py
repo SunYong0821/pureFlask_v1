@@ -56,7 +56,13 @@ def login():
                 # userlog.ip = real_ip.split(",")[1]
                 # else:
                 # userlog.ip = real_ip
-                userlog.ip = request.headers['Remote_Addr']
+                # userlog.ip = request.headers['Remote_Addr']
+                userlog.ip = request.headers['X-Forwarded-For']
+                #import socket
+                #host_name = socket.gethostname()
+                #ip = socket.gethostbyname(host_name)
+                #userlog.ip = ip
+                
             except:
                 userlog.ip = request.remote_addr
                 # request.user_agent  IE: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko

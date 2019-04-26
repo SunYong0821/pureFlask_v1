@@ -89,7 +89,7 @@ class User(UserMixin, db.Model):
     # 生成token方法
     def generate_token(self, expiration=36000):
         s = Seralize(current_app.config['SECRET_KEY'], expiration)
-        return s.dumps({'id': self.id})
+        return s.dumps({'id': self.id}).decode('utf-8')
 
     @staticmethod
     def check_token(token):
