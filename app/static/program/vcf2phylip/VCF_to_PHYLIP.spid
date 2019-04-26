@@ -1,0 +1,53 @@
+# spid-file generated: Thu Mar 01 15:58:50 CST 2018
+
+# VCF Parser questions
+PARSER_FORMAT=VCF
+
+# Only output SNPs with a phred-scaled quality of at least:
+VCF_PARSER_QUAL_QUESTION=
+# Select population definition file:
+VCF_PARSER_POP_FILE_QUESTION=
+# What is the ploidy of the data?
+VCF_PARSER_PLOIDY_QUESTION=DIPLOID
+# Do you want to include a file with population definitions?
+VCF_PARSER_POP_QUESTION=false
+# Output genotypes as missing if the phred-scale genotype quality is below:
+VCF_PARSER_GTQUAL_QUESTION=
+# Do you want to include non-polymorphic SNPs?
+VCF_PARSER_MONOMORPHIC_QUESTION=false
+# Only output following individuals (ind1, ind2, ind4, ...):
+VCF_PARSER_IND_QUESTION=
+# Only input following regions (refSeqName:start:end, multiple regions: whitespace separated):
+VCF_PARSER_REGION_QUESTION=
+# Output genotypes as missing if the read depth of a position for the sample is below:
+VCF_PARSER_READ_QUESTION=
+# Take most likely genotype if "PL" or "GL" is given in the genotype field?
+VCF_PARSER_PL_QUESTION=false
+# Do you want to exclude loci with only missing data?
+VCF_PARSER_EXC_MISSING_LOCI_QUESTION=false
+
+# PHYLIP (RAxML) Writer questions
+WRITER_FORMAT=PHYLIP
+
+# Save relaxed PHYLIP format (e.g. for RAxML)?
+PHYLIP_WRITER_RELAXED_QUESTION=false
+# Numeric SNP data: enter the integer that codes for nucleotide G:
+PHYLIP_WRITER_CODE_G_QUESTION=
+# Specify the DNA locus you want to write to the PHYLIP (RAxML) file or write "CONCAT" for concatenation:
+PHYLIP_WRITER_CONCATENATE_QUESTION=
+# Specify which data type should be included in the PHYLIP (RAxML) file  (PHYLIP (RAxML) can only analyze one data type per file):
+PHYLIP_WRITER_DATA_TYPE_QUESTION=DNA
+# Do you want to save an additional file with sequence partitions separating loci (may be used within RAxML)?
+PHYLIP_WRITER_PARTITION_QUESTION=false
+# Numeric SNP data: enter the integer that codes for nucleotide C:
+PHYLIP_WRITER_CODE_C_QUESTION=
+# Numeric SNP data: enter the integer that codes for nucleotide T:
+PHYLIP_WRITER_CODE_T_QUESTION=
+# Save partition file
+PHYLIP_WRITER_PARTITION_FILE_QUESTION=
+# Select the kind of file you want to write:
+PHYLIP_WRITER_DATA_KIND_QUESTION=SEQUENCE
+# Specify the locus/locus combination you want to write to the PHYLIP (RAxML) file:
+PHYLIP_WRITER_LOCUS_COMBINATION_QUESTION=
+# Numeric SNP data: enter the integer that codes for nucleotide A:
+PHYLIP_WRITER_CODE_A_QUESTION=

@@ -259,3 +259,26 @@ def scihub():
 @login_required
 def contact():
     return render_template('admin/contact.html')
+
+@admin.route('/autoselecttools.html', methods=['GET'])
+@login_required
+def autoselecttools():
+    tools_list = Toolslist.query.filter_by(
+        group="auto"
+    ).order_by(
+        Toolslist.addtime.desc()
+    ).all()
+    return render_template('admin/autoselecttools.html', tools_list=tools_list)
+
+@admin.route('/slmachinelanguagelearning.html', methods=['GET'])
+@login_required
+def slmachinelanguagelearning():
+    tools_list = Toolslist.query.filter_by(
+        group="ml"
+    ).order_by(
+        Toolslist.addtime.desc()
+    ).all()
+    return render_template('admin/slmachinelanguagelearning.html', tools_list=tools_list)
+
+
+
