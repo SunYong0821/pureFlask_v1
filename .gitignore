@@ -5,6 +5,8 @@ out
 .idea/
 test/
 *.pyc
-static/user/
+app/static/user/
 app/__pycache__/
 app/admin/__pycache__/
+app/static/user/悟空/
+
