@@ -623,7 +623,7 @@ def convertp():
         script = f"python ./app/static/program/convertp/convertpics.py {inputfile[0]} {form.method.data} {form.density.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
-        crun.start()
+        crun.start( )
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/convertp.html', form=form, tool=tool)
 
@@ -751,8 +751,18 @@ def autoselecttools():
 @login_required
 def fastalength():
     form=FastalengthForm()
-    tool = Toolslist.query.filter_by(url="tools.autoselecttools").first()
-
+    tool = Toolslist.query.filter_by(url="tools.fastalength").first()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("tools.fastalength", form.url.data)
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} {form.length.data}\n")
+        script = f"python ./app/static/program/fastalength/fastalength.py {inputfile[0]} {form.length.data} 2>>{taskdir}/run.log"
+        print()
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
     return render_template('admin/tools/fastalength.html',form=form,tool=tool)
 
 
@@ -763,7 +773,6 @@ def flower():
     tool = Toolslist.query.filter_by(url="tools.flower").first()
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("tools.flower", form.url.data)
-
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} {form.outpre.data}\n")
@@ -772,4 +781,8 @@ def flower():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
         return redirect(url_for("admin.index"))
+
     return render_template('admin/tools/flower.html', form=form, tool=tool)
+
+
+

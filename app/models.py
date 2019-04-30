@@ -5,8 +5,8 @@ import pathlib
 from datetime import datetime
 
 from flask import current_app, flash
-from flask_login import UserMixin
-from itsdangerous import TimedJSONWebSignatureSerializer as Seralize
+from flask_login import UserMixin, current_user
+from itsdangerous import TimedJSONWebSignatureSerializer as Seralize, SignatureExpired, BadSignature
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app.extensions import login_manager, db
@@ -120,7 +120,9 @@ class User(UserMixin, db.Model):
         s = Seralize(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token.encode('utf-8'))
-        except:
+        except SignatureExpired:
+            flash('token已过期', 'danger')
+        except BadSignature:
             flash("token已失效请重新发送", "danger")
             return False
         uid = data.get('id')
@@ -233,6 +235,56 @@ class SCIhub(db.Model):
 
     def __repr__(self):
         return f'<sci_hub {self.name}>'
+
+
+class Menu(db.Model):
+    __tablename__ = 'menu'
+    id = db.Column(db.Integer, primary_key=True, comment='编号')
+    parent_id = db.Column(db.Integer, db.ForeignKey('menu.id'), comment='父id')
+    level = db.Column(db.Integer, comment='级别')
+    name = db.Column(db.String(255), comment='菜单名称')
+    parent_name = db.Column(db.String(255), comment='父节点名称')
+    icon = db.Column(db.String(255), comment='图标颜色')
+    url = db.Column(db.String(255), comment='链接地址')
+    add_time = db.Column(db.DateTime, default=datetime.now, comment='添加时间')
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'), comment='角色id')
+
+    child_menus = db.relationship('Menu')
+
+    @classmethod
+    def get_tree(cls):
+        if current_user.is_authenticated and current_user.role_id == 1:
+            all_menu = Menu.query.filter_by(role_id=1)  # 查看所有menu
+        else:
+            all_menu = Menu.query.all()  # 查看所有menu
+        menu_list = []
+        # 查找所有一级菜单
+        for root in all_menu:
+            if root.level == 1:
+                menu_list.append(root)
+        # 为一级菜单设置子菜单
+        for menu in menu_list:
+            menu.child_menus = cls.get_child_menu(menu.id, all_menu)
+        return menu_list
+
+    @classmethod
+    def get_child_menu(cls, parent_id, all_menu):
+        """
+        :param parent_id: 父节点id
+        :param all_menu: 所有节点
+        :return child_list: 子节点
+        """
+        child_menu_list = []
+        # 遍历所有节点，将父节点id与子节点的parent_id进行比较
+        for nav in all_menu:
+            if nav.parent_id == parent_id:
+                child_menu_list.append(nav)
+        # 递归 把子菜单的子菜单在此循环
+        if len(child_menu_list) != 0:
+            for m in child_menu_list:
+                m.child_menus = (cls.get_child_menu(m.id, all_menu))
+        return child_menu_list
+
 
 if __name__ == '__main__':
     db.create_all()

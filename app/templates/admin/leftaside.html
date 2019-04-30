@@ -1,127 +1,63 @@
+{#<ul class="sitemap">
+    {%- for item in nav_menus recursive %}
+        #}{#        <li><a href="{{ item.url|e }}">{{ item.name }}</a>#}{#
+        {%- if  item.child_menus %}
+            <ul class="submenu">{{ loop(item.name) }}{{ item.name }}</ul>
+        {%- endif %}#}{#</li>#}{#
+    {%- endfor %}
+</ul>#}
+
 <ul class="m-menu__nav  m-menu__nav--dropdown-submenu-arrow ">
-    <li id="a-1" class="m-menu__item" aria-haspopup="true">
-        <a href="{{ url_for('admin.index') }}" class="m-menu__link ">
-            <i class="m-menu__link-icon flaticon-shapes"></i>
-            <span class="m-menu__link-title">
+    {% for item in nav_menus recursive %}
+        <li id="a-1" class="m-menu__item" aria-haspopup="true">
+            {% if item.url %}
+                <a href="{{ url_for(item.url) }}" class="m-menu__link ">
+                    <i class="m-menu__link-icon {{ item.icon }}"></i>
+                    <span class="m-menu__link-title">
                 <span class="m-menu__link-wrap">
                     <span class="m-menu__link-text">
-                        主页
+                        {{ item.name }}
                     </span>
-                    <!-- <span class="m-menu__link-badge">
-                                <span class="m-badge m-badge--danger">
-                                    2
-                                </span>
-                            </span> -->
                 </span>
             </span>
-        </a>
-    </li>
-    <!-- <li class="m-menu__section">
-                <h4 class="m-menu__section-text">
-                    我是分隔符
-                </h4>
-                <i class="m-menu__section-icon flaticon-more-v3"></i>
-            </li> -->
-    {% if current_user.role_id != 1 %}
-    <li id="a-2" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-        <a href="{{ url_for('admin.videolist') }}" class="m-menu__link m-menu__toggle">
-            <i class="m-menu__link-icon flaticon-computer"></i>
-            <span class="m-menu__link-text">
-                内部培训视频
-            </span>
-            <!-- <i class="m-menu__ver-arrow la la-angle-right"></i> -->
-        </a>
-    </li>
-    {% endif %}
-    <li id="a-3" class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-        <a href="javascript:;" class="m-menu__link m-menu__toggle">
-            <i class="m-menu__link-icon flaticon-tool-1"></i>
-            <span class="m-menu__link-text">
-                基础分析工具
-            </span>
-            <i class="m-menu__ver-arrow la la-angle-right"></i>
-        </a>
-        <div class="m-menu__submenu ">
-            <span class="m-menu__arrow"></span>
-            <ul class="m-menu__subnav">
-                <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
-                    <span class="m-menu__link">
-                        <span class="m-menu__link-text">
-                            基础分析工具
-                        </span>
-                    </span>
-                </li>
-                <li id="a-3-1" class="m-menu__item" aria-haspopup="true">
-                    <a href="{{ url_for('admin.infotoolslist') }}" class="m-menu__link">
-                        <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                            <span></span>
-                        </i>
-                        <span class="m-menu__link-text">
-                            基础分析工具
-                        </span>
-                    </a>
-                </li>
-                <li id="a-3-3" class="m-menu__item " aria-haspopup="true">
-                    <a href="{{ url_for('admin.videoout') }}" class="m-menu__link ">
-                        <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                            <span></span>
-                        </i>
-                        <span class="m-menu__link-text">
-                            工具使用教程
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </li>
-     <li id="a-4" class="m-menu__item m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-        <a href="javascript:;" class="m-menu__link m-menu__toggle">
-            <i class="m-menu__link-icon flaticon-tool-1"></i>
-            <span class="m-menu__link-text">
-             机器语言学习
-            </span>
-            <i class="m-menu__ver-arrow la la-angle-right"></i>
-        </a>
-        <div class="m-menu__submenu ">
-            <span class="m-menu__arrow"></span>
-            <ul class="m-menu__subnav">
-                <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true">
-                    <span class="m-menu__link">
-                        <span class="m-menu__link-text">
-                            机器语言学习
-                        </span>
-                    </span>
-                </li>
-                <li id="a-4-1" class="m-menu__item" aria-haspopup="true">
-                    <a href="{{ url_for('admin.autoselecttools') }}" class="m-menu__link">
-                        <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                            <span></span>
-                        </i>
-                        <span class="m-menu__link-text">
-                            自动选参工具
-                        </span>
-                    </a>
-                </li>
-                <li id="a-4-2" class="m-menu__item " aria-haspopup="true">
-                    <a href="{{ url_for('admin.slmachinelanguagelearning') }}" class="m-menu__link ">
-                        <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                            <span></span>
-                        </i>
-                        <span class="m-menu__link-text">
-                            单一语言学习
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </li>
-    <li id="a-5" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" m-menu-submenu-toggle="hover">
-        <a href="{{ url_for('admin.contact') }}" class="m-menu__link m-menu__toggle">
-            <i class="m-menu__link-icon flaticon-chat"></i>
-            <span class="m-menu__link-text">
-                联系我们
-            </span>
-            <!-- <i class="m-menu__ver-arrow la la-angle-right"></i> -->
-        </a>
-    </li>
+                </a>
+            {% else %}
+                <a href="javascript:;" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-tool-1"></i>
+                    <span class="m-menu__link-text">
+                    {{ item.name }}</span>
+                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                </a>
+            {% endif %}
+
+            {% if item.child_menus %}
+                {% set table=item.child_menus %}
+
+                {% for t in table %}
+                    <div class="m-menu__submenu ">
+                        <span class="m-menu__arrow"></span>
+                        <ul class="m-menu__subnav">
+
+                            <li id="a-3-1" class="m-menu__item" aria-haspopup="true">
+                                {% if t.url %}
+                                    <a href="{{ url_for(t.url) }}" class="m-menu__link">
+                                {% else %}
+                                    <a href="#" class="m-menu__link">
+                                {% endif %}
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+                                {{ t.name }}
+                                </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                {% endfor %}
+
+            {% endif %}
+
+        </li>
+    {% endfor %}
 </ul>
