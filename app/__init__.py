@@ -6,7 +6,7 @@ from app.models import Menu
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_pyfile('./setting.py')
+    #app.config.from_pyfile('./setting.py')
     app.config.from_pyfile('./secure.py')
 
     register_extensions(app)
