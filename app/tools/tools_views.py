@@ -758,7 +758,6 @@ def fastalength():
             optfile.write(
                 f"Options: {form.url.data} {form.length.data}\n")
         script = f"python ./app/static/program/fastalength/fastalength.py {inputfile[0]} {form.length.data} 2>>{taskdir}/run.log"
-        print()
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
