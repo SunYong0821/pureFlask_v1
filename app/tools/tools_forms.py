@@ -986,3 +986,30 @@ class BlastForm(FlaskForm):
         render_kw={"class": "form-control m-input m-input--air"}
     )
     submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})
+
+class FaslengthcountForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})
+
+class FaslengthfilterForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    min_length= StringField(
+        label="输入最小长度",
+        validators=[Nonevalidators("输入最小长度")],
+        render_kw={"class": "form-control m-input m-input--air"}
+    )
+    max_length = StringField(
+        label="输入最长长度",
+        validators=[Nonevalidators("输入最长长度")],
+        render_kw={"class": "form-control m-input m-input--air"}
+    )
+
+    submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})
