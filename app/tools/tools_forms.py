@@ -962,3 +962,27 @@ class FlowerForm(FlaskForm):
     )
     submit = SubmitField("确认", render_kw={
         "class": "btn btn-primary"})
+
+
+class BlastForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    parameter = SelectField(
+        label="程序",
+        choices=[('blastn', "blastn"), ('blastp', "blastp"), ('blastx', "blastx"), ('blastn', "blastn"),('tblastx', "tblastx")],
+        render_kw={"class": "form-control m-input m-input--air"}
+    )
+    database = SelectField(
+        label="数据库",
+        choices=[('nt', "nt"), ('nr', "nr")],
+        render_kw={"class": "form-control m-input m-input--air"}
+    )
+    evalue = SelectField(
+        label="txt",
+        choices=[('0', "0"), ('1E-20', "1E-20") ,('1E-10',"1E-10"),('1',"1"),('10',"10"),('100',"100"),('1000',"1000")],
+        render_kw={"class": "form-control m-input m-input--air"}
+    )
+    submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})

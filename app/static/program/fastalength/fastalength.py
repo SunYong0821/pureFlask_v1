@@ -16,13 +16,16 @@ with open(outfile+'/outresult.fas','w') as f2:
         start = 0
         end = start + length
         f2.write(str(key)+'\n')
-        while True:
-            if end < len(fas[key]):
-                f2.write(str(fas[key][start:end]) + '\n')
-                start = end
-                end += length
-            elif end >= len(fas[key]):
-                f2.write(str(fas[key][start:]) + '\n')
-                break
+        if length == 0:
+            f2.write(str(fas[key][start:])+'\n')
+        elif length >0:
+            while True:
+                if end < len(fas[key]):
+                    f2.write(str(fas[key][start:end]) + '\n')
+                    start = end
+                    end += length
+                elif end >= len(fas[key]):
+                    f2.write(str(fas[key][start:]) + '\n')
+                    break
 
 make_archive(infile+ "/out", "zip",infile,"out")

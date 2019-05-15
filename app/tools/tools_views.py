@@ -14,7 +14,7 @@ from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
     CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm, ViolinForm, BarboxForm, \
-    GCcountForm, Vcf2phylipForm, AutoselecttoolsForm, FastalengthForm, FlowerForm
+    GCcountForm, Vcf2phylipForm, AutoselecttoolsForm, FastalengthForm, FlowerForm, BlastForm
 from . import tools
 
 
@@ -784,4 +784,22 @@ def flower():
     return render_template('admin/tools/flower.html', form=form, tool=tool)
 
 
+
+
+@tools.route('/blast.html',methods=['GET','POST'])
+@login_required
+def blast():
+    form = BlastForm()
+    tool = Toolslist.query.filter_by(url="tools.blast").first()
+    if form.validate_on_submit():
+        taskdir,uuid,inputfile = taskprepare("tools.blast",form.url.data)
+        with open(f"{taskdir}/run.log","w",encoding='utf-8') as optfile:
+            optfile.write(f"Options:{form.url.data}{form.parameter.data} {form.database.data} {form.evalue.data}\n")
+        script = f"python ./app/static/program/blast/blast.py {inputfile[0]} {form.parameter.data} {form.database.data} {form.evalue.data} 2>>{taskdir}/run.log"
+        print(script)
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools,args=(app,script,uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/blast.html',form = form,tool =tool)
 
