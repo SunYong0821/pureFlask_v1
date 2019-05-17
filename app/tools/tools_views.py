@@ -14,7 +14,7 @@ from app.models import Tasklist, Toolslist
 from app.tools.tools_forms import RevComForm, PoolingForm, SplitLaneForm, DEGForm, VolcanoForm, MAplotForm, EZCLForm, \
     VennForm, EdgeRForm, DESeq2Form, KEGGbublleForm, PCAForm, ClusterTreeForm, HeatMapForm, CorrForm, FisherForm, \
     CDS2PEPForm, KronaForm, BarForm, SpearmanForm, Bar_TreeForm, SeqlogoForm, ConvertPForm, ViolinForm, BarboxForm, \
-    GCcountForm, Vcf2phylipForm, AutoselecttoolsForm, FastalengthForm, FlowerForm
+    GCcountForm, Vcf2phylipForm, AutoselecttoolsForm, FastalengthForm, FlowerForm, BlastForm,FaslengthcountForm,FaslengthfilterForm
 from . import tools
 
 
@@ -758,7 +758,6 @@ def fastalength():
             optfile.write(
                 f"Options: {form.url.data} {form.length.data}\n")
         script = f"python ./app/static/program/fastalength/fastalength.py {inputfile[0]} {form.length.data} 2>>{taskdir}/run.log"
-        print()
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -786,3 +785,56 @@ def flower():
 
 
 
+
+@tools.route('/blast.html',methods=['GET','POST'])
+@login_required
+def blast():
+    form = BlastForm()
+    tool = Toolslist.query.filter_by(url="tools.blast").first()
+    if form.validate_on_submit():
+        taskdir,uuid,inputfile = taskprepare("tools.blast",form.url.data)
+        with open(f"{taskdir}/run.log","w",encoding='utf-8') as optfile:
+            optfile.write(f"Options:{form.url.data}{form.parameter.data} {form.database.data} {form.evalue.data}\n")
+        script = f"python ./app/static/program/blast/blast.py {inputfile[0]} {form.parameter.data} {form.database.data} {form.evalue.data} 2>>{taskdir}/run.log"
+        print(script)
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools,args=(app,script,uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+    return render_template('admin/tools/blast.html',form = form,tool =tool)
+
+@tools.route('/faslengthcount.html',methods=['GET','POST'])
+@login_required
+def faslengthcount():
+    form = FaslengthcountForm()
+    tool = Toolslist.query.filter_by(url="tools.faslengthcount").first()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("tools.faslengthcount", form.url.data)
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data}  \n")
+        script = f"python ./app/static/program/faslengthcount/faslengthcount.py {inputfile[0]}  2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+
+    return render_template('admin/tools/faslengthcount.html',form = form ,tool=tool)
+
+@tools.route('/faslengthfilter.html',methods=['GET','POST'])
+@login_required
+def faslengthfilter():
+    form = FaslengthfilterForm( )
+    tool = Toolslist.query.filter_by(url="tools.faslengthfilter").first()
+    if form.validate_on_submit():
+        taskdir, uuid, inputfile = taskprepare("tools.faslengthfilter", form.url.data)
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
+            optfile.write(
+                f"Options: {form.url.data} {form.min_length} {form.max_length} \n")
+        script = f"python ./app/static/program/faslengthfilter/faslengthfilter.py {inputfile[0]} {form.min_length.data} {form.max_length.data}  2>>{taskdir}/run.log"
+        app = current_app._get_current_object()
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
+        crun.start()
+        return redirect(url_for("admin.index"))
+
+    return render_template('admin/tools/faslengthfilter.html',form = form ,tool=tool)

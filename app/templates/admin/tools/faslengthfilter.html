@@ -42,13 +42,21 @@
                                         <span style="color: red">{{ error }}</span>
                                     {% endfor %}
                                 </div>
-
                                 <div class="m-form__group form-group row">
-                                    <label class="col-form-label col-lg-6">选择序列长度：</label>
+                                    <label class="col-form-label col-lg-6">最小长度：</label>
                                     <div class="col-lg-5">
-                                        {{ form.length }}
+                                        {{ form.min_length}}
                                     </div>
-                                    {% for error in form.length.errors %}
+                                    {% for error in form.min_length.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                                <div class="m-form__group form-group row">
+                                    <label class="col-form-label col-lg-6">最长长度：</label>
+                                    <div class="col-lg-5">
+                                        {{ form.max_length}}
+                                    </div>
+                                    {% for error in form.max_length.errors %}
                                         <span style="color: red">{{ error }}</span>
                                     {% endfor %}
                                 </div>
@@ -143,18 +151,6 @@
                                     <span class="m-list-timeline__badge"></span>
                                     <span class="m-list-timeline__text">
                                     输入序列文件必须是fasta格式
-                                    </span>
-                                </div>
-                                <div class="m-list-timeline__item">
-                                    <span class="m-list-timeline__badge"></span>
-                                    <span class="m-list-timeline__text">
-                                    输入序列长度必须是自然数
-                                    </span>
-                                </div>
-                                <div class="m-list-timeline__item">
-                                    <span class="m-list-timeline__badge"></span>
-                                    <span class="m-list-timeline__text">
-                                        如果不限制每行输出fasta序列长度，请在序列长度输入数字“0”
                                     </span>
                                 </div>
                             </div>

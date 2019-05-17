@@ -213,8 +213,8 @@ def biotoolslist():
 @admin.route('/infotoolslist.html')
 @login_required
 def infotoolslist():
-    tools_list = Toolslist.query.filter_by(
-        group="info"
+    tools_list = Toolslist.query.filter(
+        Toolslist.group.in_(['normal', 'table', 'seq', 'plot', 'statistic', 'seniorp'])
     ).order_by(
         Toolslist.addtime.desc()
     ).all()
