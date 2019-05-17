@@ -42,6 +42,15 @@
                                         <span style="color: red">{{ error }}</span>
                                     {% endfor %}
                                 </div>
+                                <div class="m-form__group form-group row">
+                                    <label class="col-form-label col-lg-6">选择序列类型：</label>
+                                    <div class="col-lg-5">
+                                        {{ form.fasta_type }}
+                                    </div>
+                                    {% for error in form.fasta_type.errors %}
+                                        <span style="color: red">{{ error }}</span>
+                                    {% endfor %}
+                                </div>
                             </div>
                         </div>
                         <div class="m-portlet__foot m-portlet__foot--fit" style="text-align: center">
@@ -133,6 +142,12 @@
                                     <span class="m-list-timeline__badge"></span>
                                     <span class="m-list-timeline__text">
                                     输入序列文件必须是fasta格式
+                                    </span>
+                                </div>
+                                <div class="m-list-timeline__item">
+                                    <span class="m-list-timeline__badge"></span>
+                                    <span class="m-list-timeline__text">
+                                    输入序列是蛋白序列(nr)，只统计长度；输入序列是核酸序列(nt)，统计长度、ATGC碱基个数、GC含量。
                                     </span>
                                 </div>
                             </div>
