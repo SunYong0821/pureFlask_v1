@@ -1,7 +1,0 @@
-Options: 3 5 330，320，320
-Traceback (most recent call last):
-  File "./app/static/program/pooling/libraryPooling.py", line 12, in <module>
-    bsint = [int(i) for i in bs]
-  File "./app/static/program/pooling/libraryPooling.py", line 12, in <listcomp>
-    bsint = [int(i) for i in bs]
-ValueError: invalid literal for int() with base 10: '330，320，320'

@@ -1,6 +1,0 @@
-Options: 2-35 1 aaa
-Error in read.table(file = file, header = header, sep = sep, quote = quote,  : 
-  duplicate 'row.names' are not allowed
-Calls: read.delim -> read.table
-Execution halted
-Can't call method "desiredCompressionLevel" on an undefined value at /usr/local/share/perl5/Archive/Zip/Archive.pm line 261.

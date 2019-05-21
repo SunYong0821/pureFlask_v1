@@ -1,3 +1,0 @@
-a	fda
-b	fda
-c	fd

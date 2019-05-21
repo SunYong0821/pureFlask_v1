@@ -1,3 +1,0 @@
-	case	control
-SNP	9	8
-normal	1	2

@@ -1,5 +1,0 @@
-Options: 1 5 520
-Traceback (most recent call last):
-  File "./app/static/program/pooling/libraryPooling.py", line 75, in <module>
-    ef.iat[i, 12] = ef.iat[i, 8] * 1.55
-TypeError: can't multiply sequence by non-int of type 'float'

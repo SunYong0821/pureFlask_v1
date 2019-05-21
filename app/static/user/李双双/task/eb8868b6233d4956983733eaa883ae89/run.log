@@ -1,5 +1,0 @@
-Options: 1 5 620
-Traceback (most recent call last):
-  File "./app/static/program/pooling/libraryPooling.py", line 36, in <module>
-    x = ef.iat[i, 9] - meansize
-TypeError: unsupported operand type(s) for -: 'str' and 'int'

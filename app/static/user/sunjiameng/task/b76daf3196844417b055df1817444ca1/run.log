@@ -1,5 +1,0 @@
-Options: 3 7 450,450,460
-./app/static/program/pooling/libraryPooling.py:113: RuntimeWarning: invalid value encountered in double_scalars
-  if fold // vol == 0:
-./app/static/program/pooling/libraryPooling.py:116: RuntimeWarning: invalid value encountered in double_scalars
-  fold = volume.max() / volume.min()

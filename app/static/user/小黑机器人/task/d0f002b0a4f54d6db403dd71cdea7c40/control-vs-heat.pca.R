@@ -1,16 +1,0 @@
-library(ggplot2)
-dat <- read.delim("./control-vs-heat.matrix", row.names = 1, header=TRUE,check.names=F,sep="\t")
-pca <- prcomp(t(dat))
-result <- as.data.frame(pca$x)
-result$rep <- c("Control_P0_1","Control_P0_2","Control_P0_3","Heat_P0_1","Heat_P0_2","Heat_P0_3")
-xmax=max(result$PC1)*1.4
-xmin=min(result$PC1)
-##p <- ggplot(result) + geom_point(aes(x=result$PC1,y=result$PC2,color=result$rep)) + geom_text(aes(x=result$PC1, y=result$PC2, label=rownames(result),hjust=-0.65, color=result$rep,size=.5))
-p <- ggplot(result) + geom_point(aes(x=result$PC1,y=result$PC2,color=result$rep)) + geom_text(aes(x=result$PC1, y=result$PC2, label=rownames(result),hjust=-0.05, color=result$rep),size=4)+xlim(xmin,xmax)
-p <- p + theme_bw()
-p <- p + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) 
-p <- p + theme(legend.title=element_blank()) + xlab("PC1") + ylab("PC2")
-p <- p + theme(legend.position = "none")
-pdf(file="out/control-vs-heat.pca.pdf")
-print(p)
-dev.off()

@@ -1,2 +1,0 @@
-Options: A 0.2 A
-Use of uninitialized value $blabel in string at ./app/static/program/ezcollinear/collinearity.pl line 64, <CL> line 4.

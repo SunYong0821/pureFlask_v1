@@ -1,4 +1,0 @@
-Error in library("DESeq2") : there is no package called ‘DESeq2’
-Execution halted
-readline() on closed filehandle IN at ./app/static/program/deseq2/DiffExp_DeSeq2.pl line 127.
-readline() on closed filehandle IN at ./app/static/program/deseq2/DiffExp_DeSeq2.pl line 128.

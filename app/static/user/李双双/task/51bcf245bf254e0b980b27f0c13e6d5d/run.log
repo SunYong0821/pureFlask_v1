@@ -1,3 +1,0 @@
-Options: 1 5 620
-./app/static/program/pooling/libraryPooling.py:109: RuntimeWarning: divide by zero encountered in double_scalars
-  edf['Pooling体积'] = edf.dropna().iloc[:, 4].sum() / edf['混合浓度'][0]
