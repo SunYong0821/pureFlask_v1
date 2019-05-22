@@ -993,6 +993,11 @@ class FaslengthcountForm(FlaskForm):
         validators=[Nonevalidators("上传一个文件")],
         render_kw={"class": "custom-file-input", "id": "customFile"}
     )
+    fasta_type=SelectField(
+        label="txt",
+        choices=[('nt', "nt"), ('nr', "nr")],
+        render_kw={"class": "form-control m-input m-input--air"}
+    )
     submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})
 
 class FaslengthfilterForm(FlaskForm):
