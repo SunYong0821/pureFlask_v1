@@ -1,5 +1,47 @@
 {% extends 'admin/base.html' %}
 
+{% macro tab(data, group) %}
+<div class="row">
+    {% for v in data %}
+        {% if v.group in group %}
+        <div class="col-xl-4">
+            <div class="m-portlet m-portlet--full-height">
+                <div class="m-portlet__body">
+                    <!--begin::Total Profit-->
+                    <div class="m-widget3">
+                        <div class="m-widget3__item">
+                            <div class="m-widget3__header">
+                                <div class="m-widget3__user-img">
+                                    <a href="{{ url_for(v.url) }}"><img
+                                            src="{{ url_for('static', filename=v.img) }}"
+                                            alt></a>
+                                </div>
+                                <div class="m-widget3__info">
+                                    <span class="m-widget3__username">
+                                        <a href="{{ url_for(v.url) }}" style="text-decoration: none">
+                                            <h5>{{ v.title }}</h5>
+                                        </a>
+                                        <br>
+                                        <span class="m-widget3__text">使用次数：{{ v.usenum }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="m-widget3__body">
+                                <p class="m-widget3__text">
+                                    {{ v.info }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end::Total Profit-->
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endmacro %}
+
 {% block content %}
 
     <!-- BEGIN: Subheader -->
@@ -51,289 +93,25 @@
         <div class="tab-content">
             <!--Begin::Section-->
             <div class="tab-pane active" id="alltools" role="tabpanel">
-                <div class="row">
-                    {% for v in tools_list %}
-                        <div class="col-xl-4">
-                            <div class="m-portlet m-portlet--full-height">
-                                <div class="m-portlet__body">
-                                    <!--begin::Total Profit-->
-                                    <div class="m-widget3">
-                                        <div class="m-widget3__item">
-                                            <div class="m-widget3__header">
-                                                <div class="m-widget3__user-img">
-                                                    <a href="{{ url_for(v.url) }}"><img
-                                                            src="{{ url_for('static', filename=v.img) }}"
-                                                            alt></a>
-                                                </div>
-                                                <div class="m-widget3__info">
-                                                    <span class="m-widget3__username">
-                                                        <a href="{{ url_for(v.url) }}" style="text-decoration: none">
-                                                            <h5>{{ v.title }}</h5>
-                                                        </a>
-                                                        <br>
-                                                        <span class="m-widget3__text">使用次数：{{ v.usenum }}</span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="m-widget3__body">
-                                                <p class="m-widget3__text">
-                                                    {{ v.info }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end::Total Profit-->
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                {{ tab(tools_list, ['normal', 'table', 'seq', 'plot', 'statistic', 'seniorp']) }}
             </div>
             <div class="tab-pane" id="normaltools" role="tabpanel">
-                <div class="row">
-                    {% for v in tools_list %}
-                        {% if v.group=='normal' %}
-                            <div class="col-xl-4">
-                                <div class="m-portlet m-portlet--full-height">
-                                    <div class="m-portlet__body">
-                                        <!--begin::Total Profit-->
-                                        <div class="m-widget3">
-                                            <div class="m-widget3__item">
-                                                <div class="m-widget3__header">
-                                                    <div class="m-widget3__user-img">
-                                                        <a href="{{ url_for(v.url) }}"><img
-                                                                src="{{ url_for('static', filename=v.img) }}"
-                                                                alt></a>
-                                                    </div>
-                                                    <div class="m-widget3__info">
-                                                        <span class="m-widget3__username">
-                                                            <a href="{{ url_for(v.url) }}" style="text-decoration: none">
-                                                                <h5>{{ v.title }}</h5>
-                                                            </a>
-                                                            <br>
-                                                            <span class="m-widget3__text">使用次数：{{ v.usenum }}</span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="m-widget3__body">
-                                                    <p class="m-widget3__text">
-                                                        {{ v.info }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Total Profit-->
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                {{ tab(tools_list, 'normal') }}
             </div>
             <div class="tab-pane" id="tabletools" role="tabpanel">
-                <div class="row">
-                    {% for v in tools_list %}
-                        {% if v.group=='table' %}
-                            <div class="col-xl-4">
-                                <div class="m-portlet m-portlet--full-height">
-                                    <div class="m-portlet__body">
-                                        <!--begin::Total Profit-->
-                                        <div class="m-widget3">
-                                            <div class="m-widget3__item">
-                                                <div class="m-widget3__header">
-                                                    <div class="m-widget3__user-img">
-                                                        <a href="{{ url_for(v.url) }}"><img
-                                                                src="{{ url_for('static', filename=v.img) }}"
-                                                                alt></a>
-                                                    </div>
-                                                    <div class="m-widget3__info">
-                                                        <span class="m-widget3__username">
-                                                            <a href="{{ url_for(v.url) }}" style="text-decoration: none">
-                                                                <h5>{{ v.title }}</h5>
-                                                            </a>
-                                                            <br>
-                                                            <span class="m-widget3__text">使用次数：{{ v.usenum }}</span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="m-widget3__body">
-                                                    <p class="m-widget3__text">
-                                                        {{ v.info }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <!--end::Total Profit-->
-                                    </div>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                {{ tab(tools_list, 'table') }}
             </div>
             <div class="tab-pane" id="seqtools" role="tabpanel">
-                <div class="row">
-                    {% for v in tools_list %}
-                        {% if v.group == "seq" %}
-                            <div class="col-xl-4">
-                                <div class="m-portlet m-portlet--full-height">
-                                    <div class="m-portlet__body">
-                                        <!--begin::Total Profit-->
-                                        <div class="m-widget3">
-                                            <div class="m-widget3__item">
-                                                <div class="m-widget3__header">
-                                                    <div class="m-widget3__user-img">
-                                                        <a href="{{ url_for(v.url) }}"><img
-                                                                src="{{ url_for('static', filename=v.img) }}"
-                                                                alt></a>
-                                                    </div>
-                                                    <div class="m-widget3__info">
-                                                        <span class="m-widget3__username">
-                                                            <a href="{{ url_for(v.url) }}" style="text-decoration: none">
-                                                                <h5>{{ v.title }}</h5>
-                                                            </a>
-                                                            <br>
-                                                            <span class="m-widget3__text">使用次数：{{ v.usenum }}</span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div class="m-widget3__body">
-                                                    <p class="m-widget3__text">
-                                                        {{ v.info }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Total Profit-->
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                {{ tab(tools_list, 'seq') }}
             </div>
             <div class="tab-pane" id="plottools" role="tabpanel">
-                <div class="row">
-                    {% for v in tools_list %}
-                        {% if v.group == "plot" %}
-                            <div class="col-xl-4">
-                                <div class="m-portlet m-portlet--full-height">
-                                    <div class="m-portlet__body">
-                                        <!--begin::Total Profit-->
-                                        <div class="m-widget3">
-                                            <div class="m-widget3__item">
-                                                <div class="m-widget3__header">
-                                                    <div class="m-widget3__user-img">
-                                                        <a href="{{ url_for(v.url) }}"><img
-                                                                src="{{ url_for('static', filename=v.img) }}"
-                                                                alt></a>
-                                                    </div>
-                                                    <div class="m-widget3__info">
-                                                <span class="m-widget3__username">
-                                                    <a href="{{ url_for(v.url) }}" style="text-decoration: none">
-                                                        <h5>{{ v.title }}</h5>
-                                                    </a>
-                                                    <br>
-                                                    <span class="m-widget3__text">使用次数：{{ v.usenum }}</span>
-                                                </span>
-                                                    </div>
-                                                </div>
-                                                <div class="m-widget3__body">
-                                                    <p class="m-widget3__text">
-                                                        {{ v.info }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Total Profit-->
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                {{ tab(tools_list, 'plot') }}
             </div>
             <div class="tab-pane" id="statistictools" role="tabpanel">
-                <div class="row">
-                    {% for v in tools_list %}
-                        {% if v.group == "statistic" %}
-                            <div class="col-xl-4">
-                                <div class="m-portlet m-portlet--full-height">
-                                    <div class="m-portlet__body">
-                                        <!--begin::Total Profit-->
-                                        <div class="m-widget3">
-                                            <div class="m-widget3__item">
-                                                <div class="m-widget3__header">
-                                                    <div class="m-widget3__user-img">
-                                                        <a href="{{ url_for(v.url) }}"><img
-                                                                src="{{ url_for('static', filename=v.img) }}"
-                                                                alt></a>
-                                                    </div>
-                                                    <div class="m-widget3__info">
-                                                <span class="m-widget3__username">
-                                                    <a href="{{ url_for(v.url) }}" style="text-decoration: none">
-                                                        <h5>{{ v.title }}</h5>
-                                                    </a>
-                                                    <br>
-                                                    <span class="m-widget3__text">使用次数：{{ v.usenum }}</span>
-                                                </span>
-                                                    </div>
-                                                </div>
-                                                <div class="m-widget3__body">
-                                                    <p class="m-widget3__text">
-                                                        {{ v.info }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Total Profit-->
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                {{ tab(tools_list, 'statistic') }}
             </div>
             <div class="tab-pane" id="seniorplottools" role="tabpanel">
-                <div class="row">
-                    {% for v in tools_list %}
-                        {% if v.group == "seniorp" %}
-                            <div class="col-xl-4">
-                                <div class="m-portlet m-portlet--full-height">
-                                    <div class="m-portlet__body">
-                                        <!--begin::Total Profit-->
-                                        <div class="m-widget3">
-                                            <div class="m-widget3__item">
-                                                <div class="m-widget3__header">
-                                                    <div class="m-widget3__user-img">
-                                                        <a href="{{ url_for(v.url) }}"><img
-                                                                src="{{ url_for('static', filename=v.img) }}"
-                                                                alt></a>
-                                                    </div>
-                                                    <div class="m-widget3__info">
-                                                <span class="m-widget3__username">
-                                                    <a href="{{ url_for(v.url) }}" style="text-decoration: none">
-                                                        <h5>{{ v.title }}</h5>
-                                                    </a>
-                                                    <br>
-                                                    <span class="m-widget3__text">使用次数：{{ v.usenum }}</span>
-                                                </span>
-                                                    </div>
-                                                </div>
-                                                <div class="m-widget3__body">
-                                                    <p class="m-widget3__text">
-                                                        {{ v.info }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--end::Total Profit-->
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                {{ tab(tools_list, 'seniorp') }}
             </div>
             <!--End::Section-->
         </div>
