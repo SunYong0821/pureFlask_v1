@@ -7,8 +7,4 @@ app/__pycache__/
 app/admin/__pycache__/
 *.pyc
 app/static/user/
-app/__pycache__/
-app/admin/__pycache__/
-app/static/user/悟空/
-app/static/video/
 
