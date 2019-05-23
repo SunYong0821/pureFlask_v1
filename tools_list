@@ -1,5 +1,0 @@
-toolname    version
-vcf2phylip  vcf转phylip格式
-[required]
-PGDSpider   2.1.1.3
-[end]
