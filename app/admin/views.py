@@ -58,11 +58,11 @@ def login():
                 # userlog.ip = real_ip
                 # userlog.ip = request.headers['Remote_Addr']
                 userlog.ip = request.headers['X-Forwarded-For']
-                #import socket
-                #host_name = socket.gethostname()
-                #ip = socket.gethostbyname(host_name)
-                #userlog.ip = ip
-                
+                # import socket
+                # host_name = socket.gethostname()
+                # ip = socket.gethostbyname(host_name)
+                # userlog.ip = ip
+
             except:
                 userlog.ip = request.remote_addr
                 # request.user_agent  IE: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko
@@ -260,6 +260,7 @@ def scihub():
 def contact():
     return render_template('admin/contact.html')
 
+
 @admin.route('/autoselecttools.html', methods=['GET'])
 @login_required
 def autoselecttools():
@@ -270,6 +271,7 @@ def autoselecttools():
     ).all()
     return render_template('admin/autoselecttools.html', tools_list=tools_list)
 
+
 @admin.route('/slmachinelanguagelearning.html', methods=['GET'])
 @login_required
 def slmachinelanguagelearning():
@@ -279,6 +281,3 @@ def slmachinelanguagelearning():
         Toolslist.addtime.desc()
     ).all()
     return render_template('admin/slmachinelanguagelearning.html', tools_list=tools_list)
-
-
-
