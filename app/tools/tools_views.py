@@ -812,8 +812,8 @@ def faslengthcount():
         taskdir, uuid, inputfile = taskprepare("tools.faslengthcount", form.url.data)
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
-                f"Options: {form.url.data}  \n")
-        script = f"python ./app/static/program/faslengthcount/faslengthcount.py {inputfile[0]}  2>>{taskdir}/run.log"
+                f"Options: {form.url.data} {form.fasta_type.data}  \n")
+        script = f"python ./app/static/program/faslengthcount/faslengthcount.py {inputfile[0]} {form.fasta_type.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
