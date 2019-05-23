@@ -156,7 +156,7 @@ def videolist():
 @admin.route('/videoout.html')
 @login_required
 def videoout():
-    video_list = Videolist.query.filter_by(type="outside").order_by(Videolist.addtime).distinct().all()
+    video_list = Videolist.query.filter_by(type="tools").order_by(Videolist.addtime).distinct().all()
     return render_template('admin/videoout.html', video_list=video_list)
 
 
@@ -281,3 +281,10 @@ def slmachinelanguagelearning():
         Toolslist.addtime.desc()
     ).all()
     return render_template('admin/slmachinelanguagelearning.html', tools_list=tools_list)
+
+
+@admin.route('/video_for_all.html', methods=['GET', 'POST'])
+@login_required
+def video_for_all():
+    video_list = Videolist.query.filter_by(type="outside").order_by(Videolist.addtime).distinct().all()
+    return render_template('admin/videoout.html', video_list=video_list)

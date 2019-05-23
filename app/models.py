@@ -247,6 +247,7 @@ class Menu(db.Model):
     icon = db.Column(db.String(255), comment='图标颜色')
     url = db.Column(db.String(255), comment='链接地址')
     add_time = db.Column(db.DateTime, default=datetime.now, comment='添加时间')
+    is_open = db.Column(db.Boolean, default=True, comment="是否打开")
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'), comment='角色id')
 
     child_menus = db.relationship('Menu')
@@ -254,9 +255,9 @@ class Menu(db.Model):
     @classmethod
     def get_tree(cls):
         if current_user.is_authenticated and current_user.role_id == 1:
-            all_menu = Menu.query.filter_by(role_id=1)  # 查看所有menu
+            all_menu = Menu.query.filter_by(role_id=1, is_open=True)  # 查看所有menu
         else:
-            all_menu = Menu.query.all()  # 查看所有menu
+            all_menu = Menu.query.filter_by(is_open=True)  # 查看所有menu
         menu_list = []
         # 查找所有一级菜单
         for root in all_menu:
