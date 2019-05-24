@@ -1018,3 +1018,25 @@ class FaslengthfilterForm(FlaskForm):
     )
 
     submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})
+
+class PatternspecieschooseForm(FlaskForm):
+    url = FileField(
+        label='txt',
+        validators=[Nonevalidators("上传一个文件")],
+        render_kw={"class": "custom-file-input", "id": "customFile"}
+    )
+    pattern_species = SelectField(
+        label="txt",
+        choices=[('Arabidopsis_thaliana', "Arabidopsis_thaliana"), ('Caenorhabditis_elegans', "Caenorhabditis_elegans"),
+                 ('Danio_rerio', "Danio_rerio"),('Drosophila_melanogaster', "Drosophila_melanogaster"),
+                 ('Mus_musculus', "Mus_musculus"),('Oryza_sativa', "Oryza_sativa"),
+                 ('Rattus_norvegicus', "Rattus_norvegicus"),('Saccharomyces_cerevisiae', "Saccharomyces_cerevisiae")],
+        render_kw={"class": "form-control m-input m-input--air"}
+    )
+    head = SelectField(
+        label="txt",
+        choices=[('True', "True"),('Flase', "Flase"),],
+        render_kw={"class": "form-control m-input m-input--air"}
+    )
+
+    submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})
