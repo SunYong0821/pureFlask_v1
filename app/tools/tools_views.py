@@ -118,7 +118,8 @@ def splitlane():
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(f"Options: {form.lane.data}\n")
-        script = f"python ./app/static/program/splitlane/splitlane.py {inputfile[0]} {form.lane.data} 2>>{taskdir}/run.log"
+        script = f"python ./app/static/program/splitlane/splitlane.py {inputfile[0]} {form.lane.data} " \
+            f"2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -454,9 +455,11 @@ def fisher():
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
-                f"Options: {form.n11.data} {form.n12.data} {form.n21.data} {form.n22.data} {form.method.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/fisher/Fisher.pl -i {inputfile[0]} -n11 {form.n11.data} -n12 {form.n12.data} " \
-            f"-n21 {form.n21.data} -n22 {form.n22.data} -method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+                f"Options: {form.n11.data} {form.n12.data} {form.n21.data} {form.n22.data} {form.method.data} "
+                f"{form.outpre.data}\n")
+        script = f"perl ./app/static/program/fisher/Fisher.pl -i {inputfile[0]} -n11 {form.n11.data} " \
+            f"-n12 {form.n12.data} -n21 {form.n21.data} -n22 {form.n22.data} -method {form.method.data} " \
+            f"-prefix {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -508,10 +511,10 @@ def krona():
         script = ""
         if form.method.data == "0":
             script = f"perl ./app/static/program/krona/01.Krona/Krona.pl -i {inputfile[0]} -outdir {taskdir} -n root" \
-                     f"  2>>{taskdir}/run.log"
+                f"  2>>{taskdir}/run.log"
         elif form.method.data == "1":
             script = f"perl ./app/static/program/krona/01.Krona/downsize_otu.biom -i {inputfile[0]} -type biom " \
-                     f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
+                f" -outdir {taskdir} -n root  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -531,7 +534,7 @@ def bar():
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/bar/bar_plot.pl -i {inputfile[0]} -pre Family " \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -551,7 +554,7 @@ def spearman():
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/spearman/spearman_plot.pl -i {inputfile[0]} -outdir {taskdir} -n root" \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -570,7 +573,7 @@ def lefse():
             optfile.write(
                 f"Options: {form.url.data} \n")
         script = f"perl ./app/static/program/lefse/lefse.pl -i {inputfile[0]} -outdir {taskdir} -n root" \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -590,7 +593,7 @@ def bar_tree():
             optfile.write(
                 f"Options: {f1}  {f2}\n")
         script = f"perl ./app/static/program/bar_tree/bar_tree.pl -i {taskdir}/{form.fai1.data.filename} -map {taskdir}/{form.fai2.data.filename} -pre genus " \
-                 f"  2>>{taskdir}/run.log"
+            f"  2>>{taskdir}/run.log"
         print(script)
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
@@ -630,10 +633,11 @@ def convertp():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} {form.method.data} {form.density.data} \n")
-        script = f"python ./app/static/program/convertp/convertpics.py {inputfile[0]} {form.method.data} {form.density.data} 2>>{taskdir}/run.log"
+        script = f"python ./app/static/program/convertp/convertpics.py {inputfile[0]} {form.method.data} " \
+            f"{form.density.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
-        crun.start( )
+        crun.start()
         return redirect(url_for("admin.index"))
     return render_template('admin/tools/convertp.html', form=form, tool=tool)
 
@@ -649,8 +653,8 @@ def violin():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} {form.tcol.data} {form.dcol.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/violin/violin.pl -in {inputfile[0]} -tcol {form.tcol.data} -dcol {form.dcol.data}" \
-            f" -out {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"perl ./app/static/program/violin/violin.pl -in {inputfile[0]} -tcol {form.tcol.data}" \
+            f" -dcol {form.dcol.data} -out {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -699,8 +703,10 @@ def barbox():
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
-                f"Options: {form.log.data} {form.dcol.data} {form.title.data} {form.xlab.data} {form.ylab.data} {form.outpre.data}\n")
-        script = f"perl ./app/static/program/barbox/barbox.pl -in {in1} -group {in2} -dcol {form.dcol.data} -log {form.log.data} -title {form.title.data} " \
+                f"Options: {form.log.data} {form.dcol.data} {form.title.data} {form.xlab.data} {form.ylab.data} "
+                f"{form.outpre.data}\n")
+        script = f"perl ./app/static/program/barbox/barbox.pl -in {in1} -group {in2} -dcol {form.dcol.data} " \
+            f"-log {form.log.data} -title {form.title.data} " \
             f"-xlab {form.xlab.data} -ylab {form.ylab.data} -out {form.outpre.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
@@ -721,7 +727,8 @@ def gccount():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} {form.bin.data} {form.outpre.data}\n")
-        script = f"python ./app/static/program/gccount/GCcontent.py {inputfile[0]} {form.bin.data} {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"python ./app/static/program/gccount/GCcontent.py {inputfile[0]} {form.bin.data} {form.outpre.data}" \
+            f" 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -740,7 +747,8 @@ def vcf2phylip():
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} {form.outpre.data}\n")
-        script = f"python ./app/static/program/vcf2phylip/vcf2phylip.py {inputfile[0]} {form.outpre.data} 2>>{taskdir}/run.log"
+        script = f"python ./app/static/program/vcf2phylip/vcf2phylip.py {inputfile[0]} {form.outpre.data}" \
+            f" 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
@@ -748,31 +756,32 @@ def vcf2phylip():
     return render_template('admin/tools/vcf2phylip.html', form=form, tool=tool)
 
 
-@tools.route('/autoselecttools.html', methods=['GET','POST'])
+@tools.route('/autoselecttools.html', methods=['GET', 'POST'])
 @login_required
 def autoselecttools():
-    form=AutoselecttoolsForm()
+    form = AutoselecttoolsForm()
     tool = Toolslist.query.filter_by(url="tools.autoselecttools").first()
 
-    return render_template('admin/tools/autoselecttools.html',form=form ,tool=tool)
+    return render_template('admin/tools/autoselecttools.html', form=form, tool=tool)
 
 
-@tools.route('/fastalength.html',methods=['GET','POST'])
+@tools.route('/fastalength.html', methods=['GET', 'POST'])
 @login_required
 def fastalength():
-    form=FastalengthForm()
+    form = FastalengthForm()
     tool = Toolslist.query.filter_by(url="tools.fastalength").first()
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("tools.fastalength", form.url.data)
         with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(
                 f"Options: {form.url.data} {form.length.data}\n")
-        script = f"python ./app/static/program/fastalength/fastalength.py {inputfile[0]} {form.length.data} 2>>{taskdir}/run.log"
+        script = f"python ./app/static/program/fastalength/fastalength.py {inputfile[0]} {form.length.data} " \
+            f"2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
         return redirect(url_for("admin.index"))
-    return render_template('admin/tools/fastalength.html',form=form,tool=tool)
+    return render_template('admin/tools/fastalength.html', form=form, tool=tool)
 
 
 @tools.route('/flower.html', methods=['GET', 'POST'])
@@ -794,26 +803,26 @@ def flower():
     return render_template('admin/tools/flower.html', form=form, tool=tool)
 
 
-
-
-@tools.route('/blast.html',methods=['GET','POST'])
+@tools.route('/blast.html', methods=['GET', 'POST'])
 @login_required
 def blast():
     form = BlastForm()
     tool = Toolslist.query.filter_by(url="tools.blast").first()
     if form.validate_on_submit():
-        taskdir,uuid,inputfile = taskprepare("tools.blast",form.url.data)
-        with open(f"{taskdir}/run.log","w",encoding='utf-8') as optfile:
+        taskdir, uuid, inputfile = taskprepare("tools.blast", form.url.data)
+        with open(f"{taskdir}/run.log", "w", encoding='utf-8') as optfile:
             optfile.write(f"Options:{form.url.data}{form.parameter.data} {form.database.data} {form.evalue.data}\n")
-        script = f"python ./app/static/program/blast/blast.py {inputfile[0]} {form.parameter.data} {form.database.data} {form.evalue.data} 2>>{taskdir}/run.log"
+        script = f"python ./app/static/program/blast/blast.py {inputfile[0]} {form.parameter.data}" \
+            f" {form.database.data} {form.evalue.data} 2>>{taskdir}/run.log"
         print(script)
         app = current_app._get_current_object()
-        crun = threading.Thread(target=runtools,args=(app,script,uuid))
+        crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
         return redirect(url_for("admin.index"))
-    return render_template('admin/tools/blast.html',form = form,tool =tool)
+    return render_template('admin/tools/blast.html', form=form, tool=tool)
 
-@tools.route('/faslengthcount.html',methods=['GET','POST'])
+
+@tools.route('/faslengthcount.html', methods=['GET', 'POST'])
 @login_required
 def faslengthcount():
     form = FaslengthcountForm()
@@ -830,12 +839,13 @@ def faslengthcount():
         crun.start()
         return redirect(url_for("admin.index"))
 
-    return render_template('admin/tools/faslengthcount.html',form = form ,tool=tool)
+    return render_template('admin/tools/faslengthcount.html', form=form, tool=tool)
 
-@tools.route('/faslengthfilter.html',methods=['GET','POST'])
+
+@tools.route('/faslengthfilter.html', methods=['GET', 'POST'])
 @login_required
 def faslengthfilter():
-    form = FaslengthfilterForm( )
+    form = FaslengthfilterForm()
     tool = Toolslist.query.filter_by(url="tools.faslengthfilter").first()
     if form.validate_on_submit():
         taskdir, uuid, inputfile = taskprepare("tools.faslengthfilter", form.url.data)
@@ -849,10 +859,10 @@ def faslengthfilter():
         crun.start()
         return redirect(url_for("admin.index"))
 
-    return render_template('admin/tools/faslengthfilter.html',form = form ,tool=tool)
+    return render_template('admin/tools/faslengthfilter.html', form=form, tool=tool)
 
 
-@tools.route('/pattern_species_choose.html',methods=['GET','POST'])
+@tools.route('/pattern_species_choose.html', methods=['GET', 'POST'])
 @login_required
 def pattern_species_choose():
     form = PatternspecieschooseForm()
@@ -869,4 +879,4 @@ def pattern_species_choose():
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()
         return redirect(url_for("admin.index"))
-    return render_template('admin/tools/pattern_species_choose.html', form = form, tool=tool)
+    return render_template('admin/tools/pattern_species_choose.html', form=form, tool=tool)
