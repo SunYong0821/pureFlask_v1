@@ -982,7 +982,7 @@ class BlastForm(FlaskForm):
     )
     evalue = SelectField(
         label="txt",
-        choices=[('0', "0"), ('1E-20', "1E-20") ,('1E-10',"1E-10"),('1',"1"),('10',"10"),('100',"100"),('1000',"1000")],
+        choices=[('0', "0"), ('1E-20', "1E-5") ,('1E-10',"1E-10")],
         render_kw={"class": "form-control m-input m-input--air"}
     )
     submit = SubmitField("确认", render_kw={"class": "btn btn-primary"})
@@ -1027,10 +1027,10 @@ class PatternspecieschooseForm(FlaskForm):
     )
     pattern_species = SelectField(
         label="txt",
-        choices=[('Arabidopsis_thaliana', "Arabidopsis_thaliana"), ('Caenorhabditis_elegans', "Caenorhabditis_elegans"),
-                 ('Danio_rerio', "Danio_rerio"),('Drosophila_melanogaster', "Drosophila_melanogaster"),
-                 ('Mus_musculus', "Mus_musculus"),('Oryza_sativa', "Oryza_sativa"),
-                 ('Rattus_norvegicus', "Rattus_norvegicus"),('Saccharomyces_cerevisiae', "Saccharomyces_cerevisiae")],
+        choices=[('Arabidopsis_thaliana', "Arabidopsis_thaliana TAIR10.1"), ('Caenorhabditis_elegans', "Caenorhabditis_elegans Ensembl Release-94"),
+                 ('Danio_rerio', "Danio_rerio Ensembl Release-94"),('Drosophila_melanogaster', "Drosophila_melanogaster Ensembl Release-94 "),
+                 ('Mus_musculus', "Mus_musculus Ensembl Release-94"),('Oryza_sativa', "Oryza_sativa Assembly Build 4.0"),
+                 ('Rattus_norvegicus', "Rattus_norvegicus Ensembl Release-94"),('Saccharomyces_cerevisiae', "Saccharomyces_cerevisiae Ensembl Release-94")],
         render_kw={"class": "form-control m-input m-input--air"}
     )
     head = SelectField(
