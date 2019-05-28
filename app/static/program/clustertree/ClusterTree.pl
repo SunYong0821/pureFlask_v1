@@ -6,7 +6,7 @@ use lib ("$Bin/perl5");
 use Cwd qw(abs_path);
 use File::Basename qw(basename dirname);
 use Archive::Zip;
-my ($infile,$count1Col,$vs,$method);
+my ($infile,$count1Col,$vs,$method, $width);
 GetOptions (
 	"i:s" => \$infile,
 	"expcol:s" => \$count1Col,
