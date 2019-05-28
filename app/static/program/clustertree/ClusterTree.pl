@@ -6,13 +6,14 @@ use lib ("$Bin/perl5");
 use Cwd qw(abs_path);
 use File::Basename qw(basename dirname);
 use Archive::Zip;
-my ($infile,$count1Col,$vs,$method, $width);
+my ($infile,$count1Col,$vs,$method, $width, $height);
 GetOptions (
 	"i:s" => \$infile,
 	"expcol:s" => \$count1Col,
 	"prefix:s"  => \$vs,
 	"method:s"  => \$method,
-	"width:s" => \$width
+	"width:s" => \$width,
+	"height:s" => \$height
 );
 
 unless($method){
@@ -70,7 +71,7 @@ close IN;
 close OUT;
 
 
-system("$Rscript $Bin/cluster.R $vs.matrix out/$vs.pdf $method $width");
+system("$Rscript $Bin/cluster.R $vs.matrix out/$vs.pdf $method $width $height");
 close LOG;
 my $obj=Archive::Zip->new();
 my $fff="out/$vs.pdf";

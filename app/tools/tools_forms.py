@@ -460,6 +460,13 @@ class ClusterTreeForm(FlaskForm):
         render_kw={"class": "form-control m-input m-input--air",
                    "placeholder": "7", "aria-describedby": "basic-addon1"}
     )
+    height = StringField(
+        label="输入图像高度",
+        validators=[Nonevalidators("输入图像高度"), Regexp(
+            r"^\d+$", message="必须是正整数")],
+        render_kw={"class": "form-control m-input m-input--air",
+                   "placeholder": "7", "aria-describedby": "basic-addon1"}
+    )
     outpre = StringField(
         label="输入输出结果前缀",
         validators=[Nonevalidators("输入输出结果前缀")],
