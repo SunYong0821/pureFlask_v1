@@ -53,6 +53,13 @@
                                 <label class="col-form-label col-lg-6">{{ form.method.label }}：</label>
                                 <div class="col-lg-6">{{ form.method }}</div>
                             </div>
+                             <div class="m-form__group form-group row">
+                                <label class="col-form-label col-lg-6">{{ form.width.label }}：</label>
+                                <div class="col-lg-3">{{ form.width }}</div>
+                                {% for error in form.width.errors %}
+                                    <span style="color: red">{{ error }}</span>
+                                {% endfor %}
+                            </div>
                             <div class="m-form__group form-group row">
                                 <label class="col-form-label col-lg-6">{{ form.outpre.label }}：</label>
                                 <div class="col-lg-6">{{ form.outpre }}</div>
