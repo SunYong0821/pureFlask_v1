@@ -389,9 +389,9 @@ def clustertree():
 
         with open(f"{taskdir}/run.log", "w") as optfile:
             optfile.write(
-                f"Options: {form.expcol.data} {form.method.data} {form.outpre.data}\n")
+                f"Options: {form.expcol.data} {form.method.data} {form.outpre.data} {form.width.data}\n")
         script = f"perl ./app/static/program/clustertree/ClusterTree.pl -i {inputfile[0]} -expcol {form.expcol.data}" \
-            f" -method {form.method.data} -prefix {form.outpre.data} 2>>{taskdir}/run.log"
+            f" -method {form.method.data} -prefix {form.outpre.data} -width {form.width.data} 2>>{taskdir}/run.log"
         app = current_app._get_current_object()
         crun = threading.Thread(target=runtools, args=(app, script, uuid))
         crun.start()

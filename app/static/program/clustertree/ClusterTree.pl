@@ -11,7 +11,8 @@ GetOptions (
 	"i:s" => \$infile,
 	"expcol:s" => \$count1Col,
 	"prefix:s"  => \$vs,
-	"method:s"  => \$method
+	"method:s"  => \$method,
+	"width:s" => \$width
 );
 
 unless($method){
@@ -69,7 +70,7 @@ close IN;
 close OUT;
 
 
-system("$Rscript $Bin/cluster.R $vs.matrix out/$vs.pdf $method");
+system("$Rscript $Bin/cluster.R $vs.matrix out/$vs.pdf $method $width");
 close LOG;
 my $obj=Archive::Zip->new();
 my $fff="out/$vs.pdf";
