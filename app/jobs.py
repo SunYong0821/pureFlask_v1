@@ -23,9 +23,10 @@ def query_scihub_ck():
         return 0
     select = etree.HTML(html.text)
     url = select.xpath("//a/p[@class='m-text']/text()")
-    time = select.xpath("//div[@class='five wide column']/p[@class='m-text']/text()")
+    time = select.xpath("//p[@class='m-text']/text()")
+    seq = select.xpath("//h2[@class='ui orange header m-inline-block m-text-thin']/text()")
 
     with db.app.app_context():
-        for i in range(1, 4):
+        for i in range(1, len(int(seq) + 1)):
             SCIhub.query.filter_by(id=i).update({'name': url[i - 1], 'time': time[i - 1], 'addtime': datetime.now()})
         db.session.commit()

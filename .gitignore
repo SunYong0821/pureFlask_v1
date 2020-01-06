@@ -1,10 +1,7 @@
 *.iml
-venv/
 out
 .idea/
 test/
-app/__pycache__/
-app/admin/__pycache__/
+__pycache__
 *.pyc
-app/static/user/
 
