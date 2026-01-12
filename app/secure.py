@@ -11,10 +11,10 @@ MAIL_SERVER = 'smtphm.qiye.163.com'
 MAIL_PORT = 465
 MAIL_USE_SSL = True
 MAIL_USER_TSL = False
-MAIL_USERNAME = 'tmagweb@microanaly.com'
-MAIL_PASSWORD = 'WeiFen2019'
-MAIL_SUBJECT_PREFIX = '[微分]'
-MAIL_SENDER = '微分交付中心<tmagweb@microanaly.com>'
+MAIL_USERNAME = ''
+MAIL_PASSWORD = ''
+MAIL_SUBJECT_PREFIX = ''
+MAIL_SENDER = ''
 
 SCHEDULER_API_ENABLED = True
 JOBS = [
